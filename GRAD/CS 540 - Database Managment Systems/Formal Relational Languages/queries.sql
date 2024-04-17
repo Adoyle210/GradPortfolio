@@ -1,25 +1,29 @@
 -- Return names of every employee who works in the "Hardware", "Software", and "Research" departments. (1.5 points)
-SELECT E.ENAME FROM EMP E, DEPT D1, DEPT D2, WORKS W1, WORKS W2
-WHERE
-E.EID = W1.EID AND W1.DID = D1.DID AND D1.DNAME ='HARDWARE' AND
-E.EID = W2.EID AND W2.DID = D2.DID AND D2.DNAME ='SOFTWARE' AND
-E.EID = W2.EID AND W2.DID = D2.DID AND D2.DNAME ='RESEARCH'
-OR
-SELECT E.ENAME FROM EMP E, DEPT D, WORKS W
-WHERE
-E.EID = W.EID AND W.DID = D.DID AND D.DNAME ='HARDWARE'
-INTERSECT
-SELECT E1.ENAME FROM EMP E1, DEPT D1, WORKS W1
-WHERE
-E1.EID = W1.EID AND W1.DID = D1.DID AND D1.DNAME ='SOFTWARE'  --- fix to add reasearch 
+SELECT DISTINCT e.ename
+FROM Emp e
+JOIN Works w1 ON e.eid = w1.eid
+JOIN Dept d1 ON w1.did = d1.did AND d1.dname = 'Hardware'
+JOIN Works w2 ON e.eid = w2.eid
+JOIN Dept d2 ON w2.did = d2.did AND d2.dname = 'Software'
+JOIN Works w3 ON e.eid = w3.eid
+JOIN Dept d3 ON w3.did = d3.did AND d3.dname = 'Research';
 
 
 -- Return the names of every department without any employee. (1.5 points)
+SELECT d.dname
+FROM Dept d
+LEFT JOIN Works w ON d.did = w.did
+WHERE w.eid IS NULL;
 
 
 -- Print the managerid of managers who manage only departments with budgets greater than $1.5 million. (1.5 points)
-SELECT D.MANAGERID FROM DEPT D WHERE D.BUDGET > 1500000
-EXCEPT 
-SELECT D1.MANAGERID FROM DEPT D1 WHERE D1.BUDGET <= 1500000
+SELECT d.managerid
+FROM Dept d
+GROUP BY d.managerid
+HAVING MIN(d.budge) > 1.5e6;
+
 
 -- Print the name of employees whose salary is less than or equal to the salary of every employee. (1.5 points)
+SELECT e.ename
+FROM Emp e
+WHERE e.salary <= (SELECT MIN(salary) FROM Emp);

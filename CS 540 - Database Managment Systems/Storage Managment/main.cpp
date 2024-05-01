@@ -25,6 +25,13 @@ int main(int argc, char* argv[]) {
 
     // Searching for Employee IDs Using [manager.findAndPrintEmployee(id)]
     /***TO_DO***/ 
+    if (argc < 2) {
+        cerr << "Error Usage: " << argv[0] << " <employee_id> " << endl;
+        return 1;
+    }
+
+    int searchID = stoi(argv[1]);
+    manager.findAndPrintEmployee(searchID);
 
     return 0;
 }

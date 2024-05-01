@@ -29,7 +29,11 @@ public:
     void write_into_data_file(ostream& out) const {
         out.write(reinterpret_cast<const char*>(&id), sizeof(id));  // Write the integer ID
         out.write(name, sizeof(name));  // Write the fixed length name
+
         /***TO_DO***/ // do the same thing for bio and manager-id
+
+        out.write(bio, sizeof(bio));  // Write the fixed length bio
+        out.write(reinterpret_cast<const char*>(&manager_id), sizeof(manager_id));  // Write the integer manager ID
 
     }
 
@@ -37,7 +41,11 @@ public:
     void read_from_data_file(istream& in) {
         in.read(reinterpret_cast<char*>(&id), sizeof(id));  // Read the integer ID
         in.read(name, sizeof(name));  // Read the fixed length name
+
         /***TO_DO***/ // do the same thing for bio and manager-id
+
+        in.read(bio, sizeof(bio));  // Read the fixed length bio
+        in.read(reinterpret_cast<char*>(&manager_id), sizeof(manager_id));  // Read the integer manager ID
 
     }
 
@@ -80,7 +88,16 @@ public:
         while (getline(csvFile, line)) {
             
             /***TO_DO***/ 
-            // Parse id, name, bio and manager-id from line, to create the Employee object below 
+            // Parse id, name, bio and manager-id from line, to create the Employee object below
+            stringstream ss(line);
+            string token;
+
+            getline(ss, token, ',');
+            id = stoi(token);
+            getline(ss, name, ',');
+            getline(ss, bio, ',');
+            getline(ss, token, ',');
+            manager_id = stoi(token);
 
             Employee emp(id, name, bio, manager_id);  //create Employee objects
 
@@ -100,7 +117,16 @@ public:
         // Use [emp.read_from_data_file(data_file)] to read lines from the datafile 
         // until you find the id you are looking for or reach the end-of-file (eof) 
 
-       
+        while (!data_file.eof()) {
+            emp.read_from_data_file(data_file);
+            if (emp.id == searchId) {
+                emp.print();
+                return;
+            }
+        }
+
         // Print not found message if no match
+        cout << "Employee with ID " << searchId << " not found." << endl;
+
     }
 };

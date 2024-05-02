@@ -25,13 +25,39 @@ int main(int argc, char* argv[]) {
 
     // Searching for Employee IDs Using [manager.findAndPrintEmployee(id)]
     /***TO_DO***/ 
-    if (argc < 2) {
-        cerr << "Error Usage: " << argv[0] << " <employee_id> " << endl;
-        return 1;
-    }
 
-    int searchID = stoi(argv[1]);
-    manager.findAndPrintEmployee(searchID);
+    //using argc
+    // if (argc < 2) {
+    //     cerr << "Error Usage: " << argv[0] << " <employee_id> " << endl;
+    //     return 1;
+    // }
+
+    // int searchID = stoi(argv[1]);
+    // manager.findAndPrintEmployee(searchID);
+
+    //allowing multiple searches with a loop
+    int searchID;
+    bool keepSearching = true;
+
+    while (keepSearching) {
+        cout << "Enter an employee ID to search for (or 'q' to quit): ";
+        string input;
+        getline(cin, input);
+
+        if (input == "q") {
+            keepSearching = false;
+            continue;
+        }
+
+        try {
+            searchID = stoi(input);
+            manager.findAndPrintEmployee(searchID);
+        } catch (const invalid_argument& e) {
+            cerr << "Invalid input. Please enter a valid employee ID or 'q' to quit." << endl;
+        }catch (const out_of_range& e) {
+            cout << "Employee with ID " << searchID << " not found." << endl;
+        }
+    }
 
     return 0;
 }

@@ -51,7 +51,15 @@ public:
 
     // Print the Employee object to standard output
     void print() const {
-        cout << "ID: " << id << ", Name: " << name << ", Bio: " << bio << ", Manager ID: " << manager_id << endl;
+        //cout << "ID: " << id << ",Name: " << name << ", Bio: " << bio << ", Manager ID: " << manager_id << endl;
+
+        // edit for easier reading 
+        cout << endl;
+        cout << "ID: " << id << endl;
+        cout << "Name: " << name << endl;
+        cout << "Bio: " << bio << endl;
+        cout << "Manager ID: " << manager_id << endl;
+        cout << endl;
     }
 };
 
@@ -108,7 +116,7 @@ public:
 
     // Searches for an Employee by ID in the binary data_file and prints if found
     void findAndPrintEmployee(int searchId) {
-        
+        data_file.clear(); // Clear any error flags
         data_file.seekg(0, ios::beg);  // Rewind the data_file to the beginning for reading
 
         Employee emp;
@@ -117,16 +125,25 @@ public:
         // Use [emp.read_from_data_file(data_file)] to read lines from the datafile 
         // until you find the id you are looking for or reach the end-of-file (eof) 
 
+        bool found = false;
+
         while (!data_file.eof()) {
             emp.read_from_data_file(data_file);
+            if (data_file.fail()) {
+                break; // Exit the loop if we've encountered an error reading the file
+            }
             if (emp.id == searchId) {
                 emp.print();
-                return;
+                found = true;
             }
-        }
+        };
 
-        // Print not found message if no match
-        cout << "Employee with ID " << searchId << " not found." << endl;
+        // Print not found message if no match  
+        if (!found) {
+            cout << endl;
+            cout << "Employee with ID " << searchId << " not found." << endl;
+            cout << endl;
+        }
 
     }
 };

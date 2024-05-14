@@ -23,10 +23,25 @@ int main(int argc, char* const argv[]) {
 
     // Assuming the Employee.CSV file is in the same directory, 
     // we want to read from the Employee.csv and write into the new data_file
-    manager.createFromFile("Employee.csv");
+    manager.create_from_file("Employee.csv");
 
     // Searching for Employee IDs Using [manager.findAndPrintEmployee(id)]
     /***TO_DO***/ 
-    manager.findAndPrintEmployee(123131);
+    //manager.findAndPrintEmployee(123131);
+    cout << "Enter employee IDs to search (or 'q' to quit): ";
+    string input;
+    while (getline(cin, input)) {
+        if (input == "q") {
+            break;
+        }
+
+        try {
+            int id = stoi(input);
+            manager.findAndPrintEmployee(id);
+        } catch (const invalid_argument& e) {
+            cerr << "Invalid input: " << input << endl;
+            cout << "Enter employee IDs to search (or 'q' to quit): ";
+        }
+    }
     return 0;
 }

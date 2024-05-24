@@ -60,9 +60,8 @@ public:
                                              // This information is crucial, you can load record using this if you know if your record is starting from, e.g., 
                                             // byte 128 and has size 70, you read all characters from [128 to 128 + 70]
     int num_records = 0;
-    int OFFSET_RESERVED = sizeof(int) * 2 * 10;
     
-    int cur_size = OFFSET_RESERVED; // holds the current size of the page
+    int cur_size = sizeof(int) * 2 * 10; // holds the current size of the page
 
     // Write a Record into your page
     bool insert_record_into_page(Record r){
@@ -91,32 +90,36 @@ public:
         //Write the records and slot directory information into your data file. You are basically writing 4KB into the datafile. 
         //You must maintain a fixed size of 4KB so there may be some unused empty spaces. 
         
-        char page_data[4096] = {0}; // Let's write all the information of the page into this char array. So that we can write the page into the data file in one go.
-        int offset = 0;      
-      memcpy(page_data + offset, &num_records, sizeof(num_records));
+        char page_data[4096] = {0};// Let's write all the information of the page into this char array. So that we can write the page into the data file in one go.
+        int offset = 0;
+
+        // If you look at figure 9.7, you'll find that there are spaces allocated for the slot-directory. 
+        // You can structure your page in your own way, such as allocate first x bytes of memory to store the slot-directory information
+        //  sizeof(int) bytes to parse these numbers. 
+        // After those x bytes, you start storing your records. 
+        // You can definitely use $ (delimiter) while storing the slot directory informations /(or,) as you know that these are integers(sizeof(int)) you can read 
+        memcpy(page_data + offset, &num_records, sizeof(num_records));
         offset += sizeof(int);
 
-        for (const auto& slot : slot_directory) {
-            // cout << "Recording pair " << slot.first << ", " << slot.second << endl; 
-            memcpy(page_data + offset, &slot.first, sizeof(slot.first));
-            offset += sizeof(int);
-            memcpy(page_data + offset, &slot.second, sizeof(slot.second));
-            offset += sizeof(int);
+        for (const auto& slots : slot_directory) {
             // insert the slot directory information into the page_data
-            if(offset >= OFFSET_RESERVED) {
-                cout << "ERROR overflowing " << OFFSET_RESERVED << " allocated bytes for slot directory" << endl;
-                return;
+            memcpy(page_data + offset, &slots.first, sizeof(slots.first));
+            offset += sizeof(int);
+            memcpy(page_data + offset, &slots.second, sizeof(slots.second));
+            offset += sizeof(int);
+            if (offset >= sizeof(int) * 2 * 10 ){
+                cerr << "overflowing" << endl;
+                return; 
             }
         }
-        
-        offset = OFFSET_RESERVED;
+
+        offset = sizeof(int) * 2 * 10;
         for (const auto& record : records) {
             string serialized = record.serialize();
-
             memcpy(page_data + offset, serialized.c_str(), serialized.size());
-
             offset += serialized.size();
         }
+
         //the above loop just read the id, name, bio etc. You'll also need to store the slot-directory information. So that you can use the slot-directory
         // to retrieve a record.
 
@@ -151,7 +154,7 @@ public:
                 // cout << "Made pair " << first << ", " << second << endl;
                 slot_directory.push_back(make_pair(first, second));
             }
-            cursor = OFFSET_RESERVED;
+            cursor = sizeof(int) * 2 * 10;
             // Process records into this page
             for (int i = 0; i < num; i++) {
                 // int - id

@@ -35,8 +35,8 @@ public:
 
     int get_size(){
         return int(sizeof(int) * 4 + bio.length() + name.length());
-          }
-     // Serialize the record for writing to file
+    }
+    // Serialize the record for writing to file
     string serialize() const {
         ostringstream oss;
         oss.write(reinterpret_cast<const char*>(&id), sizeof(id));
@@ -148,10 +148,12 @@ public:
 
             for (int i = 0; i < num_slots; i++) {
                 int first, second;
+
                 memcpy(&first, page_data + offset, sizeof(int));
                 offset += sizeof(int);
                 memcpy(&second, page_data + offset, sizeof(int));
                 offset += sizeof(int);
+
                 slot_directory.emplace_back(first, second);
             }
 
@@ -160,6 +162,7 @@ public:
             records.reserve(num_slots);
             for (int i = 0; i < num_slots; ++i) {
                 int id, manager_id, name_size, bio_size;
+
                 memcpy(&id, page_data + offset, sizeof(int));
                 offset += sizeof(int);
                 memcpy(&manager_id, page_data + offset, sizeof(int));
@@ -172,6 +175,7 @@ public:
                 offset += sizeof(int);
                 string bio(page_data + offset, bio_size);
                 offset += bio_size;
+
                 records.emplace_back(id, name, bio, manager_id);
             }
             num_records = slot_directory.size();
@@ -265,7 +269,7 @@ public:
         data_file.clear();
         data_file.seekg(0, ios::beg);  // Rewind the data_file to the beginning for reading
 
-        /*** TO_DO ***/
+        /*** DONE ***/
         // Use [ read_from_data_file(data_file)] to read a page from your datafile to the page buffer[3];
         // You can read into these 3 pages at once or use the following loop to read pages one by one. 
         while(data_file.good()){

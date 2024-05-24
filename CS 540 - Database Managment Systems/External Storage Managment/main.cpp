@@ -23,7 +23,7 @@ int main(int argc, char* const argv[]) {
 
     // Assuming the Employee.CSV file is in the same directory, 
     // we want to read from the Employee.csv and write into the new data_file
-    manager.create_from_file("Employee.csv");
+    manager.createFromFile("Employee.csv");
 
     // Searching for Employee IDs Using [manager.findAndPrintEmployee(id)]
     /***TO_DO***/ 
@@ -44,4 +44,5 @@ int main(int argc, char* const argv[]) {
         }
     }
     return 0;
+
 }

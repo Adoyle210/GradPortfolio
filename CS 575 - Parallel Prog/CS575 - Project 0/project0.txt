@@ -1,0 +1,29 @@
+Project 0:
+
+1. Tell what machine you ran this on
+
+    I ran the program on the school server and used 16384 for my array size.
+
+2. What performance results did you get?
+
+    For 1 threads, Peak Performance =   165.61 MegaMults/Sec
+
+    For 4 threads, Peak Performance =   602.97 MegaMults/Sec
+
+3. What was your 1-thread-to-4-thread speedup?
+
+    speedup = (602.97) / (165.61)
+    speedup = 3.64090333
+
+4. Your 1-thread-to-4-thread speedup should be less than 4.0. Why do you think it is this way?
+
+    I think that the 1-thread-to-4-thread speedup should be less than 4.0 for the same reason 
+    a 1-thread-to-5-thread would be less then 5. To calculate speedup you are dividing the larger 
+    number of threads over the smaller number so it will be less then four. 
+
+5. What was your Parallel Fraction, Fp? (Hint: it should be less than 1.0, but not much less.)
+
+   =  n/(n-1) * (1-(1/speedup))
+   =  4/(4-1) * (1-(1/3.64090333))
+   = 1.3333333333 * 0.7253428863
+   = 0.9671238484

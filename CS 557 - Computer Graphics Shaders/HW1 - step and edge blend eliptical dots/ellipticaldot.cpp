@@ -796,20 +796,20 @@ Keyboard( unsigned char c, int x, int y )
 
 		//added keys for small values 
 		case 'a':
-			Ad = .1;
+			Ad = .05;
 			break;
 		case 'b':
-			Bd = .1;
+			Bd = .05;
 			break;
 		case 't':
 			Tol = 0;
 			break;
 		//added keys for Large values 
 		case 'A':
-			Ad = .5;
+			Ad = .1;
 			break;
 		case 'B':
-			Bd = .5;
+			Bd = .1;
 			break;
 		case 'T':
 			Tol = 1;

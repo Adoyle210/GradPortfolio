@@ -1,2 +1,2 @@
-sample:		sample.cpp
-		g++  -framework  OpenGL  -framework  GLUT  sample.cpp  -o  sample  -Wno-deprecated
+sample:		ellipticaldot.cpp
+		g++  -framework  OpenGL  -framework  GLUT  ellipticaldot.cpp  -o  ellipticaldot  -Wno-deprecated

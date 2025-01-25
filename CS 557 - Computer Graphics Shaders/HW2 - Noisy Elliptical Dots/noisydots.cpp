@@ -169,8 +169,8 @@ float	Xrot, Yrot;				// rotation angles in degrees
 
 int		SphereList;
 
-//added varibles to change uAd , uBd and uTol
-float Ad, Bd, Tol; 
+//added varibles to change uAd , uBd, uTol, uNoiseAmp, and UNoisefreq
+float Ad, Bd, Tol, Namp, Nfreq;
 
 
 // function prototypes:
@@ -409,10 +409,14 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uS0", NowS0 );
 	Pattern.SetUniformVariable( (char *)"uT0", NowT0 );
 	Pattern.SetUniformVariable( (char *)"uD" , NowD  );
-	//added: changing values with keyhits 
 	Pattern.SetUniformVariable( (char *)"uAd", Ad );
 	Pattern.SetUniformVariable( (char *)"uBd", Bd );
 	Pattern.SetUniformVariable( (char *)"uTol", Tol );
+
+    //added: for noise
+    Pattern.SetUniformVariable( (char *)"uNoiseAmp", Ad );
+	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Bd );
+
 	glCallList( SphereList );
 
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
@@ -804,6 +808,12 @@ Keyboard( unsigned char c, int x, int y )
 		case 't':
 			Tol = 0;
 			break;
+        case 'm':               //uNoiseAmp
+            Namp = 0;
+            break;
+        case 'r':               //uNoisefreq
+            Nfreq = 1;
+            break;
 		//added keys for Large values 
 		case 'A':
 			Ad = .1;
@@ -814,7 +824,12 @@ Keyboard( unsigned char c, int x, int y )
 		case 'T':
 			Tol = 1;
 			break;
-
+        case 'M':               //uNoiseAmp
+            Namp = 1;
+            break;
+        case 'R':               //uNoisefreq
+            Nfreq = 10;
+            break;
 		case 'q':
 		case 'Q':
 		case ESCAPE:

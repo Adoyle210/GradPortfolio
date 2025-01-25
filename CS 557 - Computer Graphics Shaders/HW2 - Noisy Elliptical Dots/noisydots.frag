@@ -8,6 +8,12 @@ uniform float	uShininess;	// specular exponent
 uniform float	uAd, uBd;
 uniform float	uTol;
 
+//added for noise (slide24)
+uniform sampler3D Noise3;
+uniform float uNoiseFreq, uNoiseAmp;
+varying vec3 vMCposition;
+
+
 // interpolated from the vertex shader:
 varying  vec2  vST;                  // texture coords
 varying  vec3  vN;                   // normal vector
@@ -29,7 +35,7 @@ main( )
 	// blend OBJECTCOLOR and ELLIPSECOLOR by using the ellipse equation to decide how close
 	// 	this fragment is to the ellipse border:
 
-    //added for ellipse equation: 
+    //For ellipse equation: 
     float Ar = uAd / 2.;
     float Br = uBd / 2.;
     int numins = int( st.s / uAd );
@@ -37,7 +43,7 @@ main( )
     float sc = float(numins) * uAd + Ar;
     float tc = float(numint) * uBd + Br;
 
-    // added ellipse equation 
+    //ellipse equation 
 	float ellipse = (((st.s - sc) * (st.s - sc)) / (Ar * Ar)) + (((st.t - tc) * (st.t - tc)) / (Br * Br));
 	
     float t = smoothstep( 1.-uTol, 1.+uTol, ellipse );

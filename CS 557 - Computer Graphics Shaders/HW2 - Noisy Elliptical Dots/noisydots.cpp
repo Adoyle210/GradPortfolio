@@ -258,6 +258,7 @@ MulArray3(float factor, float a, float b, float c )
 #include "glslprogram.cpp"
 
 float NowS0, NowT0, NowD;
+GLuint Noise3;  //added for noise 
 GLSLProgram Pattern;
 
 // main program:

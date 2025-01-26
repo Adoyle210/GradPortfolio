@@ -7,9 +7,6 @@ varying  vec3  vL;                  // vector from point to light
 varying  vec3  vE;                  // vector from point to eye
 varying  vec3  vMC;			        // model coordinates
 
-//added for noise (slide 24)
-varying vec3 vMCposition;
-
 const vec3 LIGHTPOSITION = vec3( 5., 5., 0. );
 
 void
@@ -22,7 +19,4 @@ main( )
 	vL = LIGHTPOSITION - ECposition.xyz; // vector from the point to the light position
 	vE = vec3( 0., 0., 0. ) - ECposition.xyz; // vector from the point to the eye position
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-
-    //adding for noise 
-    vMCposition = gl_Vertex.xyz;
 }

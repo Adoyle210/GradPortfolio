@@ -202,6 +202,32 @@ float	Dot(float [3], float [3]);
 float	Unit(float [3], float [3]);
 float	Unit(float [3]);
 
+//added from slides 
+unsigned char * 
+ReadTexture3D( char *filename, int *width, int *height, int *depth) 
+{
+    FILE *fp = fopen(filename, "rb");
+    if( fp == NULL ) 
+        return NULL;
+
+    int nums, numt, nump;
+    fread(&nums, 4, 1, fp);
+    fread(&numt, 4, 1, fp);
+    fread(&nump, 4, 1, fp);
+    fprintf( stderr, "Texture size = %d x %d x %d\n", nums, numt, nump );
+
+    *width  = nums;
+    *height = numt;
+    *depth  = nump;
+
+    unsigned char * texture = new unsigned char[ 4 * nums * numt * nump ];
+    
+    fread(texture, 4 * nums * numt * nump, 1, fp);
+    fclose(fp);
+    return texture;
+}
+
+
 
 // utility to create an array from 3 separate values:
 
@@ -398,6 +424,12 @@ Display( )
 
 	glEnable( GL_NORMALIZE );
 
+    //adding for noise 
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_3D, Noise3);
+
+
+
 	// draw the box object by calling up its display list:
 
 	Pattern.Use( );
@@ -415,6 +447,7 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uTol", Tol );
 
     //added: for noise
+    Pattern.SetUniformVariable( (char *)"Noise3", 3);
     Pattern.SetUniformVariable( (char *)"uNoiseAmp", Namp );
 	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Nfreq );
 
@@ -715,6 +748,23 @@ InitGraphics( )
 		fprintf( stderr, "GLEW initialized OK\n" );
 	fprintf( stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
+
+    //added for noise 
+    glGenTextures(1, &Noise3);
+    int nums, numt, nump;
+    unsigned char * texture = ReadTexture3D("noise3d.064.tex", &nums, &numt, &nump);
+    if (texture == NULL){
+        printf("ur fucked");
+    };
+
+    glBindTexture(GL_TEXTURE_3D, Noise3);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, nums, numt, nump, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+
 
 	// all other setups go here, such as GLSLProgram and KeyTime setups:
 

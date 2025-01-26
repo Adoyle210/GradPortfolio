@@ -11,7 +11,7 @@ uniform float	uTol;
 //added for noise (slide24)
 uniform sampler3D Noise3;
 uniform float uNoiseFreq, uNoiseAmp;
-varying vec3 vMCposition;
+float ellipseEQ, nv, newDist, scale;
 
 
 // interpolated from the vertex shader:
@@ -32,6 +32,13 @@ main( )
     vec3 myColor = OBJECTCOLOR;
 	vec2 st = vST;
 
+    //adding from index noise form 3d model coords
+    //vec4 nv = texture3D (Noise3, uNoiseFreq * vec3(vST,0.));
+    vec4 nv = texture3D (Noise3, uNoiseFreq * vMC);
+    float n = nv.r + nv.g + nv.b + nv.a;    //one to three 
+    n = n - 2.;                              //positve one to negative one 
+    n *= uNoiseAmp; 
+
 	// blend OBJECTCOLOR and ELLIPSECOLOR by using the ellipse equation to decide how close
 	// 	this fragment is to the ellipse border:
 
@@ -43,11 +50,25 @@ main( )
     float sc = float(numins) * uAd + Ar;
     float tc = float(numint) * uBd + Br;
 
+    //adding for ellipse noise:
+    float ds = st.s - sc;                           //wrt elipse center 
+    float dt = st.t - tc;                           //wrt elipse center 
+    float oldDist = sqrt( ds*ds + dt*dt);
+    float newDist = oldDist + n;                   
+    float scale = newDist / oldDist;                 //this could be < 1., = 1. or > 1. 
+
+    ds *= scale;         // scale by noise factor
+    ds /= Ar;            //ellipse equation 
+    dt *= scale;         //scale by noise factor 
+    dt /= Br;             //ellipse equation
+    ellipseEQ = ds*ds + dt*dt;
+
     //ellipse equation 
-	float ellipse = (((st.s - sc) * (st.s - sc)) / (Ar * Ar)) + (((st.t - tc) * (st.t - tc)) / (Br * Br));
+	//float ellipse = (((st.s - sc) * (st.s - sc)) / (Ar * Ar)) + (((st.t - tc) * (st.t - tc)) / (Br * Br));
 	
-    float t = smoothstep( 1.-uTol, 1.+uTol, ellipse );
+    float t = smoothstep( 1.-uTol, 1.+uTol, ellipseEQ );
         myColor = mix( ELLIPSECOLOR, OBJECTCOLOR, t );
+    gl_FragColor = vec4(myColor,1.);
 
 	// now use myColor in the per-fragment lighting equations:
 
@@ -70,4 +91,5 @@ main( )
         }
         vec3 specular = uKs * s * SPECULARCOLOR.rgb;
         gl_FragColor = vec4( ambient + diffuse + specular,  1. );
+
 }

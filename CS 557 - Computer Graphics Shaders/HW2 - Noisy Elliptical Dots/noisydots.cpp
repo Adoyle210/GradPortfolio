@@ -415,8 +415,8 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uTol", Tol );
 
     //added: for noise
-    Pattern.SetUniformVariable( (char *)"uNoiseAmp", Ad );
-	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Bd );
+    Pattern.SetUniformVariable( (char *)"uNoiseAmp", Namp );
+	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Nfreq );
 
 	glCallList( SphereList );
 
@@ -719,11 +719,11 @@ InitGraphics( )
 	// all other setups go here, such as GLSLProgram and KeyTime setups:
 
 	Pattern.Init( );
-	bool valid = Pattern.Create( (char *)"ellipticaldot.vert", (char *)"ellipticaldot.frag" );
+	bool valid = Pattern.Create( (char *)"noisydots.vert", (char *)"noisydots.frag" );
 	if( !valid )
-		fprintf( stderr, "Could not create the Elliptical Dot  shader!\n" );
+		fprintf( stderr, "Could not create the Noisy Elliptical Dot  shader!\n" );
 	else
-		fprintf( stderr, "Elliptical Dot shader created!\n" );
+		fprintf( stderr, "Noisy Elliptical Dot shader created!\n" );
 
 	// set the uniform variables that will not change:
 	
@@ -813,7 +813,7 @@ Keyboard( unsigned char c, int x, int y )
             Namp = 0;
             break;
         case 'r':               //uNoisefreq
-            Nfreq = 1;
+            Nfreq = 1.;
             break;
 		//added keys for Large values 
 		case 'A':
@@ -826,10 +826,10 @@ Keyboard( unsigned char c, int x, int y )
 			Tol = 1;
 			break;
         case 'M':               //uNoiseAmp
-            Namp = 1;
+            Namp = 1.0;
             break;
         case 'R':               //uNoisefreq
-            Nfreq = 10;
+            Nfreq = 10.0;
             break;
 		case 'q':
 		case 'Q':

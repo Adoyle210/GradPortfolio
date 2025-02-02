@@ -1,2 +1,2 @@
-sample:		sample.cpp
-		g++  -framework  OpenGL  -framework  GLUT  sample.cpp  -o  sample  -Wno-deprecated
+sample:		curtin.cpp
+		g++  -framework  OpenGL  -framework  GLUT  curtin.cpp  -o  curtin  -Wno-deprecated

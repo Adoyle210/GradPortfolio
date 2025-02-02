@@ -169,6 +169,8 @@ float	Xrot, Yrot;				// rotation angles in degrees
 
 int		SphereList;
 
+//Added for uniform keyboard clicks 
+float uA, uP, liX, liY, liZ, ka, kd, ks, shine;
 
 // function prototypes:
 
@@ -408,7 +410,50 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uT0", NowT0 );
 	Pattern.SetUniformVariable( (char *)"uD" , NowD  );
 
-	glCallList( SphereList );
+	liX = 60.0;
+	liY = 60.0;
+	liZ = 60.0;
+	ka = 0.3;
+	kd = 0.9;
+	ks = 0.6;
+	shine = 50;
+	Pattern.SetUniformVariable( (char *)" uLightX", liX );
+	Pattern.SetUniformVariable( (char *)" uLightY", liY );
+	Pattern.SetUniformVariable( (char *)" uLightZ", liZ );
+	Pattern.SetUniformVariable( (char *)"uKa", ka );
+	Pattern.SetUniformVariable( (char *)"uKd", kd );
+	Pattern.SetUniformVariable( (char *)"uKs" , ks );
+	Pattern.SetUniformVariable( (char *)"uShininess" , shine );
+
+	//added:
+	Pattern.SetUniformVariable( (char *)"uA", uA );
+	Pattern.SetUniformVariable( (char *)"uP", uP );
+
+	//glCallList( SphereList );
+	
+	//Curtin 
+	float xmin = -1.f;
+	float xmax =  1.f;
+	float ymin = -1.f;
+	float ymax =  1.f;
+	float dx = xmax - xmin;
+	float dy = ymax - ymin;
+	float z = 0.f;
+	int numy = 128;		// set this to what you want it to be
+	int numx = 128;		// set this to what you want it to be
+	for( int iy = 0; iy < numy; iy++ )
+	{
+			glBegin( GL_QUAD_STRIP );
+			glNormal3f( 0., 0., 1. );
+			for( int ix = 0; ix <= numx; ix++ )
+			{
+					glTexCoord2f( (float)ix/(float)numx, (float)(iy+0)/(float)numy );
+					glVertex3f( xmin + dx*(float)ix/(float)numx, ymin + dy*(float)(iy+0)/(float)numy, z );
+					glTexCoord2f( (float)ix/(float)numx, (float)(iy+1)/(float)numy );
+					glVertex3f( xmin + dx*(float)ix/(float)numx, ymin + dy*(float)(iy+1)/(float)numy, z );
+			}
+			glEnd();
+	}
 
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
 
@@ -748,7 +793,6 @@ InitLists( )
 		OsuSphere( 1., 64, 64 );
 	glEndList( );
 
-
 	// create the axes:
 
 	AxesList = glGenLists( 1 );
@@ -787,6 +831,27 @@ Keyboard( unsigned char c, int x, int y )
 		case 'p':
 		case 'P':
 			NowProjection = PERSP;
+			break;
+
+		//added keys 
+		case 'a':
+			uA = 0.1;
+			uP = 1;
+			break;
+
+		case 'b':
+			uA = 0.1;
+			uP = 2;
+			break;
+
+		case 'c':
+			uA = 0.5;
+			uP = 1;
+			break;
+
+		case 'd':
+			uA = 0.5;
+			uP = 2;
 			break;
 
 		case 'q':

@@ -836,22 +836,22 @@ Keyboard( unsigned char c, int x, int y )
 		//added keys 
 		case 'a':
 			uA = 0.1;
-			uP = 1;
+			uP = .25;
 			break;
 
 		case 'b':
-			uA = 0.1;
-			uP = 2;
+			uA = 0.7;
+			uP = .25;
 			break;
 
 		case 'c':
-			uA = 0.5;
-			uP = 1;
+			uA = 0.1;
+			uP = .5;
 			break;
 
 		case 'd':
-			uA = 0.5;
-			uP = 2;
+			uA = 0.7;
+			uP = .5;
 			break;
 
 		case 'q':

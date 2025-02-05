@@ -892,11 +892,11 @@ Keyboard( unsigned char c, int x, int y )
 			break;
 
 		case 'c':
-			Namp = 0;
+			Namp = 1.;
 			break;
 
 		case 'd':
-			Namp = 1.;
+			Namp = 3.;
 			break;
 
 		case 'e':
@@ -904,7 +904,7 @@ Keyboard( unsigned char c, int x, int y )
 			break;
 
 		case 'g':
-			Nfreq = 10.0;
+			Nfreq = 7.0;
 			break;
 
 		case 'q':

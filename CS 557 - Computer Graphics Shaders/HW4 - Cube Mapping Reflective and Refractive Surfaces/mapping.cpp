@@ -170,7 +170,7 @@ float	Xrot, Yrot;				// rotation angles in degrees
 int		SphereList;
 
 //Added for uniform keyboard clicks 
-float uA, uP, liX, liY, liZ, ka, kd, ks, shine, Namp, Nfreq;
+float uA, uP, liX, liY, liZ, ka, kd, ks, shine, Namp, Nfreq, mix;
 
 // function prototypes:
 
@@ -275,15 +275,27 @@ MulArray3(float factor, float a, float b, float c )
 #include "osusphere.cpp"
 //#include "osucone.cpp"
 //#include "osutorus.cpp"
-//#include "bmptotexture.cpp"
-//#include "loadobjfile.cpp"
+#include "bmptotexture.cpp"
+#include "loadobjfile.cpp"
 #include "keytime.cpp"
 #include "glslprogram.cpp"
 
 float NowS0, NowT0, NowD;
+float Eta, Mix; 
 GLuint Noise3;  //added for noise 
+GLuint DL; // added to call cat.obj
+GLuint CubeName; //added for cube mapping 
 GLSLProgram Pattern;
-
+//added: cube mapping pictures
+char * FaceFiles[6] =     
+{
+	"kec.posx.bmp",
+	"kec.negx.bmp",
+	"kec.posy.bmp",
+	"kec.negy.bmp",
+	"kec.posz.bmp",
+	"kec.negz.bmp"
+};
 
 // main program:
 
@@ -428,6 +440,10 @@ Display( )
 
 	// draw the box object by calling up its display list:
 
+    //added for cube mapping 
+    int ReflectUnit = 5;
+	int RefractUnit = 6;
+
 	Pattern.Use( );
 
 	// set the uniform variables that will change over time:
@@ -439,53 +455,45 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uT0", NowT0 );
 	Pattern.SetUniformVariable( (char *)"uD" , NowD  );
 
-	liX = 60.0;
-	liY = 60.0;
-	liZ = 60.0;
-	ka = 0.3;
-	kd = 0.9;
-	ks = 0.6;
-	shine = 50;
-	Pattern.SetUniformVariable( (char *)" uLightX", liX );
-	Pattern.SetUniformVariable( (char *)" uLightY", liY );
-	Pattern.SetUniformVariable( (char *)" uLightZ", liZ );
-	Pattern.SetUniformVariable( (char *)"uKa", ka );
-	Pattern.SetUniformVariable( (char *)"uKd", kd );
-	Pattern.SetUniformVariable( (char *)"uKs" , ks );
-	Pattern.SetUniformVariable( (char *)"uShininess" , shine );
-	Pattern.SetUniformVariable( (char *)"uA", uA );
-	Pattern.SetUniformVariable( (char *)"uP", uP );
+	// liX = 60.0;
+	// liY = 60.0;
+	// liZ = 60.0;
+	// ka = 0.3;
+	// kd = 0.9;
+	// ks = 0.6;
+	// shine = 50;
+	// Pattern.SetUniformVariable( (char *)" uLightX", liX );
+	// Pattern.SetUniformVariable( (char *)" uLightY", liY );
+	// Pattern.SetUniformVariable( (char *)" uLightZ", liZ );
+	// Pattern.SetUniformVariable( (char *)"uKa", ka );
+	// Pattern.SetUniformVariable( (char *)"uKd", kd );
+	// Pattern.SetUniformVariable( (char *)"uKs" , ks );
+	// Pattern.SetUniformVariable( (char *)"uShininess" , shine );
+	// Pattern.SetUniformVariable( (char *)"uA", uA );
+	// Pattern.SetUniformVariable( (char *)"uP", uP );
 
 	//added: for noise
     Pattern.SetUniformVariable( (char *)"Noise3", 3);
-    Pattern.SetUniformVariable( (char *)"uNoiseAmp", Namp );
-	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Nfreq );
+    Pattern.SetUniformVariable( (char *)"uNoiseAmp", Namp );    //varies 
+	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Nfreq );  //varies 
 
-	//glCallList( SphereList );
-	
-	//Curtin 
-	float xmin = -1.f;
-	float xmax =  1.f;
-	float ymin = -1.f;
-	float ymax =  1.f;
-	float dx = xmax - xmin;
-	float dy = ymax - ymin;
-	float z = 0.f;
-	int numy = 128;		// set this to what you want it to be
-	int numx = 128;		// set this to what you want it to be
-	for( int iy = 0; iy < numy; iy++ )
-	{
-			glBegin( GL_QUAD_STRIP );
-			glNormal3f( 0., 0., 1. );
-			for( int ix = 0; ix <= numx; ix++ )
-			{
-					glTexCoord2f( (float)ix/(float)numx, (float)(iy+0)/(float)numy );
-					glVertex3f( xmin + dx*(float)ix/(float)numx, ymin + dy*(float)(iy+0)/(float)numy, z );
-					glTexCoord2f( (float)ix/(float)numx, (float)(iy+1)/(float)numy );
-					glVertex3f( xmin + dx*(float)ix/(float)numx, ymin + dy*(float)(iy+1)/(float)numy, z );
-			}
-			glEnd();
-	}
+    //added for mixing of white with refraction
+    Pattern.SetUniformVariable( (char *)"uWhiteMix", 1); 
+
+    Eta = 1.2;
+
+    //cube mapping 
+    glActiveTexture( GL_TEXTURE0 + ReflectUnit );
+	glBindTexture( GL_TEXTURE_CUBE_MAP, CubeName );
+	glActiveTexture( GL_TEXTURE0 + RefractUnit );
+	glBindTexture( GL_TEXTURE_CUBE_MAP, CubeName );
+	Pattern.SetUniformVariable( "uReflectUnit", ReflectUnit );
+	Pattern.SetUniformVariable( "uRefractUnit", RefractUnit );
+	Pattern.SetUniformVariable( "uMix", Mix );  //varies 
+	Pattern.SetUniformVariable( "uEta", Eta ); //good range is 1.2 - 2.0
+
+	//added: calling cat 
+    glCallList( DL );
 
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
 
@@ -801,7 +809,7 @@ InitGraphics( )
 	// all other setups go here, such as GLSLProgram and KeyTime setups:
 
 	Pattern.Init( );
-	bool valid = Pattern.Create( (char *)"curtin.vert", (char *)"curtin.frag" );
+	bool valid = Pattern.Create( (char *)"mapping.vert", (char *)"mapping.frag" );
 	if( !valid )
 		fprintf( stderr, "Could not create the Pattern shader!\n" );
 	else
@@ -817,6 +825,27 @@ InitGraphics( )
 	Pattern.SetUniformVariable( (char *)"uSpecularColor", 1.f, 1.f, 1.f, 1.f );
 	Pattern.SetUniformVariable( (char *)"uShininess", 12.f );
 	Pattern.UnUse( );
+
+    //adding for cube mapping 
+    glGenTextures( 1, &CubeName );
+	glBindTexture( GL_TEXTURE_CUBE_MAP, CubeName );
+	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT );
+	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT );
+	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT );
+	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	for( int file = 0; file < 6; file++ )
+	{
+		int nums, numt;
+		unsigned char * texture2d = BmpToTexture( FaceFiles[file], &nums, &numt );
+		if( texture2d == NULL )
+			fprintf( stderr, "Could not open BMP 2D texture '%s'", FaceFiles[file] );
+		else
+			fprintf( stderr, "BMP 2D texture '%s' read -- nums = %d, numt = %d\n", FaceFiles[file], nums, numt );
+		glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_X + file, 0, 3, nums, numt, 0,
+			GL_RGB, GL_UNSIGNED_BYTE, texture2d );
+		delete [ ] texture2d;
+	}
 }
 
 
@@ -839,6 +868,12 @@ InitLists( )
 	glNewList( SphereList, GL_COMPILE );
 		OsuSphere( 1., 64, 64 );
 	glEndList( );
+
+    //added this to create a cat: 
+    DL = glGenLists( 1 );
+    glNewList( DL, GL_COMPILE );
+        LoadObjFile( "cat.obj" );
+    glEndList( );
 
 	// create the axes:
 

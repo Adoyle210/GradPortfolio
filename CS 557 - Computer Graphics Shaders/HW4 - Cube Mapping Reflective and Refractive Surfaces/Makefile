@@ -1,2 +1,2 @@
-sample:		curtin.cpp
-		g++  -framework  OpenGL  -framework  GLUT  curtin.cpp  -o  curtin  -Wno-deprecated
+sample:		mapping.cpp
+		g++  -framework  OpenGL  -framework  GLUT  mapping.cpp  -o  mapping  -Wno-deprecated

@@ -26,6 +26,7 @@
 #include <GL/glu.h>
 #endif
 #include "glut.h"
+#define GL_TEXTURE_REPEAT 
 
 //#define GLM_FORCE_RADIANS
 //#include "glm/vec2.hpp"
@@ -167,10 +168,10 @@ float	Time;					// used for animation, this has a value between 0. and 1.
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
-int		SphereList;
+//int		SphereList;
 
 //Added for uniform keyboard clicks 
-float uA, uP, liX, liY, liZ, ka, kd, ks, shine, Namp, Nfreq, mix;
+float uA, uP, liX, liY, liZ, ka, kd, ks, shine, Namp, Nfreq;
 
 // function prototypes:
 
@@ -272,7 +273,7 @@ MulArray3(float factor, float a, float b, float c )
 
 //#include "setmaterial.cpp"
 //#include "setlight.cpp"
-#include "osusphere.cpp"
+//#include "osusphere.cpp"
 //#include "osucone.cpp"
 //#include "osutorus.cpp"
 #include "bmptotexture.cpp"
@@ -285,16 +286,26 @@ float Eta, Mix;
 GLuint Noise3;  //added for noise 
 GLuint DL; // added to call cat.obj
 GLuint CubeName; //added for cube mapping 
-GLSLProgram Pattern;
+GLuint TextureName, QuadList;
+GLSLProgram Pattern, Text;
 //added: cube mapping pictures
+// char * FaceFiles[6] =     
+// {
+// 	"kec.posx.bmp",
+// 	"kec.negx.bmp",
+// 	"kec.posy.bmp",
+// 	"kec.negy.bmp",
+// 	"kec.posz.bmp",
+// 	"kec.negz.bmp"
+// };
 char * FaceFiles[6] =     
 {
-	"kec.posx.bmp",
-	"kec.negx.bmp",
-	"kec.posy.bmp",
-	"kec.negy.bmp",
-	"kec.posz.bmp",
-	"kec.negz.bmp"
+	"nvposx.bmp",
+	"nvnegx.bmp",
+	"nvposy.bmp",
+	"nvnegy.bmp",
+	"nvposz.bmp",
+	"nvnegz.bmp"
 };
 
 // main program:
@@ -377,6 +388,7 @@ Display( )
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	glEnable( GL_DEPTH_TEST );
+	glDepthFunc(GL_LEQUAL); //added to test 
 
 	//adding for noise 
     glActiveTexture(GL_TEXTURE3);
@@ -413,7 +425,7 @@ Display( )
 
 	// set the eye position, look-at position, and up-vector:
 
-	gluLookAt( 0.f, 0.f, 3.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
+	gluLookAt( 0.f, 0.f, 6.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
 
 	// rotate the scene:
 
@@ -445,6 +457,9 @@ Display( )
 	int RefractUnit = 6;
 
 	Pattern.Use( );
+
+	//added: calling cat 
+    glCallList( DL );
 
 	// set the uniform variables that will change over time:
 
@@ -478,9 +493,9 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uNoiseFreq", Nfreq );  //varies 
 
     //added for mixing of white with refraction
-    Pattern.SetUniformVariable( (char *)"uWhiteMix", 1); 
+    Pattern.SetUniformVariable( (char *)"uWhiteMix", 0); 
 
-    Eta = 1.2;
+    Eta = 2.0;
 
     //cube mapping 
     glActiveTexture( GL_TEXTURE0 + ReflectUnit );
@@ -492,11 +507,22 @@ Display( )
 	Pattern.SetUniformVariable( "uMix", Mix );  //varies 
 	Pattern.SetUniformVariable( "uEta", Eta ); //good range is 1.2 - 2.0
 
-	//added: calling cat 
-    glCallList( DL );
-
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
 
+	TextureName = 6;
+	Text.Use();
+	//adding walls
+
+	glActiveTexture(GL_TEXTURE0 + TextureName);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, CubeName);
+	GLint cubeMapLocation = glGetUniformLocation(Text.GetProgram(), "TexUnit");
+	glUniform1i(cubeMapLocation, TextureName);
+	glCallList(QuadList);
+
+	Text.UnUse();
+
+	
+	
 
 	// draw some gratuitous text that just rotates on top of the scene:
 	// i commented out the actual text-drawing calls -- put them back in if you have a use for them
@@ -827,6 +853,14 @@ InitGraphics( )
 	Pattern.UnUse( );
 
     //adding for cube mapping 
+	Text.Init( );
+	bool isvalid = Text.Create( (char *)"texture.vert", (char *)"texture.frag" );
+	if( !isvalid )
+		fprintf( stderr, "Could not create the Texture shader!\n" );
+	else
+		fprintf( stderr, "Texture created!\n" );
+
+
     glGenTextures( 1, &CubeName );
 	glBindTexture( GL_TEXTURE_CUBE_MAP, CubeName );
 	glTexParameterf( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT );
@@ -862,12 +896,12 @@ InitLists( )
 
 	glutSetWindow( MainWindow );
 
-	// create the object:
+	// // create the object:
 
-	SphereList = glGenLists( 1 );
-	glNewList( SphereList, GL_COMPILE );
-		OsuSphere( 1., 64, 64 );
-	glEndList( );
+	// SphereList = glGenLists( 1 );
+	// glNewList( SphereList, GL_COMPILE );
+	// 	OsuSphere( 1., 64, 64 );
+	// glEndList( );
 
     //added this to create a cat: 
     DL = glGenLists( 1 );
@@ -883,6 +917,100 @@ InitLists( )
 			Axes( 1.5 );
 		glLineWidth( 1. );
 	glEndList( );
+
+	//added 
+
+    // // Create the quad list for the wall decorations
+
+    // QuadList = glGenLists(1);
+    // if (QuadList == 0) {
+    //     fprintf(stderr, "ERROR: glGenLists() failed for QuadList\n");
+    //     exit(1);  // or handle the error more gracefully
+    // }
+    // else {
+    //     glNewList(QuadList, GL_COMPILE);
+    //     // Define the quad geometry here:
+    //     glBegin(GL_QUADS);
+    //     // Example: a simple quad
+    //     glTexCoord2f(0.0f, 0.0f); glVertex3f(-2.0f, -2.0f, -5.0f); // Bottom-left
+    //     glTexCoord2f(1.0f, 0.0f); glVertex3f(2.0f, -2.0f, -5.0f);  // Bottom-right
+    //     glTexCoord2f(1.0f, 1.0f); glVertex3f(2.0f, 2.0f, -5.0f);   // Top-right
+    //     glTexCoord2f(0.0f, 1.0f); glVertex3f(-2.0f, 2.0f, -5.0f);  // Top-left
+    //     glEnd();
+    //     glEndList();
+    // }
+	
+	// Create the cube map geometry
+	QuadList = glGenLists(1);
+    glNewList(QuadList, GL_COMPILE);
+
+      // Create the six faces of the cube
+    for (int i = 0; i < 6; i++)
+    {
+        glBegin(GL_QUADS);
+        switch(i)
+        {
+            case 0: // Positive X
+				glTexCoord2f(0.0f, 0.0f); glVertex3f( 5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 5.0f, -5.0f, -5.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 5.0f,  5.0f, -5.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f( 5.0f,  5.0f,  5.0f);
+				break;
+			case 1: // Negative X
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-5.0f, -5.0f, -5.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(-5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(-5.0f,  5.0f,  5.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-5.0f,  5.0f, -5.0f);
+				break;
+			case 2: // Positive Y
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-5.0f,  5.0f, -5.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 5.0f,  5.0f, -5.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 5.0f,  5.0f,  5.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-5.0f,  5.0f,  5.0f);
+				break;
+			case 3: // Negative Y
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 5.0f, -5.0f, -5.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-5.0f, -5.0f, -5.0f);
+				break;
+			case 4: // Positive Z
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 5.0f, -5.0f,  5.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 5.0f,  5.0f,  5.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-5.0f,  5.0f,  5.0f);
+				break;
+			case 5: // Negative Z
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(-5.0f, -5.0f, -5.0f); // Bottom-right
+				glTexCoord2f(1.0f, 0.0f); glVertex3f( 5.0f, -5.0f, -5.0f); // Bottom-left
+				glTexCoord2f(1.0f, 1.0f); glVertex3f( 5.0f,  5.0f, -5.0f); // Top-left
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(-5.0f,  5.0f, -5.0f); // Top-right
+				break;
+
+
+        }
+        glEnd();
+    }
+	// for (int i = 0; i < 6; i++)
+	// {
+	// 	glBegin(GL_QUADS);
+	// 	switch(i)
+	// 	{
+	// 		case 0: glColor3f(1.0f, 0.0f, 0.0f); break; // Red
+	// 		case 1: glColor3f(0.0f, 1.0f, 0.0f); break; // Green
+	// 		case 2: glColor3f(0.0f, 0.0f, 1.0f); break; // Blue
+	// 		case 3: glColor3f(1.0f, 1.0f, 0.0f); break; // Yellow
+	// 		case 4: glColor3f(1.0f, 0.0f, 1.0f); break; // Magenta
+	// 		case 5: glColor3f(0.0f, 1.0f, 1.0f); break; // Cyan
+	// 	}
+	// 	// Your existing vertex code here
+	// 	glEnd();
+	// }
+
+    
+    glEndList();
+
+
 }
 
 
@@ -917,13 +1045,11 @@ Keyboard( unsigned char c, int x, int y )
 
 		//added keys 
 		case 'a':
-			uA = 0.1;
-			uP = .25;
+			Mix = 0;
 			break;
 
 		case 'b':
-			uA = 0.1;
-			uP = .5;
+			Mix = 1;
 			break;
 
 		case 'c':

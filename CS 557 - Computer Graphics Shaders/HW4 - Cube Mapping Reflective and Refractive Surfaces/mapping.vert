@@ -1,4 +1,4 @@
-//#version 330 compatibility // using mac 
+//#version 120 compatibility // using mac 
 
 varying vec3	vNormal;
 varying vec3	vEyeDir;

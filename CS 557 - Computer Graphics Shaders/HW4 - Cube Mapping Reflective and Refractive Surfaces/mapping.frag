@@ -1,4 +1,4 @@
-//#version 330 compatibility //using mac
+//#version 120 compatibility //using mac
 
 uniform sampler3D	Noise3;
 uniform float 		uNoiseAmp;
@@ -77,7 +77,7 @@ main( )
 	Normal = normalize( gl_NormalMatrix * Normal );
 
 	vec3 reflectVector = reflect (Eye, Normal);
-	vec3 reflectColor =  textureCube( uReflectUnit, reflectVector ).rgb;
+	vec3 reflectColor =  textureCube(uReflectUnit, reflectVector).rgb;
 
 	vec3 refractVector = refract (Eye, Normal, uEta);
 

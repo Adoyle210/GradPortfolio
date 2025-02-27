@@ -72,19 +72,16 @@ float starShape(vec2 uv, float size) {
 
 void main()
 {
-    // Create UV coordinates from the normal
-    vec3 pos = normalize(vN);
-    vec2 uv = vec2(
-        atan(pos.z, pos.x) / (2.0 * PI) + 0.5,
-        acos(pos.y) / PI
-    );
+    // Use texture coordinates directly, scaled to create more stars along the snake
+    vec2 uv = vST * vec2(16.0, 4.0);  // More repetitions horizontally than vertically
     
     // Create repeating star pattern
-    vec2 scaled_uv = fract(uv * 8.0) - 0.5;  // Create 8x8 grid of stars
+    vec2 scaled_uv = fract(uv) - 0.5;  // Create repeating grid of stars
     float star = starShape(scaled_uv, 0.4);
     
-    // Create color from palette
-    vec3 starColor = palette(star + iTime * 0.5);
+    // Create color from palette with position-based offset
+    float colorOffset = vST.x + vST.y + iTime * 0.5;  // Make colors flow along the snake
+    vec3 starColor = palette(star + colorOffset);
     
     // Add some glow
     float glow = exp(-length(scaled_uv) * 4.0) * 0.5;

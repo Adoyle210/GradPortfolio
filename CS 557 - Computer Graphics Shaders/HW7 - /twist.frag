@@ -12,6 +12,7 @@ varying vec3 vL;       // vector from point to light
 varying vec3 vE;       // vector from point to eye
 varying vec3 vMC;      // model coordinates for hatching
 varying float vZ;      // eye coordinate Z for ChromaDepth
+varying vec4 ECposition; // Eye coordinate position
 
 // Smooth pulse function for hatching
 float SmoothPulse(float left, float right, float value, float tol)
@@ -77,17 +78,17 @@ void main()
     vec3 myColor;
     if(uUseChromaDepth != 0)
     {
-        float depth = -vZ;
+        // Get eye-space depth (distance from camera)
+        float depth = length(ECposition.xyz);  // Use actual distance from camera
         
-        // Debug visualization - uncomment this to see raw depth values
-        myColor = vec3(depth/50.0);
-        return;  // Add this line to see only the depth values
-        
-        // Normalize depth between 0 and 1
+        // Map depth to color (red=close, blue=far)
         float t = (depth - uRedDepth) / (uBlueDepth - uRedDepth);
         t = clamp(t, 0.0, 1.0);
         
-        // Map to color range (red = close, blue = far)
+        // Debug: Uncomment to see raw depth values
+        //myColor = vec3(depth/50.0);
+        //return;
+        
         myColor = Rainbow(t);
     }
     else

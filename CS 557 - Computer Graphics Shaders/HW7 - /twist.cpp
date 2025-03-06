@@ -188,8 +188,8 @@ bool SlowTwist = false;  // Toggle for twist speed
 
 // Add to global variables
 bool UseChromaDepth = false;
-float RedDepth = 25.0;     // Closer objects
-float BlueDepth = 45.0;    // Farther objects
+float RedDepth = 34.0;     // Closer to camera
+float BlueDepth = 36.0;    // Further from camera
 
 // function prototypes:
 

@@ -8,6 +8,7 @@ varying vec3 vL;       // vector from point to light
 varying vec3 vE;       // vector from point to eye
 varying vec3 vMC;      // model coordinates for hatching
 varying float vZ;      // eye coordinate Z for ChromaDepth
+varying vec4 ECposition;
 
 // Rotation function for Y-axis twist
 vec3 RotateY(vec3 xyz, float radians)
@@ -34,7 +35,7 @@ void main()
     vec4 twistedVertex = vec4(RotateY(vMC, twistAngle), 1.0);
     
     // Transform vertex to eye coordinates
-    vec4 ECposition = gl_ModelViewMatrix * twistedVertex;
+    ECposition = gl_ModelViewMatrix * twistedVertex;
     
     // Save the eye coordinate Z for ChromaDepth
     vZ = -ECposition.z;

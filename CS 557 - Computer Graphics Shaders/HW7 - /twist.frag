@@ -4,7 +4,7 @@ uniform float uKa, uKd, uKs;
 uniform vec4 uSpecularColor;
 uniform float uShininess;
 uniform float uRedDepth, uBlueDepth;
-uniform bool uUseChromaDepth;
+uniform int uUseChromaDepth;
 
 varying vec2 vST;      // texture coords
 varying vec3 vN;       // normal vector
@@ -75,10 +75,19 @@ void main()
     
     // Determine base color
     vec3 myColor;
-    if(uUseChromaDepth)
+    if(uUseChromaDepth != 0)
     {
-        float t = (2./3.) * (abs(vZ) - uRedDepth) / (uBlueDepth - uRedDepth);
-        t = clamp(t, 0., 2./3.);
+        float depth = -vZ;
+        
+        // Debug visualization - uncomment this to see raw depth values
+        myColor = vec3(depth/50.0);
+        return;  // Add this line to see only the depth values
+        
+        // Normalize depth between 0 and 1
+        float t = (depth - uRedDepth) / (uBlueDepth - uRedDepth);
+        t = clamp(t, 0.0, 1.0);
+        
+        // Map to color range (red = close, blue = far)
         myColor = Rainbow(t);
     }
     else

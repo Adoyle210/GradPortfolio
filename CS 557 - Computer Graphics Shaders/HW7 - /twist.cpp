@@ -188,8 +188,8 @@ bool SlowTwist = false;  // Toggle for twist speed
 
 // Add to global variables
 bool UseChromaDepth = false;
-float RedDepth = 1.0;
-float BlueDepth = 4.4;
+float RedDepth = 25.0;     // Closer objects
+float BlueDepth = 45.0;    // Farther objects
 
 // function prototypes:
 
@@ -383,9 +383,9 @@ Display( )
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity( );
 	if( NowProjection == ORTHO )
-		glOrtho( -2.f, 2.f,     -2.f, 2.f,     0.1f, 1000.f );
+		glOrtho( -3.f, 3.f,     -3.f, 3.f,     0.1f, 1000.f );
 	else
-		gluPerspective( 45.f, 1.f,	0.1f, 1000.f );
+		gluPerspective( 30.f, 1.f,	0.1f, 1000.f );
 
 	// place the objects into the scene:
 
@@ -394,7 +394,7 @@ Display( )
 
 	// set the eye position, look-at position, and up-vector:
 
-	gluLookAt( 0.f, 0.f, 40.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
+	gluLookAt(0.f, 0.f, 35.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f);
 
 	// rotate the scene:
 
@@ -431,7 +431,7 @@ Display( )
 	Pattern.SetUniformVariable((char*)"uSpecularColor", 1.0f, 1.0f, 1.0f, 1.0f);
 	Pattern.SetUniformVariable((char*)"uShininess", 16.0f);
 	Pattern.SetUniformVariable((char*)"iTime", Time);
-	Pattern.SetUniformVariable((char*)"uUseChromaDepth", UseChromaDepth);
+	Pattern.SetUniformVariable((char*)"uUseChromaDepth", (int)(UseChromaDepth ? 1 : 0));
 	Pattern.SetUniformVariable((char*)"uRedDepth", RedDepth);
 	Pattern.SetUniformVariable((char*)"uBlueDepth", BlueDepth);
 
@@ -971,7 +971,7 @@ Reset( )
 	AxesOn = 1;
 	DebugOn = 0;
 	Freeze = false;
-	Scale  = 4.0;
+	Scale = 1.0;
 	NowColor = YELLOW;
 	NowProjection = PERSP;
 	Xrot = Yrot = 0.;

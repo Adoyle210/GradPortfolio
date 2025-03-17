@@ -186,6 +186,8 @@ float	Xrot, Yrot;				// rotation angles in degrees
 int		SphereList;
 int		QuadList;
 
+float Zoom = 1.95;  // Initial zoom level - back to a reasonable value
+const float ZOOM_FACTOR = 0.05f;  // Smaller zoom increment for finer control
 
 // function prototypes:
 
@@ -374,6 +376,7 @@ Display( )
 	Pattern.Use( );
 	Pattern.SetUniformVariable( (char *)"u_resolution", (float)vx, (float)vy );
 	Pattern.SetUniformVariable( (char *)"u_time", Time );
+	Pattern.SetUniformVariable( (char *)"u_zoom", Zoom );
 	
 	// draw the quad
 	glCallList( QuadList );
@@ -660,6 +663,7 @@ InitGraphics( )
 	Pattern.SetUniformVariable( (char *)"uColor", 1.f, 0.5f, 0.f, 1.f );
 	Pattern.SetUniformVariable( (char *)"uSpecularColor", 1.f, 1.f, 1.f, 1.f );
 	Pattern.SetUniformVariable( (char *)"uShininess", 12.f );
+	Pattern.SetUniformVariable( (char *)"u_zoom", Zoom );
 	Pattern.UnUse( );
 }
 
@@ -724,14 +728,24 @@ Keyboard( unsigned char c, int x, int y )
 
 	switch( c )
 	{
-	case 'f':
-	case 'F':
-		Freeze = !Freeze;
-		if (Freeze)
-			glutIdleFunc(NULL);
-		else
-			glutIdleFunc(Animate);
-		break;
+		case 'z':  // Zoom in
+		case 'Z':
+			Zoom += ZOOM_FACTOR;
+			break;
+
+		case 'x':  // Zoom out
+		case 'X':
+			Zoom = fmax(0.1f, Zoom - ZOOM_FACTOR);  // Prevent negative zoom
+			break;
+
+		case 'f':
+		case 'F':
+			Freeze = !Freeze;
+			if (Freeze)
+				glutIdleFunc(NULL);
+			else
+				glutIdleFunc(Animate);
+			break;
 
 		case 'o':
 		case 'O':
@@ -753,7 +767,10 @@ Keyboard( unsigned char c, int x, int y )
 			fprintf( stderr, "Don't know what to do with keyboard hit: '%c' (0x%0x)\n", c, c );
 	}
 
-	// force a call to Display( ):
+	// Update the zoom uniform in the shader
+	Pattern.Use();
+	Pattern.SetUniformVariable((char *)"u_zoom", Zoom);
+	Pattern.UnUse();
 
 	glutSetWindow( MainWindow );
 	glutPostRedisplay( );

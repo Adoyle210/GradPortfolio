@@ -42,7 +42,10 @@ int view_mode=0;  // 0 = othogonal, 1=perspective
 float s_old, t_old;
 float rotmat[4][4];
 static Quaternion rvec;
+
+//globals I added: 
 float r, g, b;     // colors lol 
+float checker_L = 0.2f; // You can adjust this value for different checker sizes
 
 int mouse_mode = -2;  // -2=no action, -1 = down, 0 = zoom, 1 = rotate x, 2 = rotate y, 3 = tranlate x, 4 = translate y, 5 = cull near 6 = cull far
 int mouse_button = -1; // -1=no button, 0=left, 1=middle, 2=right
@@ -61,6 +64,8 @@ jitter_struct ji16[16] = {{0.125, 0.125}, {0.375, 0.125}, {0.625, 0.125}, {0.875
 
 Polyhedron *poly;
 
+//for checker board:
+int checker_f(int n) { return (n % 2 == 0) ? 1 : 0; }
 
 void init(void);
 void keyboard(unsigned char key, int x, int y);
@@ -1044,7 +1049,7 @@ void keyboard(unsigned char key, int x, int y) {
 			break;
 
 		case '5':
-			display_mode = 5;
+			display_mode = 5; // 3D checkerboard coloring
 			display();
 			break;
 
@@ -1098,6 +1103,18 @@ void keyboard(unsigned char key, int x, int y) {
 			for (i=0; i<4; i++) 
 				fscanf(this_file, "%f %f %f %f ", (&rotmat[i][0]), (&rotmat[i][1]), (&rotmat[i][2]), (&rotmat[i][3]));
 			fclose(this_file);
+			display();
+			break;
+
+		case '+':
+			checker_L *= 1.1f; // Increase checker size
+			printf("Checker L: %f\n", checker_L);
+			display();
+			break;
+
+		case '-':
+			checker_L /= 1.1f; // Decrease checker size
+			printf("Checker L: %f\n", checker_L);
 			display();
 			break;
 	}
@@ -1448,6 +1465,24 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 				r = 0.5f * (temp_v->normal.entry[0] + 1.0f);
 				g = 0.5f * (temp_v->normal.entry[1] + 1.0f);
 				b = 0.5f * (temp_v->normal.entry[2] + 1.0f);
+				glColor3f(r, g, b);
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
+		case 5: // 3D Checkerboard coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				int nx = static_cast<int>(floor(temp_v->x / checker_L));
+				int ny = static_cast<int>(floor(temp_v->y / checker_L));
+				int nz = static_cast<int>(floor(temp_v->z / checker_L));
+				r = checker_f(nx);
+				g = checker_f(ny);
+				b = checker_f(nz);
 				glColor3f(r, g, b);
 				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
 			}

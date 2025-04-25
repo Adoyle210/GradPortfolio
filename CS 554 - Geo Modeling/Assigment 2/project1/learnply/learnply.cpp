@@ -67,6 +67,33 @@ void display(void);
 void mouse(int button, int state, int x, int y);
 void display_shape(GLenum mode, Polyhedron *poly);
 
+// Function to generate a unique color based on polygon ID
+// Followed suggestions of using golden ratio from this blog post: 
+// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+void generate_polygon_id_color(int id, float& r, float& g, float& b) {
+    // Use golden ratio for good color distribution
+    const float golden_ratio = 0.618033988749895f;
+    const float h = fmod(id * golden_ratio, 1.0f);  // hue
+    const float s = 0.7f;  // saturation
+    const float v = 0.95f;  // value/brightness
+
+    // Convert HSV to RGB
+    const int hi = static_cast<int>(h * 6);
+    const float f = h * 6 - hi;
+    const float p = v * (1 - s);
+    const float q = v * (1 - f * s);
+    const float t = v * (1 - (1 - f) * s);
+
+    switch(hi) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        default: r = v; g = p; b = q; break;
+    }
+}
+
 /******************************************************************************
 Main program.
 ******************************************************************************/
@@ -995,7 +1022,7 @@ void keyboard(unsigned char key, int x, int y) {
 			break;
 
 		case '1':
-			display_mode = 0;
+			display_mode = 1; // Polygon ID coloring mode
 			display();
 			break;
 
@@ -1071,7 +1098,6 @@ void keyboard(unsigned char key, int x, int y) {
 			fclose(this_file);
 			display();
 			break;
-
 	}
 }
 
@@ -1355,6 +1381,27 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 
+		case 1:  // Polygon ID coloring mode
+			glBegin(GL_POLYGON);
+			{
+				float r, g, b;
+				generate_polygon_id_color(i, r, g, b);
+				mat_diffuse[0] = r;
+				mat_diffuse[1] = g;
+				mat_diffuse[2] = b;
+				mat_diffuse[3] = 1.0;
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+				
+				for (j = 0; j < 3; j++) {
+					Vertex *temp_v = temp_t->verts[j];
+					glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+					glColor3f(r, g, b);
+					glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+				}
+			}
+			glEnd();
+			break;
+
 		case 6:
 			glBegin(GL_POLYGON);
 			for (j=0; j<3; j++) {
@@ -1385,6 +1432,8 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 		}
+
+		
 	}
 }
 

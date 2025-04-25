@@ -42,6 +42,7 @@ int view_mode=0;  // 0 = othogonal, 1=perspective
 float s_old, t_old;
 float rotmat[4][4];
 static Quaternion rvec;
+float r, g, b;     // colors lol 
 
 int mouse_mode = -2;  // -2=no action, -1 = down, 0 = zoom, 1 = rotate x, 2 = rotate y, 3 = tranlate x, 4 = translate y, 5 = cull near 6 = cull far
 int mouse_button = -1; // -1=no button, 0=left, 1=middle, 2=right
@@ -1033,12 +1034,12 @@ void keyboard(unsigned char key, int x, int y) {
 			break;
 
 		case '3':
-			display_mode = 3;
+			display_mode = 3; // Polygon normal coloring
 			display();
 			break;
 
 		case '4':
-			display_mode = 4;
+			display_mode = 4; // Vertex normal coloring
 			display();
 			break;
 
@@ -1385,7 +1386,6 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		case 1:  // Polygon ID coloring mode
 			glBegin(GL_POLYGON);
 			{
-				float r, g, b;
 				generate_polygon_id_color(i, r, g, b);
 				mat_diffuse[0] = r;
 				mat_diffuse[1] = g;
@@ -1424,6 +1424,37 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnable(GL_LIGHTING); //reenable lighting after draw
 			break;
 
+		case 3: // Polygon normal coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			// Map normal from [-1,1] to [0,1] for color
+			r = 0.5f * (temp_t->normal.entry[0] + 1.0f);
+			g = 0.5f * (temp_t->normal.entry[1] + 1.0f);
+			b = 0.5f * (temp_t->normal.entry[2] + 1.0f);
+			glColor3f(r, g, b);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
+		case 4: // Vertex normal coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				r = 0.5f * (temp_v->normal.entry[0] + 1.0f);
+				g = 0.5f * (temp_v->normal.entry[1] + 1.0f);
+				b = 0.5f * (temp_v->normal.entry[2] + 1.0f);
+				glColor3f(r, g, b);
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
 		case 6:
 			glBegin(GL_POLYGON);
 			for (j=0; j<3; j++) {
@@ -1454,7 +1485,6 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 		}
-
 		
 	}
 }

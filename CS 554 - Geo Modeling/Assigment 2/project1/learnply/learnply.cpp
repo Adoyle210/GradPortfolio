@@ -43,6 +43,10 @@ float s_old, t_old;
 float rotmat[4][4];
 static Quaternion rvec;
 
+//globals I added: 
+float r, g, b;     // colors lol 
+float checker_L = 0.2f; // You can adjust this value for different checker sizes
+
 int mouse_mode = -2;  // -2=no action, -1 = down, 0 = zoom, 1 = rotate x, 2 = rotate y, 3 = tranlate x, 4 = translate y, 5 = cull near 6 = cull far
 int mouse_button = -1; // -1=no button, 0=left, 1=middle, 2=right
 int last_x, last_y;
@@ -60,12 +64,42 @@ jitter_struct ji16[16] = {{0.125, 0.125}, {0.375, 0.125}, {0.625, 0.125}, {0.875
 
 Polyhedron *poly;
 
+//for checker board:
+int checker_f(int n) { return (n % 2 == 0) ? 1 : 0; }
+
 void init(void);
 void keyboard(unsigned char key, int x, int y);
 void motion(int x, int y);
 void display(void);
 void mouse(int button, int state, int x, int y);
 void display_shape(GLenum mode, Polyhedron *poly);
+
+// Function to generate a unique color based on polygon ID
+// Followed suggestions of using golden ratio from this blog post: 
+// https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+void generate_polygon_id_color(int id, float& r, float& g, float& b) {
+    // Use golden ratio for good color distribution
+    const float golden_ratio = 0.618033988749895f;
+    const float h = fmod(id * golden_ratio, 1.0f);  // hue
+    const float s = 0.7f;  // saturation
+    const float v = 0.95f;  // value/brightness
+
+    // Convert HSV to RGB
+    const int hi = static_cast<int>(h * 6);
+    const float f = h * 6 - hi;
+    const float p = v * (1 - s);
+    const float q = v * (1 - f * s);
+    const float t = v * (1 - (1 - f) * s);
+
+    switch(hi) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        default: r = v; g = p; b = q; break;
+    }
+}
 
 /******************************************************************************
 Main program.
@@ -995,27 +1029,27 @@ void keyboard(unsigned char key, int x, int y) {
 			break;
 
 		case '1':
-			display_mode = 0;
+			display_mode = 1; // Polygon ID coloring mode
 			display();
 			break;
 
 		case '2':
-			display_mode = 0;
+			display_mode = 2; // Barycentric coordinates map
 			display();
 			break;
 
 		case '3':
-			display_mode = 3;
+			display_mode = 3; // Polygon normal coloring
 			display();
 			break;
 
 		case '4':
-			display_mode = 4;
+			display_mode = 4; // Vertex normal coloring
 			display();
 			break;
 
 		case '5':
-			display_mode = 5;
+			display_mode = 5; // 3D checkerboard coloring
 			display();
 			break;
 
@@ -1072,6 +1106,17 @@ void keyboard(unsigned char key, int x, int y) {
 			display();
 			break;
 
+		case '+':
+			checker_L *= 1.1f; // Increase checker size
+			printf("Checker L: %f\n", checker_L);
+			display();
+			break;
+
+		case '-':
+			checker_L /= 1.1f; // Decrease checker size
+			printf("Checker L: %f\n", checker_L);
+			display();
+			break;
 	}
 }
 
@@ -1355,6 +1400,96 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 
+		case 1:  // Polygon ID coloring mode
+			glBegin(GL_POLYGON);
+			{
+				generate_polygon_id_color(i, r, g, b);
+				mat_diffuse[0] = r;
+				mat_diffuse[1] = g;
+				mat_diffuse[2] = b;
+				mat_diffuse[3] = 1.0;
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+				
+				for (j = 0; j < 3; j++) {
+					Vertex *temp_v = temp_t->verts[j];
+					glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+					glColor3f(r, g, b);
+					glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+				}
+			}
+			glEnd();
+			break;
+
+		case 2: // Barycentric coordinates coloring
+			glDisable(GL_LIGHTING); // disabling lighting because OpenGL uses smooth shading and we do not want a color blend
+			glBegin(GL_POLYGON);
+			// First vertex: Red
+			glColor3f(1.0, 0.0, 0.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[0]->x, temp_t->verts[0]->y, temp_t->verts[0]->z);
+
+			// Second vertex: Green
+			glColor3f(0.0, 1.0, 0.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[1]->x, temp_t->verts[1]->y, temp_t->verts[1]->z);
+
+			// Third vertex: Blue
+			glColor3f(0.0, 0.0, 1.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[2]->x, temp_t->verts[2]->y, temp_t->verts[2]->z);
+			glEnd();
+			glEnable(GL_LIGHTING); //reenable lighting after draw
+			break;
+
+		case 3: // Polygon normal coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			// Map normal from [-1,1] to [0,1] for color
+			r = 0.5f * (temp_t->normal.entry[0] + 1.0f);
+			g = 0.5f * (temp_t->normal.entry[1] + 1.0f);
+			b = 0.5f * (temp_t->normal.entry[2] + 1.0f);
+			glColor3f(r, g, b);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
+		case 4: // Vertex normal coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				r = 0.5f * (temp_v->normal.entry[0] + 1.0f);
+				g = 0.5f * (temp_v->normal.entry[1] + 1.0f);
+				b = 0.5f * (temp_v->normal.entry[2] + 1.0f);
+				glColor3f(r, g, b);
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
+		case 5: // 3D Checkerboard coloring
+			glDisable(GL_LIGHTING);
+			glBegin(GL_POLYGON);
+			for (j = 0; j < 3; j++) {
+				Vertex *temp_v = temp_t->verts[j];
+				int nx = static_cast<int>(floor(temp_v->x / checker_L));
+				int ny = static_cast<int>(floor(temp_v->y / checker_L));
+				int nz = static_cast<int>(floor(temp_v->z / checker_L));
+				r = checker_f(nx);
+				g = checker_f(ny);
+				b = checker_f(nz);
+				glColor3f(r, g, b);
+				glVertex3d(temp_v->x, temp_v->y, temp_v->z);
+			}
+			glEnd();
+			glEnable(GL_LIGHTING);
+			break;
+
 		case 6:
 			glBegin(GL_POLYGON);
 			for (j=0; j<3; j++) {
@@ -1385,6 +1520,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 		}
+		
 	}
 }
 
@@ -1436,5 +1572,4 @@ void Polyhedron::average_normals()
 		normalize(vlist[i]->normal);
 	}
 }
-
 

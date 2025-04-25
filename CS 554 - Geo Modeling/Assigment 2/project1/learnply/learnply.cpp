@@ -60,6 +60,7 @@ jitter_struct ji16[16] = {{0.125, 0.125}, {0.375, 0.125}, {0.625, 0.125}, {0.875
 
 Polyhedron *poly;
 
+
 void init(void);
 void keyboard(unsigned char key, int x, int y);
 void motion(int x, int y);
@@ -1027,7 +1028,7 @@ void keyboard(unsigned char key, int x, int y) {
 			break;
 
 		case '2':
-			display_mode = 0;
+			display_mode = 2; // Barycentric coordinates map
 			display();
 			break;
 
@@ -1402,6 +1403,27 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glEnd();
 			break;
 
+		case 2: // Barycentric coordinates coloring
+			glDisable(GL_LIGHTING); // disabling lighting because OpenGL uses smooth shading and we do not want a color blend
+			glBegin(GL_POLYGON);
+			// First vertex: Red
+			glColor3f(1.0, 0.0, 0.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[0]->x, temp_t->verts[0]->y, temp_t->verts[0]->z);
+
+			// Second vertex: Green
+			glColor3f(0.0, 1.0, 0.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[1]->x, temp_t->verts[1]->y, temp_t->verts[1]->z);
+
+			// Third vertex: Blue
+			glColor3f(0.0, 0.0, 1.0);
+			glNormal3d(temp_t->normal.entry[0], temp_t->normal.entry[1], temp_t->normal.entry[2]);
+			glVertex3d(temp_t->verts[2]->x, temp_t->verts[2]->y, temp_t->verts[2]->z);
+			glEnd();
+			glEnable(GL_LIGHTING); //reenable lighting after draw
+			break;
+
 		case 6:
 			glBegin(GL_POLYGON);
 			for (j=0; j<3; j++) {
@@ -1485,5 +1507,4 @@ void Polyhedron::average_normals()
 		normalize(vlist[i]->normal);
 	}
 }
-
 

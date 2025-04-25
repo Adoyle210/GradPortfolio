@@ -29,7 +29,6 @@ Makefile
 # Executables
 *.exe
 *.out
-learnply
 
 # macOS specific
 .DS_Store

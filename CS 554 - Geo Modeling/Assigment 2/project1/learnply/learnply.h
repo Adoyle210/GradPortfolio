@@ -12,12 +12,14 @@ Eugene Zhang 2005
 
 #include "ply.h"
 #include "icVector.H"
+#include <vector>
 
 const double EPS = 1.0e-6;
 const double PI=3.1415926535898;
 
 /* forward declarations */
 class Triangle;
+class Corner;
 
 class Vertex {
 public:
@@ -31,14 +33,25 @@ public:
 	icVector3 normal;
   void *other_props;
 
+  //added for corners 
+  int ncorners;
+  Corner **corners;
+
 public:
-  Vertex(double xx, double yy, double zz) { x = xx; y = yy; z = zz; }
+  Vertex(double xx, double yy, double zz) 
+  {
+	x = xx; y = yy; z = zz; 
+	ncorners = 0;
+	corners = NULL;
+
+	}
 };
 
 class Edge {
 public:
   int index;
   Vertex *verts[2];
+  Corner *corners[2];
   int ntris;
   Triangle **tris;
 	double length;
@@ -51,11 +64,44 @@ public:
   Vertex *verts[3];
   Edge *edges[3];
 
+  Corner *corners[3];
+
 	double angle[3];
 	float area;
 
 	icVector3 normal;
   void *other_props;
+
+};
+
+class Corner {
+public:
+    int index; 
+
+	Edge *e;
+	Vertex *v;
+	Triangle *t;
+
+	Corner *o, *n, *p;
+
+	Corner()
+	{
+		index = 0;
+		e = NULL;
+		v = NULL;
+		t = NULL;
+		o = NULL;
+		n = NULL;
+		p = NULL;
+	}
+};
+
+struct CornerTableEntry
+{
+	int c;
+	int v_min;
+	int v_max;
+	int o;
 
 };
 
@@ -185,6 +231,11 @@ public:
   int nedges;
   int max_edges;
 
+  Corner **clist;
+  int ncorners;
+  int max_corners;
+  CornerTableEntry *ctable;
+
 	icVector3 center;
 	double radius;
 	double area;
@@ -192,6 +243,8 @@ public:
 	int seed;
 
   PlyOtherProp *vert_other,*face_other;
+
+  std::vector<Corner> corners;
 
 	void average_normals();
 
@@ -206,6 +259,9 @@ public:
 	void calc_face_normals_and_area();
 	void calc_edge_length();
 
+	void create_corners();
+
+
 	Polyhedron();
   Polyhedron(FILE *);
   void write_file(FILE *);
@@ -215,6 +271,9 @@ public:
 	// initialization and finalization
 	void initialize();
 	void finalize();
+
+	//3a
+	void compute_euler_characteristic();
 };
 
 

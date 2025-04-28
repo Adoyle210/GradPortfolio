@@ -1,0 +1,3 @@
+/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles/learnply.dir
+/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles/edit_cache.dir
+/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles/rebuild_cache.dir

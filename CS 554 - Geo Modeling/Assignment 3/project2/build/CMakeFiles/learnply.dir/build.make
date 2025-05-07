@@ -53,10 +53,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2"
+CMAKE_SOURCE_DIR = "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build"
+CMAKE_BINARY_DIR = "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/learnply.dir/depend.make
@@ -73,74 +73,74 @@ CMakeFiles/learnply.dir/codegen:
 .PHONY : CMakeFiles/learnply.dir/codegen
 
 CMakeFiles/learnply.dir/learnply/learnply.cpp.o: CMakeFiles/learnply.dir/flags.make
-CMakeFiles/learnply.dir/learnply/learnply.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/learnply.cpp
+CMakeFiles/learnply.dir/learnply/learnply.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/learnply.cpp
 CMakeFiles/learnply.dir/learnply/learnply.cpp.o: CMakeFiles/learnply.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/learnply.dir/learnply/learnply.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/learnply.cpp.o -MF CMakeFiles/learnply.dir/learnply/learnply.cpp.o.d -o CMakeFiles/learnply.dir/learnply/learnply.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/learnply.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/learnply.dir/learnply/learnply.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/learnply.cpp.o -MF CMakeFiles/learnply.dir/learnply/learnply.cpp.o.d -o CMakeFiles/learnply.dir/learnply/learnply.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/learnply.cpp"
 
 CMakeFiles/learnply.dir/learnply/learnply.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/learnply.dir/learnply/learnply.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/learnply.cpp" > CMakeFiles/learnply.dir/learnply/learnply.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/learnply.cpp" > CMakeFiles/learnply.dir/learnply/learnply.cpp.i
 
 CMakeFiles/learnply.dir/learnply/learnply.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/learnply.dir/learnply/learnply.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/learnply.cpp" -o CMakeFiles/learnply.dir/learnply/learnply.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/learnply.cpp" -o CMakeFiles/learnply.dir/learnply/learnply.cpp.s
 
 CMakeFiles/learnply.dir/learnply/ply.c.o: CMakeFiles/learnply.dir/flags.make
-CMakeFiles/learnply.dir/learnply/ply.c.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/ply.c
+CMakeFiles/learnply.dir/learnply/ply.c.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/ply.c
 CMakeFiles/learnply.dir/learnply/ply.c.o: CMakeFiles/learnply.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/learnply.dir/learnply/ply.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/ply.c.o -MF CMakeFiles/learnply.dir/learnply/ply.c.o.d -o CMakeFiles/learnply.dir/learnply/ply.c.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/ply.c"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/learnply.dir/learnply/ply.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/ply.c.o -MF CMakeFiles/learnply.dir/learnply/ply.c.o.d -o CMakeFiles/learnply.dir/learnply/ply.c.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/ply.c"
 
 CMakeFiles/learnply.dir/learnply/ply.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/learnply.dir/learnply/ply.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/ply.c" > CMakeFiles/learnply.dir/learnply/ply.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/ply.c" > CMakeFiles/learnply.dir/learnply/ply.c.i
 
 CMakeFiles/learnply.dir/learnply/ply.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/learnply.dir/learnply/ply.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/ply.c" -o CMakeFiles/learnply.dir/learnply/ply.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/ply.c" -o CMakeFiles/learnply.dir/learnply/ply.c.s
 
 CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: CMakeFiles/learnply.dir/flags.make
-CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/tmatrix.cpp
+CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/tmatrix.cpp
 CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: CMakeFiles/learnply.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o -MF CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o.d -o CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/tmatrix.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o -MF CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o.d -o CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/tmatrix.cpp"
 
 CMakeFiles/learnply.dir/learnply/tmatrix.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/learnply.dir/learnply/tmatrix.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/tmatrix.cpp" > CMakeFiles/learnply.dir/learnply/tmatrix.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/tmatrix.cpp" > CMakeFiles/learnply.dir/learnply/tmatrix.cpp.i
 
 CMakeFiles/learnply.dir/learnply/tmatrix.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/learnply.dir/learnply/tmatrix.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/tmatrix.cpp" -o CMakeFiles/learnply.dir/learnply/tmatrix.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/tmatrix.cpp" -o CMakeFiles/learnply.dir/learnply/tmatrix.cpp.s
 
 CMakeFiles/learnply.dir/learnply/trackball.cpp.o: CMakeFiles/learnply.dir/flags.make
-CMakeFiles/learnply.dir/learnply/trackball.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/trackball.cpp
+CMakeFiles/learnply.dir/learnply/trackball.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/trackball.cpp
 CMakeFiles/learnply.dir/learnply/trackball.cpp.o: CMakeFiles/learnply.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/learnply.dir/learnply/trackball.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/trackball.cpp.o -MF CMakeFiles/learnply.dir/learnply/trackball.cpp.o.d -o CMakeFiles/learnply.dir/learnply/trackball.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/trackball.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/learnply.dir/learnply/trackball.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/trackball.cpp.o -MF CMakeFiles/learnply.dir/learnply/trackball.cpp.o.d -o CMakeFiles/learnply.dir/learnply/trackball.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/trackball.cpp"
 
 CMakeFiles/learnply.dir/learnply/trackball.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/learnply.dir/learnply/trackball.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/trackball.cpp" > CMakeFiles/learnply.dir/learnply/trackball.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/trackball.cpp" > CMakeFiles/learnply.dir/learnply/trackball.cpp.i
 
 CMakeFiles/learnply.dir/learnply/trackball.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/learnply.dir/learnply/trackball.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/trackball.cpp" -o CMakeFiles/learnply.dir/learnply/trackball.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/trackball.cpp" -o CMakeFiles/learnply.dir/learnply/trackball.cpp.s
 
 CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: CMakeFiles/learnply.dir/flags.make
-CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/polyhedron.cpp
+CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/polyhedron.cpp
 CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: CMakeFiles/learnply.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o -MF CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o.d -o CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/polyhedron.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o -MF CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o.d -o CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o -c "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/polyhedron.cpp"
 
 CMakeFiles/learnply.dir/learnply/polyhedron.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/learnply.dir/learnply/polyhedron.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/polyhedron.cpp" > CMakeFiles/learnply.dir/learnply/polyhedron.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/polyhedron.cpp" > CMakeFiles/learnply.dir/learnply/polyhedron.cpp.i
 
 CMakeFiles/learnply.dir/learnply/polyhedron.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/learnply.dir/learnply/polyhedron.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/learnply/polyhedron.cpp" -o CMakeFiles/learnply.dir/learnply/polyhedron.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/learnply/polyhedron.cpp" -o CMakeFiles/learnply.dir/learnply/polyhedron.cpp.s
 
 # Object files for target learnply
 learnply_OBJECTS = \
@@ -160,7 +160,7 @@ learnply: CMakeFiles/learnply.dir/learnply/trackball.cpp.o
 learnply: CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o
 learnply: CMakeFiles/learnply.dir/build.make
 learnply: CMakeFiles/learnply.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable learnply"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable learnply"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/learnply.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -172,6 +172,6 @@ CMakeFiles/learnply.dir/clean:
 .PHONY : CMakeFiles/learnply.dir/clean
 
 CMakeFiles/learnply.dir/depend:
-	cd "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/build/CMakeFiles/learnply.dir/DependInfo.cmake" "--color=$(COLOR)"
+	cd "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build" "/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/build/CMakeFiles/learnply.dir/DependInfo.cmake" "--color=$(COLOR)"
 .PHONY : CMakeFiles/learnply.dir/depend
 

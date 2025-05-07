@@ -5,7 +5,7 @@
 # compile CXX with /usr/bin/c++
 C_DEFINES = -DGL_SILENCE_DEPRECATION
 
-C_INCLUDES = -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/GLUT.framework/Headers -I"/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/Eigen-3.4.0"
+C_INCLUDES = -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/GLUT.framework/Headers -I"/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/Eigen-3.4.0"
 
 C_FLAGSx86_64 =  -arch x86_64
 
@@ -13,7 +13,7 @@ C_FLAGS =  -arch x86_64
 
 CXX_DEFINES = -DGL_SILENCE_DEPRECATION
 
-CXX_INCLUDES = -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/GLUT.framework/Headers -I"/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assigment 3/project2/Eigen-3.4.0"
+CXX_INCLUDES = -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/GLUT.framework/Headers -I"/Users/mclexi/Documents/GitHub/GRAD/CS 554 - Geo Modeling/Assignment 3/project2/Eigen-3.4.0"
 
 CXX_FLAGSx86_64 = -std=gnu++11 -arch x86_64
 

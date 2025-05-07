@@ -1,5 +1,5 @@
 CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/tmatrix.cpp \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/tmatrix.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -222,4 +222,4 @@ CMakeFiles/learnply.dir/learnply/tmatrix.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/tmatrix.h
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/tmatrix.h

@@ -1,5 +1,5 @@
 CMakeFiles/learnply.dir/learnply/ply.c.o: \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/ply.c \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/ply.c \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
@@ -84,6 +84,6 @@ CMakeFiles/learnply.dir/learnply/ply.c.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/strings.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/secure/_strings.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/secure/_string.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/ply.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/ply.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/__stddef_max_align_t.h

@@ -1,5 +1,5 @@
 CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/polyhedron.cpp \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/polyhedron.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__assert \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
@@ -76,8 +76,8 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/polyhedron.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/ply.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/polyhedron.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/ply.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdio.h \
@@ -90,7 +90,7 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/__stddef_max_align_t.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/icVector.H \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/icVector.H \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/enable_if.h \
@@ -227,7 +227,7 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/invoke.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/type_identity.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/unwrap_ref.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/icMatrix.H \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/icMatrix.H \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/vector \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/copy.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/copy_move_common.h \
@@ -850,11 +850,11 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdarg \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/temp_value.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__split_buffer \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Dense \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Core \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/DisableStupidWarnings.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Macros.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ConfigureVectorization.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Dense \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Core \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/DisableStupidWarnings.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Macros.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ConfigureVectorization.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/mmintrin.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/emmintrin.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/xmmintrin.h \
@@ -869,7 +869,7 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ostream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/MKL_support.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/MKL_support.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/functional \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binary_negate.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind.h \
@@ -896,186 +896,186 @@ CMakeFiles/learnply.dir/learnply/polyhedron.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_binary_function.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_unary_function.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/unary_negate.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Constants.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Meta.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ForwardDeclarations.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/StaticAssert.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/XprHelper.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Memory.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/IntegralConstant.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/SymbolicIndex.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NumTraits.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MathFunctions.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GenericPacketMath.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MathFunctionsImpl.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/ConjHelper.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/Half.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/BFloat16.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/TypeCasting.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/PacketMath.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/TypeCasting.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/MathFunctions.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/Complex.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/Settings.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/TernaryFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/BinaryFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/UnaryFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/NullaryFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/StlFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/AssignmentFunctors.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/IndexedViewHelper.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ReshapedHelper.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArithmeticSequence.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/IO.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseCoeffsBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/CommonCwiseUnaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/BlockMethods.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/IndexedViewMethods.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ReshapedMethods.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MatrixBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/CommonCwiseBinaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/MatrixCwiseUnaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/MatrixCwiseBinaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/EigenBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Product.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CoreEvaluators.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/AssignEvaluator.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Assign.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArrayBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ArrayCwiseUnaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ArrayCwiseBinaryOps.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/BlasUtil.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseStorage.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NestByValue.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ReturnByValue.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NoAlias.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PlainObjectBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Matrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Array.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseTernaryOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseBinaryOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseUnaryOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseNullaryOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseUnaryView.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SelfCwiseBinaryOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Dot.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/StableNorm.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Stride.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MapBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Map.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Ref.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Block.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/VectorBlock.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/IndexedView.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Reshaped.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Transpose.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DiagonalMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Diagonal.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DiagonalProduct.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Redux.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Visitor.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Fuzzy.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Swap.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CommaInitializer.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GeneralProduct.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Solve.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Inverse.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SolverBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PermutationMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Transpositions.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/TriangularMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SelfAdjointView.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/Parallelizer.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ProductEvaluators.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixVector.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SolveTriangular.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointMatrixVector.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointProduct.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointRank2Update.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularMatrixVector.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularMatrixMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularSolverMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularSolverVector.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/BandMatrix.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CoreIterators.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ConditionEstimator.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/BooleanRedux.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Select.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/VectorwiseOp.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PartialReduxEvaluator.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Random.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Replicate.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Reverse.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArrayWrapper.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/StlIterators.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GlobalFunctions.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ReenableStupidWarnings.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/LU \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/Kernel.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/Image.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/FullPivLU.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/PartialPivLU.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/Determinant.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/InverseImpl.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/arch/InverseSize4.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Cholesky \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Jacobi \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Jacobi/Jacobi.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Cholesky/LLT.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Cholesky/LDLT.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/QR \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Householder \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/Householder.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/HouseholderSequence.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/BlockHouseholder.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/HouseholderQR.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/FullPivHouseholderQR.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/ColPivHouseholderQR.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/SVD \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/RealSvd2x2.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/UpperBidiagonalization.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/SVDBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/JacobiSVD.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/BDCSVD.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Geometry \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/OrthoMethods.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/EulerAngles.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Homogeneous.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/RotationBase.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Rotation2D.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Quaternion.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/AngleAxis.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Transform.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Translation.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Scaling.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Hyperplane.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/ParametrizedLine.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/AlignedBox.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Umeyama.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/arch/Geometry_SIMD.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/Eigenvalues \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/Tridiagonalization.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/RealSchur.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./HessenbergDecomposition.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/EigenSolver.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./RealSchur.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./Tridiagonalization.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/ComplexSchur.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./ComplexSchur.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/RealQZ.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./RealQZ.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
-  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assigment\ 3/project2/learnply/learnply_io.h
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Constants.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Meta.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ForwardDeclarations.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/StaticAssert.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/XprHelper.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/Memory.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/IntegralConstant.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/SymbolicIndex.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NumTraits.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MathFunctions.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GenericPacketMath.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MathFunctionsImpl.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/ConjHelper.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/Half.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/BFloat16.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/TypeCasting.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/PacketMath.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/TypeCasting.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/MathFunctions.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/SSE/Complex.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/Settings.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/TernaryFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/BinaryFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/UnaryFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/NullaryFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/StlFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/functors/AssignmentFunctors.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/IndexedViewHelper.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ReshapedHelper.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArithmeticSequence.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/IO.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseCoeffsBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/CommonCwiseUnaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/BlockMethods.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/IndexedViewMethods.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ReshapedMethods.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MatrixBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/CommonCwiseBinaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/MatrixCwiseUnaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/MatrixCwiseBinaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/EigenBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Product.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CoreEvaluators.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/AssignEvaluator.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Assign.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArrayBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ArrayCwiseUnaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/../plugins/ArrayCwiseBinaryOps.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/BlasUtil.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DenseStorage.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NestByValue.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ReturnByValue.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/NoAlias.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PlainObjectBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Matrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Array.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseTernaryOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseBinaryOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseUnaryOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseNullaryOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CwiseUnaryView.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SelfCwiseBinaryOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Dot.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/StableNorm.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Stride.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/MapBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Map.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Ref.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Block.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/VectorBlock.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/IndexedView.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Reshaped.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Transpose.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DiagonalMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Diagonal.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/DiagonalProduct.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Redux.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Visitor.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Fuzzy.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Swap.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CommaInitializer.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GeneralProduct.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Solve.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Inverse.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SolverBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PermutationMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Transpositions.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/TriangularMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SelfAdjointView.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/Parallelizer.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ProductEvaluators.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixVector.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/SolveTriangular.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointMatrixVector.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointMatrixMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointProduct.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/SelfadjointRank2Update.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularMatrixVector.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularMatrixMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularSolverMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/products/TriangularSolverVector.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/BandMatrix.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/CoreIterators.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ConditionEstimator.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/BooleanRedux.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Select.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/VectorwiseOp.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/PartialReduxEvaluator.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Random.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Replicate.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/Reverse.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/ArrayWrapper.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/StlIterators.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/GlobalFunctions.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Core/util/ReenableStupidWarnings.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/LU \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/Kernel.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/Image.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/FullPivLU.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/PartialPivLU.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/Determinant.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/InverseImpl.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/LU/arch/InverseSize4.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Cholesky \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Jacobi \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Jacobi/Jacobi.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Cholesky/LLT.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Cholesky/LDLT.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/QR \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Householder \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/Householder.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/HouseholderSequence.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Householder/BlockHouseholder.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/HouseholderQR.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/FullPivHouseholderQR.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/ColPivHouseholderQR.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/SVD \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/misc/RealSvd2x2.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/UpperBidiagonalization.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/SVDBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/JacobiSVD.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/SVD/BDCSVD.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Geometry \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/OrthoMethods.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/EulerAngles.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Homogeneous.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/RotationBase.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Rotation2D.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Quaternion.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/AngleAxis.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Transform.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Translation.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Scaling.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Hyperplane.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/ParametrizedLine.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/AlignedBox.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/Umeyama.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Geometry/arch/Geometry_SIMD.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/Eigenvalues \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/RealSchur.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./HessenbergDecomposition.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/EigenSolver.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./RealSchur.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./Tridiagonalization.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/ComplexSchur.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./ComplexSchur.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/RealQZ.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/./RealQZ.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/Eigen-3.4.0/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  /Users/mclexi/Documents/GitHub/GRAD/CS\ 554\ -\ Geo\ Modeling/Assignment\ 3/project2/learnply/learnply_io.h

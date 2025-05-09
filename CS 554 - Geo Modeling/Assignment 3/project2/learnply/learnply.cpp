@@ -5,8 +5,6 @@ Functions for learnply
 Eugene Zhang, 2005
 */
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -26,18 +24,18 @@ Eugene Zhang, 2005
 #include "tmatrix.h"
 
 FILE *this_file;
-const int win_width=1024;
-const int win_height=1024;
- 
+const int win_width = 1024;
+const int win_height = 1024;
+
 int display_mode = 0;
-int view_mode = 0;  // 0 = othogonal, 1=perspective
+int view_mode = 0;			// 0 = othogonal, 1=perspective
 double radius_factor = 0.9; // zoom factor orthogonal view
 float s_old, t_old;
 float rotmat[4][4];
 static Quaternion rvec;
 int orientation = 0; // 0=ccw, 1=cw
 
-int mouse_mode = -2;  // -2=no action, -1 = down
+int mouse_mode = -2;   // -2=no action, -1 = down
 int mouse_button = -1; // -1=no button, 0=left, 1=middle, 2=right
 int last_x, last_y;
 
@@ -48,28 +46,43 @@ double L = 1.0;
 int silhouette_mode = 0; // 0=no silhouette, 1=edge silhouette, 2=face silhouette
 
 /* Project 2, Problem 2 */
-int tensor_display_mode = 0; // 0=no tensor, 1=major, 2=minor, 3=cross
-int smoothing_scheme = 0; // 0 = uniform weights, 1 = cord weights, 2 = flow weights, 3 = mean weights
-double smoothing_step = 0.5; // smoothing step size
+int tensor_display_mode = 0;   // 0=no tensor, 1=major, 2=minor, 3=cross
+int smoothing_scheme = 0;	   // 0 = uniform weights, 1 = cord weights, 2 = flow weights, 3 = mean weights
+double smoothing_step = 0.5;   // smoothing step size
 int smoothing_iterations = 10; // number of smoothing iterations
 
 /* Project 2, Problem 3 */
-int render_mode = 0; // 0=surface, 1=pen ink
+int render_mode = 0;		// 0=surface, 1=pen ink
 int hatch_tracing_mode = 0; // 0=current triangle curvature, 1=project from previous triangle
 
 /* Project 2, Debugging */
 int wireframe_mode = 0; // 0=no wireframe, 1=wireframe
 
 int ACSIZE = 1; // Passes for anti-aliasing
-struct jitter_struct{
+struct jitter_struct
+{
 	double x;
 	double y;
 } jitter_para;
 jitter_struct ji1[1] = {{0.0, 0.0}};
-jitter_struct ji16[16] = {{0.125, 0.125}, {0.375, 0.125}, {0.625, 0.125}, {0.875, 0.125}, 
-						  {0.125, 0.375}, {0.375, 0.375}, {0.625, 0.375}, {0.875, 0.375}, 
-						  {0.125, 0.625}, {0.375, 0.625}, {0.625, 0.625}, {0.875, 0.625}, 
-						  {0.125, 0.875}, {0.375, 0.875}, {0.625, 0.875}, {0.875, 0.875}, };
+jitter_struct ji16[16] = {
+	{0.125, 0.125},
+	{0.375, 0.125},
+	{0.625, 0.125},
+	{0.875, 0.125},
+	{0.125, 0.375},
+	{0.375, 0.375},
+	{0.625, 0.375},
+	{0.875, 0.375},
+	{0.125, 0.625},
+	{0.375, 0.625},
+	{0.625, 0.625},
+	{0.875, 0.625},
+	{0.125, 0.875},
+	{0.375, 0.875},
+	{0.625, 0.875},
+	{0.875, 0.875},
+};
 
 Polyhedron *poly;
 
@@ -91,29 +104,67 @@ int main(int argc, char *argv[])
 	int num = 1;
 	FILE *this_file;
 
-  	progname = argv[0];
+	progname = argv[0];
 
-	this_file = fopen("../tempmodels/torus.ply", "r");
-	poly = new Polyhedron (this_file);
+	const char *ply_paths[] = {
+		"../tempmodels/torus.ply",
+		"tempmodels/torus.ply",
+		"./torus.ply",
+		"torus.ply"};
+
+	printf("Attempting to open PLY file...\n");
+	this_file = nullptr;
+	for (const char *path : ply_paths)
+	{
+		printf("Trying path: %s\n", path);
+		this_file = fopen(path, "r");
+		if (this_file)
+		{
+			printf("Successfully opened PLY file at: %s\n", path);
+			break;
+		}
+	}
+
+	if (!this_file)
+	{
+		printf("Error: Could not open PLY file in any of the searched locations\n");
+		return 1;
+	}
+
+	printf("Creating polyhedron...\n");
+	poly = new Polyhedron(this_file);
 	fclose(this_file);
-	mat_ident( rotmat );	
+	if (!poly || poly->nverts == 0 || poly->ntris == 0)
+	{
+		printf("Error: Failed to create valid polyhedron\n");
+		if (poly)
+			delete poly;
+		return 1;
+	}
+	mat_ident(rotmat);
 
+	printf("Initializing polyhedron...\n");
 	poly->initialize(); // initialize everything
 
-	/* Project 1, problem 2 */
+	printf("Creating corners...\n");
 	poly->create_corners();
 
+	printf("Calculating bounding sphere...\n");
 	poly->calc_bounding_sphere();
+	printf("Calculating face normals...\n");
 	poly->calc_face_normals_and_area();
+	printf("Averaging normals...\n");
 	poly->average_normals();
 
-	/* Project 1, problem 3a-d */
+	printf("Computing Euler characteristic...\n");
 	poly->compute_euler_characteristic();
+	printf("Computing Gaussian curvature...\n");
 	poly->compute_gaussian_curvature_angle_deficit();
 	poly->compute_gaussian_curvature_valence_deficit();
+	printf("Computing handles...\n");
 	poly->compute_handles();
 
-	/* Project 2, Problem */
+	printf("Computing vertex properties...\n");
 	poly->compute_vert_voronoi_areas();
 	poly->compute_vert_mean_curvature();
 	poly->compute_vert_gaussian_curvature();
@@ -121,67 +172,70 @@ int main(int argc, char *argv[])
 	poly->smooth_vert_curvature_tensors(smoothing_scheme, smoothing_step, smoothing_iterations);
 	poly->compute_vert_principal_curvatures();
 
+	printf("Initializing GLUT...\n");
 	glutInit(&argc, argv);
-	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowPosition (20, 20);
-	glutInitWindowSize (win_width, win_height); 
-	glutCreateWindow ("Geometric Modeling");
-	init ();
-	glutKeyboardFunc (keyboard);
-	glutDisplayFunc(display); 
-	glutMotionFunc (motion);
-	glutMouseFunc (mouse);
-	glutMainLoop(); 
-	poly->finalize();  // finalize everything
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowPosition(20, 20);
+	glutInitWindowSize(win_width, win_height);
+	glutCreateWindow("Geometric Modeling");
+	printf("Initializing OpenGL...\n");
+	init();
+	glutKeyboardFunc(keyboard);
+	glutDisplayFunc(display);
+	glutMotionFunc(motion);
+	glutMouseFunc(mouse);
+	printf("Entering main loop...\n");
+	glutMainLoop();
+	poly->finalize(); // finalize everything
 
-  return 0;    /* ANSI C requires main to return int. */
+	return 0; /* ANSI C requires main to return int. */
 }
 
-void init(void) 
+void init(void)
 {
-  /* select clearing color */ 
-  glClearColor (0.0, 0.0, 0.0, 0.0);  // background
-  glShadeModel (GL_FLAT);
-  glPolygonMode(GL_FRONT, GL_FILL);
+	/* select clearing color */
+	glClearColor(0.0, 0.0, 0.0, 0.0); // background
+	glShadeModel(GL_FLAT);
+	glPolygonMode(GL_FRONT, GL_FILL);
 
-  glDisable(GL_DITHER);
+	glDisable(GL_DITHER);
 	glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LESS);
 	// may need it
-  glPixelStorei(GL_PACK_ALIGNMENT,1);
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glEnable(GL_NORMALIZE);
-	if (orientation == 0) 
+	if (orientation == 0)
 		glFrontFace(GL_CW);
-	else 
+	else
 		glFrontFace(GL_CCW);
 }
 
 void multmatrix(const Matrix m)
-{ 
-  int i,j, index = 0;
+{
+	int i, j, index = 0;
 
-  GLfloat mat[16];
+	GLfloat mat[16];
 
-  for ( i = 0; i < 4; i++)
-    for (j = 0; j < 4; j++)
-      mat[index++] = m[i][j];
+	for (i = 0; i < 4; i++)
+		for (j = 0; j < 4; j++)
+			mat[index++] = m[i][j];
 
-  glMultMatrixf (mat);
+	glMultMatrixf(mat);
 }
 
 void set_view(GLenum mode, Polyhedron *poly)
 {
 	icVector3 up, ray, view;
-	GLfloat light_ambient0[] = { 0.3, 0.3, 0.3, 1.0 };
-	GLfloat light_diffuse0[] = { 0.7, 0.7, 0.7, 1.0 };
-	GLfloat light_specular0[] = { 0.0, 0.0, 0.0, 1.0 };
-	GLfloat light_ambient1[] = { 0.0, 0.0, 0.0, 1.0 };
-	GLfloat light_diffuse1[] = { 0.5, 0.5, 0.5, 1.0 };
-	GLfloat light_specular1[] = { 0.0, 0.0, 0.0, 1.0 };
-	GLfloat light_ambient2[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_diffuse2[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_specular2[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_position[] = { 0.0, 0.0, 0.0, 1.0 };
+	GLfloat light_ambient0[] = {0.3, 0.3, 0.3, 1.0};
+	GLfloat light_diffuse0[] = {0.7, 0.7, 0.7, 1.0};
+	GLfloat light_specular0[] = {0.0, 0.0, 0.0, 1.0};
+	GLfloat light_ambient1[] = {0.0, 0.0, 0.0, 1.0};
+	GLfloat light_diffuse1[] = {0.5, 0.5, 0.5, 1.0};
+	GLfloat light_specular1[] = {0.0, 0.0, 0.0, 1.0};
+	GLfloat light_ambient2[] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat light_diffuse2[] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat light_specular2[] = {1.0, 1.0, 1.0, 1.0};
+	GLfloat light_position[] = {0.0, 0.0, 0.0, 1.0};
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient0);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse0);
@@ -189,7 +243,6 @@ void set_view(GLenum mode, Polyhedron *poly)
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular1);
-
 
 	glMatrixMode(GL_PROJECTION);
 	if (mode == GL_RENDER)
@@ -215,32 +268,34 @@ void set_view(GLenum mode, Polyhedron *poly)
 void set_scene(GLenum mode, Polyhedron *poly)
 {
 	glTranslatef(0.0, 0.0, -3.0);
-	multmatrix( rotmat );
+	multmatrix(rotmat);
 
-	glScalef(1.0/poly->radius, 1.0/poly->radius, 1.0/poly->radius);
+	glScalef(1.0 / poly->radius, 1.0 / poly->radius, 1.0 / poly->radius);
 	glTranslatef(-poly->center.entry[0], -poly->center.entry[1], -poly->center.entry[2]);
 }
 
-void motion(int x, int y) {
+void motion(int x, int y)
+{
 	float r[4];
 	float xsize, ysize, s, t;
 
-	switch(mouse_mode){
+	switch (mouse_mode)
+	{
 	case -1:
 
-		xsize = (float) win_width;
-		ysize = (float) win_height;
-	
+		xsize = (float)win_width;
+		ysize = (float)win_height;
+
 		s = (2.0 * x - win_width) / win_width;
 		t = (2.0 * (win_height - y) - win_height) / win_height;
 
 		if ((s == s_old) && (t == t_old))
 			return;
 
-		mat_to_quat( rotmat, rvec );
-		trackball( r, s_old, t_old, s, t );
-		add_quats( r, rvec, rvec );
-		quat_to_mat( rvec, rotmat );
+		mat_to_quat(rotmat, rvec);
+		trackball(r, s_old, t_old, s, t);
+		add_quats(r, rvec, rvec);
+		quat_to_mat(rvec, rotmat);
 
 		s_old = s;
 		t_old = t;
@@ -254,30 +309,34 @@ int processHits(GLint hits, GLuint buffer[])
 {
 	unsigned int i, j;
 	GLuint names, *ptr;
-	double smallest_depth=1.0e+20, current_depth;
-	int seed_id=-1; 
+	double smallest_depth = 1.0e+20, current_depth;
+	int seed_id = -1;
 	unsigned char need_to_update;
 
 	printf("hits = %d\n", hits);
-	ptr = (GLuint *) buffer;
-	for (i = 0; i < hits; i++) {  /* for each hit  */
+	ptr = (GLuint *)buffer;
+	for (i = 0; i < hits; i++)
+	{ /* for each hit  */
 		need_to_update = 0;
 		names = *ptr;
 		ptr++;
-		
-		current_depth = (double) *ptr/0x7fffffff;
-		if (current_depth < smallest_depth) {
+
+		current_depth = (double)*ptr / 0x7fffffff;
+		if (current_depth < smallest_depth)
+		{
 			smallest_depth = current_depth;
 			need_to_update = 1;
 		}
 		ptr++;
-		current_depth = (double) *ptr/0x7fffffff;
-		if (current_depth < smallest_depth) {
+		current_depth = (double)*ptr / 0x7fffffff;
+		if (current_depth < smallest_depth)
+		{
 			smallest_depth = current_depth;
 			need_to_update = 1;
 		}
 		ptr++;
-		for (j = 0; j < names; j++) {  /* for each name */
+		for (j = 0; j < names; j++)
+		{ /* for each name */
 			if (need_to_update == 1)
 				seed_id = *ptr - 1;
 			ptr++;
@@ -287,13 +346,17 @@ int processHits(GLint hits, GLuint buffer[])
 	return seed_id;
 }
 
-void mouse(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON) {
-		switch(mouse_mode) {
-		case -2:  // no action
-			if (state == GLUT_DOWN) {
-				float xsize = (float) win_width;
-				float ysize = (float) win_height;
+void mouse(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON || button == GLUT_RIGHT_BUTTON)
+	{
+		switch (mouse_mode)
+		{
+		case -2: // no action
+			if (state == GLUT_DOWN)
+			{
+				float xsize = (float)win_width;
+				float ysize = (float)win_height;
 
 				float s = (2.0 * x - win_width) / win_width;
 				float t = (2.0 * (win_height - y) - win_height) / win_height;
@@ -301,7 +364,7 @@ void mouse(int button, int state, int x, int y) {
 				s_old = s;
 				t_old = t;
 
-				mouse_mode = -1;  // down
+				mouse_mode = -1; // down
 				mouse_button = button;
 				last_x = x;
 				last_y = y;
@@ -309,62 +372,66 @@ void mouse(int button, int state, int x, int y) {
 			break;
 
 		default:
-			if (state == GLUT_UP) {
+			if (state == GLUT_UP)
+			{
 				button = -1;
 				mouse_mode = -2;
 			}
 			break;
 		}
-	} else if (button == GLUT_MIDDLE_BUTTON) {
-		if (state == GLUT_DOWN) {  // build up the selection feedback mode
+	}
+	else if (button == GLUT_MIDDLE_BUTTON)
+	{
+		if (state == GLUT_DOWN)
+		{ // build up the selection feedback mode
 
 			GLuint selectBuf[win_width];
-		  GLint hits;
-		  GLint viewport[4];
+			GLint hits;
+			GLint viewport[4];
 
-		  glGetIntegerv(GL_VIEWPORT, viewport);
+			glGetIntegerv(GL_VIEWPORT, viewport);
 
 			glSelectBuffer(win_width, selectBuf);
-		  (void) glRenderMode(GL_SELECT);
+			(void)glRenderMode(GL_SELECT);
 
-		  glInitNames();
-		  glPushName(0);
+			glInitNames();
+			glPushName(0);
 
-		  glMatrixMode(GL_PROJECTION);
-	    glPushMatrix();
+			glMatrixMode(GL_PROJECTION);
+			glPushMatrix();
 			glLoadIdentity();
-/*  create 5x5 pixel picking region near cursor location */
-	    gluPickMatrix((GLdouble) x, (GLdouble) (viewport[3] - y),
-                 1.0, 1.0, viewport);
+			/*  create 5x5 pixel picking region near cursor location */
+			gluPickMatrix((GLdouble)x, (GLdouble)(viewport[3] - y),
+						  1.0, 1.0, viewport);
 
 			set_view(GL_SELECT, poly);
-			glPushMatrix ();
+			glPushMatrix();
 			set_scene(GL_SELECT, poly);
 			display_shape(GL_SELECT, poly);
-	    glPopMatrix();
-		  glFlush();
+			glPopMatrix();
+			glFlush();
 
-	    hits = glRenderMode(GL_RENDER);
-		  poly->seed = processHits(hits, selectBuf);
+			hits = glRenderMode(GL_RENDER);
+			poly->seed = processHits(hits, selectBuf);
 			display();
 		}
 	}
 }
-
 
 /******************************************************************************
 Process a keyboard action.  In particular, exit the program when an
 "escape" is pressed in the window.
 ******************************************************************************/
 
-void keyboard(unsigned char key, int x, int y) {
+void keyboard(unsigned char key, int x, int y)
+{
 	int i;
 
 	/* set escape key to exit */
 	switch (key)
 	{
 	case 27:
-		poly->finalize();  // finalize_everything
+		poly->finalize(); // finalize_everything
 		exit(0);
 		break;
 
@@ -427,7 +494,8 @@ void keyboard(unsigned char key, int x, int y) {
 
 	/* Anti-aliasing */
 	case 'x':
-		switch (ACSIZE) {
+		switch (ACSIZE)
+		{
 		case 1:
 			ACSIZE = 16;
 			break;
@@ -512,8 +580,8 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 	unsigned int i, j;
 	GLfloat mat_diffuse[4];
 
-	glEnable (GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset (1., 1.);
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(1., 1.);
 
 	glEnable(GL_DEPTH_TEST);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -529,7 +597,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		if (mode == GL_SELECT)
 			glLoadName(i + 1);
 
-		Triangle* temp_t = this_poly->tlist[i];
+		Triangle *temp_t = this_poly->tlist[i];
 
 		switch (display_mode)
 		{
@@ -537,13 +605,15 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		/* default vis */
 		case 0:
 		{
-			if (i == this_poly->seed) {
+			if (i == this_poly->seed)
+			{
 				mat_diffuse[0] = 0.0;
 				mat_diffuse[1] = 0.0;
 				mat_diffuse[2] = 1.0;
 				mat_diffuse[3] = 1.0;
 			}
-			else {
+			else
+			{
 				mat_diffuse[0] = 1.0;
 				mat_diffuse[1] = 1.0;
 				mat_diffuse[2] = 0.0;
@@ -551,9 +621,10 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			}
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 			glBegin(GL_TRIANGLES);
-			for (j = 0; j < 3; j++) {
+			for (j = 0; j < 3; j++)
+			{
 
-				Vertex* v = temp_t->verts[j];
+				Vertex *v = temp_t->verts[j];
 				glNormal3dv(v->normal.entry);
 				glVertex3d(v->x, v->y, v->z);
 			}
@@ -565,13 +636,12 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		case 1:
 		{
 			static const GLfloat color_map[][4] = {
-				{ 1.0f, 0.0f, 0.0f, 1.0f },
-				{ 0.0f, 1.0f, 0.0f, 1.0f },
-				{ 0.0f, 0.0f, 1.0f, 1.0f },
-				{ 1.0f, 1.0f, 0.0f, 1.0f },
-				{ 0.0f, 1.0f, 1.0f, 1.0f },
-				{ 1.0f, 0.0f, 1.0f, 1.0f }
-			};
+				{1.0f, 0.0f, 0.0f, 1.0f},
+				{0.0f, 1.0f, 0.0f, 1.0f},
+				{0.0f, 0.0f, 1.0f, 1.0f},
+				{1.0f, 1.0f, 0.0f, 1.0f},
+				{0.0f, 1.0f, 1.0f, 1.0f},
+				{1.0f, 0.0f, 1.0f, 1.0f}};
 			static const int ncolors = sizeof(color_map) / sizeof(color_map[0]);
 
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, color_map[temp_t->index % ncolors]);
@@ -590,10 +660,9 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		case 2:
 		{
 			static const GLfloat color_map[][4] = {
-				{ 1.0f, 0.0f, 0.0f, 1.0f },
-				{ 0.0f, 1.0f, 0.0f, 1.0f },
-				{ 0.0f, 0.0f, 1.0f, 1.0f }
-			};
+				{1.0f, 0.0f, 0.0f, 1.0f},
+				{0.0f, 1.0f, 0.0f, 1.0f},
+				{0.0f, 0.0f, 1.0f, 1.0f}};
 
 			glBegin(GL_TRIANGLES);
 			for (j = 0; j < 3; ++j)
@@ -613,8 +682,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 				(GLfloat)abs(temp_t->normal.x),
 				(GLfloat)abs(temp_t->normal.y),
 				(GLfloat)abs(temp_t->normal.z),
-				1.0f
-			};
+				1.0f};
 
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
 			glDisable(GL_LIGHTING);
@@ -637,13 +705,12 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glBegin(GL_TRIANGLES);
 			for (j = 0; j < 3; ++j)
 			{
-				Vertex* v = temp_t->verts[j];
+				Vertex *v = temp_t->verts[j];
 				GLfloat color[4] = {
 					1.0f - (GLfloat)abs(fmod(floor(v->x / L), 2)),
 					1.0f - (GLfloat)abs(fmod(floor(v->y / L), 2)),
 					1.0f - (GLfloat)abs(fmod(floor(v->z / L), 2)),
-					1.0f
-				};
+					1.0f};
 
 				glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
 				glNormal3dv(v->normal.entry);
@@ -661,7 +728,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glBegin(GL_TRIANGLES);
 			for (j = 0; j < 3; ++j)
 			{
-				Vertex* v = temp_t->verts[j];
+				Vertex *v = temp_t->verts[j];
 				GLdouble color[3];
 
 				color_from_scalar(color, poly->K_min, poly->K_max, v->K);
@@ -680,7 +747,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 			glBegin(GL_TRIANGLES);
 			for (j = 0; j < 3; ++j)
 			{
-				Vertex* v = temp_t->verts[j];
+				Vertex *v = temp_t->verts[j];
 				GLdouble color[3];
 
 				color_from_scalar(color, poly->min_valence_deficit, 6.0, v->valence_deficit);
@@ -695,14 +762,12 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		case 7:
 		{
 
-
 			break;
 		}
 
 		/* Project 2, Problem 2 (gaussian curvature) */
 		case 8:
 		{
-			
 
 			break;
 		}
@@ -710,24 +775,45 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		/* Project 2, Problem 2-3 (curvature tensor) */
 		case 9:
 		{
-			
 
 			break;
 		}
-
 		}
 	}
 
 	// draw the silhouette if enabled
 	if (silhouette_mode != 0)
 	{
+		// get current model view matrix 
+		GLdouble m[16];
+		glGetDoublev(GL_MODELVIEW_MATRIX, m);
+		icMatrix3x3 view(m[0], m[4], m[8],
+						m[1], m[5], m[9],
+						m[2], m[6], m[10]);
+		icVector3 translation(m[12], m[13], m[14]);
+
+		if (silhouette_mode == 1)
+			poly->compute_silhouette_edges(view, translation);
+		else if (silhouette_mode == 2)
+			poly->compute_silhouette_faces(view, translation);
 		
+		//draw the sillhouette line segments
+		glDisable(GL_LIGHTING);
+		glLineWidth(8.0);
+		glColor3f(0.0, 0.0, 0.0);
+		glBegin(GL_LINES);
+		for (const LineSegment& segment : poly->silhouette)
+		{
+			glVertex3dv(segment.start.entry);
+			glVertex3dv(segment.end.entry);
+		}
+		glEnd();
+
 	}
 
 	// draw the curvature tensor crosses if enabled
 	if (tensor_display_mode > 0)
 	{
-		
 	}
 
 	// draw wireframe if enabled
@@ -740,7 +826,7 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		glBegin(GL_LINES);
 		for (int i = 0; i < poly->nedges; i++)
 		{
-			Edge* e = poly->elist[i];
+			Edge *e = poly->elist[i];
 			glVertex3d(e->verts[0]->x, e->verts[0]->y, e->verts[0]->z);
 			glVertex3d(e->verts[1]->x, e->verts[1]->y, e->verts[1]->z);
 		}
@@ -748,9 +834,8 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 	}
 }
 
-void display_pen_ink(Polyhedron* this_poly)
+void display_pen_ink(Polyhedron *this_poly)
 {
-
 }
 
 void display(void)
@@ -758,27 +843,27 @@ void display(void)
 	GLint viewport[4];
 	int jitter;
 
-	glClearColor (1.0, 1.0, 1.0, 1.0);  // background for rendering color coding and lighting
-	glGetIntegerv (GL_VIEWPORT, viewport);
- 
+	glClearColor(1.0, 1.0, 1.0, 1.0); // background for rendering color coding and lighting
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
 	glClear(GL_ACCUM_BUFFER_BIT);
-	for (jitter = 0; jitter < ACSIZE; jitter++) 
+	for (jitter = 0; jitter < ACSIZE; jitter++)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		set_view(GL_RENDER, poly);
-		glPushMatrix ();
-		switch(ACSIZE)
+		glPushMatrix();
+		switch (ACSIZE)
 		{
 		case 1:
-			glTranslatef (ji1[jitter].x*2.0/viewport[2], ji1[jitter].y*2.0/viewport[3], 0.0);
+			glTranslatef(ji1[jitter].x * 2.0 / viewport[2], ji1[jitter].y * 2.0 / viewport[3], 0.0);
 			break;
 
 		case 16:
-			glTranslatef (ji16[jitter].x*2.0/viewport[2], ji16[jitter].y*2.0/viewport[3], 0.0);
+			glTranslatef(ji16[jitter].x * 2.0 / viewport[2], ji16[jitter].y * 2.0 / viewport[3], 0.0);
 			break;
 
 		default:
-			glTranslatef (ji1[jitter].x*2.0/viewport[2], ji1[jitter].y*2.0/viewport[3], 0.0);
+			glTranslatef(ji1[jitter].x * 2.0 / viewport[2], ji1[jitter].y * 2.0 / viewport[3], 0.0);
 			break;
 		}
 		set_scene(GL_RENDER, poly);
@@ -786,10 +871,10 @@ void display(void)
 			display_shape(GL_RENDER, poly);
 		else if (render_mode == 1)
 			display_pen_ink(poly);
-		glPopMatrix ();
-		glAccum(GL_ACCUM, 1.0/ACSIZE);
+		glPopMatrix();
+		glAccum(GL_ACCUM, 1.0 / ACSIZE);
 	}
-	glAccum (GL_RETURN, 1.0);
+	glAccum(GL_RETURN, 1.0);
 	glFlush();
 	glutSwapBuffers();
 	glFinish();

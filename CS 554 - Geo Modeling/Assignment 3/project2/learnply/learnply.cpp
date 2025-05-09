@@ -164,6 +164,14 @@ int main(int argc, char *argv[])
 	printf("Computing handles...\n");
 	poly->compute_handles();
 
+	/*Project 2, problems*/
+	printf("computing voronoi areas...\n");
+	poly->compute_vert_voronoi_areas();
+	printf("Computing mean curvature...\n");
+	poly->compute_vert_mean_curvature();
+	printf("Computinng gauss curvature...\n");
+	poly->compute_vert_gaussian_curvature();
+
 	printf("Computing vertex properties...\n");
 	poly->compute_vert_voronoi_areas();
 	poly->compute_vert_mean_curvature();
@@ -761,13 +769,38 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 		/* Project 2, Problem 2 (mean curvature) */
 		case 7:
 		{
+			glDisable(GL_LIGHTING);
 
+			glBegin(GL_TRIANGLES);
+			for (j = 0; j < 3; ++j)
+			{
+				Vertex *v = temp_t->verts[j];
+				GLdouble color[3];
+
+				color_from_scalar(color, poly->min_mean_curvature, poly->max_mean_curvature, v->mean_curvature);
+				glColor3dv(color);
+				glVertex3d(v->x, v->y, v->z);
+			}
+			glEnd();
 			break;
 		}
 
 		/* Project 2, Problem 2 (gaussian curvature) */
 		case 8:
 		{
+			glDisable(GL_LIGHTING);
+
+			glBegin(GL_TRIANGLES);
+			for (j = 0; j < 3; ++j)
+			{
+				Vertex *v = temp_t->verts[j];
+				GLdouble color[3];
+
+				color_from_scalar(color, poly->min_gauss_curvature, poly->max_gauss_curvature, v->gauss_curvature);
+				glColor3dv(color);
+				glVertex3d(v->x, v->y, v->z);
+			}
+			glEnd();
 
 			break;
 		}

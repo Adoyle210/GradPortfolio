@@ -1277,17 +1277,107 @@ void Polyhedron::compute_silhouette_faces(const icMatrix3x3 &view, const icVecto
 
 /* Problem 2 */
 
+static double corner_area(Corner* c)
+{
+	double angle_c = c->angle;
+	double angle_n = c->n->angle;
+	double angle_p = c->p->angle;
+
+	double area = 0.0;
+	if (angle_c > M_PI_2)
+		area = c->t->area * 0.5;
+	else if (angle_n > M_PI_2 || angle_p > M_PI_2)
+		area = c->t->area * 0.25;
+	else
+	{
+		double cot_n = 1.0 / tan(angle_n);
+		double cot_p = 1.0 / tan(angle_p);
+
+		double len_n = c->n->e->length;
+		double len_p = c->p->e->length;
+
+		area = 0.125 * (cot_n * len_n * len_n + cot_p * len_p * len_p);
+
+	}
+	return area;
+}
+
+
 void Polyhedron::compute_vert_voronoi_areas()
 {
+	Vertex* v;
+	for (int i = 0; i < nverts; i++)
+	{
+		v = vlist[i];
+
+		v->voronoi_area = 0.0;
+		for (int j = 0; j < v->ncorners; j++)
+			v->voronoi_area += corner_area(v->corners[j]);
+	}
 
 }
 
 void Polyhedron::compute_vert_mean_curvature()
 {
+	sum_mean_curvature = 0.0;
+	min_mean_curvature = -INFINITY;
+	max_mean_curvature = INFINITY;
+
+	Vertex* vi, * vj;
+	Edge* e;
+	for (int i = 0; i < nverts; i++)
+	{
+		vi = vlist[i];
+		icVector3 vi_loc(vi->x, vi->y, vi->z);
+		icVector3 mean_operator(0.0, 0.0, 0.0);
+
+		for (int j = 0; j < vi->ncorners; j++)
+		{
+			e = vi->corners[j]->n->e;
+			vj = e->other_vertex(vi);
+			icVector3 vj_loc(vj->x, vj->y, vj->z);
+
+			mean_operator += (1.0 / tan(e->corners[0]->angle) + 1.0 / tan (e->corners[1]->angle)) * (vi_loc - vj_loc);
+		}
+
+		mean_operator *= 0.5 / vi->voronoi_area;
+		vi->mean_curvature = length(mean_operator) * 0.5;
+
+		sum_mean_curvature += vi->mean_curvature;
+		min_mean_curvature = std::min(min_mean_curvature, vi->mean_curvature);
+		max_mean_curvature = std::max(max_mean_curvature, vi->mean_curvature);
+
+
+	}
 }
 
 void Polyhedron::compute_vert_gaussian_curvature()
 {
+	sum_gauss_curvature = 0.0;
+	min_gauss_curvature = -INFINITY;
+	max_gauss_curvature = INFINITY;
+
+	Vertex* v;
+	for (int i = 0; i < nverts; i++)
+	{
+		v = vlist[i];
+		icVector3 vi_loc(v->x, v->y, v->z);
+		double gauss_operator = 2.0 * M_PI;
+
+		for (int j = 0; j < v->ncorners; j++)
+		{
+			gauss_operator -= v->corners[j]->angle;
+		}
+
+		gauss_operator *= 1.0 /v->voronoi_area;
+		v->gauss_curvature = gauss_operator;
+
+		sum_gauss_curvature += v->gauss_curvature;
+		min_gauss_curvature = std::min(min_gauss_curvature, v->gauss_curvature);
+		max_gauss_curvature = std::max(max_gauss_curvature, v->gauss_curvature);
+
+
+	}
 }
 
 void Polyhedron::compute_vert_curvature_tensor()

@@ -55,8 +55,8 @@ public:
     icVector3 local_y_axis;
     Eigen::Matrix2d local_tensor;
     Eigen::Matrix3d global_tensor;
-    icVector3 pcurve_major;
-    icVector3 pcurve_minor;
+    icVector2 pcurve_major;
+    icVector2 pcurve_minor;
 
 public:
     Vertex(double xx, double yy, double zz)

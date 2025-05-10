@@ -1320,8 +1320,8 @@ void Polyhedron::compute_vert_voronoi_areas()
 void Polyhedron::compute_vert_mean_curvature()
 {
 	sum_mean_curvature = 0.0;
-	min_mean_curvature = -INFINITY;
-	max_mean_curvature = INFINITY;
+	min_mean_curvature = INFINITY;
+	max_mean_curvature = -INFINITY;
 
 	Vertex* vi, * vj;
 	Edge* e;
@@ -1354,8 +1354,8 @@ void Polyhedron::compute_vert_mean_curvature()
 void Polyhedron::compute_vert_gaussian_curvature()
 {
 	sum_gauss_curvature = 0.0;
-	min_gauss_curvature = -INFINITY;
-	max_gauss_curvature = INFINITY;
+	min_gauss_curvature = INFINITY;
+	max_gauss_curvature = -INFINITY;
 
 	Vertex* v;
 	for (int i = 0; i < nverts; i++)
@@ -1382,6 +1382,53 @@ void Polyhedron::compute_vert_gaussian_curvature()
 
 void Polyhedron::compute_vert_curvature_tensor()
 {
+	Vertex* vi, * vj;
+	Edge* e;
+	for (int i = 0; i < nverts; i++)
+	{
+		vi = vlist[i];
+		icVector3 vi_loc(vi->x, vi->y, vi->z);
+
+		// find local 2d coordinate system 
+		e = vi->corners[0]->n->e;
+		vj = e->other_vertex(vi);
+		icVector3 vj_loc(vj->x, vj->y, vj->z);
+
+		icVector3 e_dir = vi_loc - vj_loc;
+		icVector3 x_axis = cross(vi->normal, e_dir);
+		normalize(x_axis);
+		icVector3 y_axis = cross(vi->normal, x_axis);
+		normalize(y_axis);
+		vi->local_x_axis = x_axis;
+		vi->local_y_axis = y_axis;
+
+		//find normal curvatures along each edge and find edges in local coords 
+		Eigen::VectorXd b(vi->ncorners);
+		Eigen::MatrixXd A(vi->ncorners, 3);
+		for(int j = 0; j < vi->ncorners; j++)
+		{
+			e = vi->corners[j]->n->e;
+			vj = e->other_vertex(vi);
+			vj_loc.set(vj->x, vj->y, vj->z);
+			e_dir = vi_loc - vj_loc;
+			b(j) = 2.0 * dot(e_dir, vi->normal) / dot(e_dir, e_dir);
+
+			double x_proj = dot(x_axis, e_dir);
+			double y_proj = dot(y_axis, e_dir);
+
+			A(j,0) = x_proj * x_proj;
+			A(j,1) = 2.0 * x_proj * y_proj;
+			A(j,2) = y_proj * y_proj;
+		}
+
+		// solve system of equations 
+		Eigen::VectorXd tensor_coeffs = A.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(b);
+		vi->local_tensor(0,0) = tensor_coeffs(0);
+		vi->local_tensor(0,1) = tensor_coeffs(1);
+		vi->local_tensor(1,0) = tensor_coeffs(1);
+		vi->local_tensor(1,1) = tensor_coeffs(2);
+
+	}
 }
 
 void Polyhedron::update_vert_global_tensors()
@@ -1394,6 +1441,30 @@ void Polyhedron::smooth_vert_curvature_tensors(int weight_scheme, double step_si
 
 void Polyhedron::compute_vert_principal_curvatures()
 {
+	Vertex* v;
+	for(int i = 0; i < nverts; i++)
+	{
+		v = vlist[i];
+
+		Eigen::EigenSolver<Eigen::Matrix2d> solver(v->local_tensor);
+		Eigen::Vector2d eigenvalues = solver.eigenvalues().real();
+		Eigen::Matrix2d eigenvectors = solver.eigenvectors().real();
+
+		//save principal curvalures
+		if (eigenvalues(0) > eigenvalues(1))
+		{
+			v->pcurve_major.set(eigenvectors(0,0), eigenvectors(1,0));
+			v->pcurve_minor.set(eigenvectors(0,0), eigenvectors(1,0));
+		}
+		else
+		{
+			v->pcurve_minor.set(eigenvectors(0,0), eigenvectors(1,0));
+			v->pcurve_major.set(eigenvectors(0,0), eigenvectors(1,0));
+		}
+
+		normalize(v->pcurve_major);
+		normalize(v->pcurve_minor);
+	}
 }
 
 void Polyhedron::compute_face_principal_curvatures()

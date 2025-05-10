@@ -165,12 +165,6 @@ int main(int argc, char *argv[])
 	poly->compute_handles();
 
 	/*Project 2, problems*/
-	printf("computing voronoi areas...\n");
-	poly->compute_vert_voronoi_areas();
-	printf("Computing mean curvature...\n");
-	poly->compute_vert_mean_curvature();
-	printf("Computinng gauss curvature...\n");
-	poly->compute_vert_gaussian_curvature();
 
 	printf("Computing vertex properties...\n");
 	poly->compute_vert_voronoi_areas();
@@ -847,6 +841,38 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 	// draw the curvature tensor crosses if enabled
 	if (tensor_display_mode > 0)
 	{
+		glDisable(GL_LIGHTING);
+		glLineWidth(2.0);
+		glBegin(GL_LINES);
+		for (int i = 0; i < poly->nverts; i++)
+		{
+			Vertex* v = poly->vlist[i];
+			icVector3 loc(v->x, v->y, v->z);
+			icVector3 global_major = v->pcurve_major.x * v->local_x_axis + v->pcurve_major.y *v->local_y_axis;
+			icVector3 global_minor = v->pcurve_minor.x * v->local_x_axis + v->pcurve_minor.y *v->local_y_axis;
+			normalize(global_major);
+			normalize(global_minor);
+			icVector3 major_start = loc - global_major * 0.025; 
+			icVector3 major_end = loc + global_major * 0.025; 
+			icVector3 minor_start = loc - global_minor * 0.025; 
+			icVector3 minor_end = loc + global_minor * 0.025; 
+
+			if(tensor_display_mode == 1 || tensor_display_mode == 3)
+			{
+				glColor3f(1.0, 0.0, 0.0);
+				glVertex3dv(major_start.entry);
+				glVertex3dv(major_end.entry);
+			}
+			if(tensor_display_mode == 2 || tensor_display_mode == 3)
+			{
+				glColor3f(0.0, 0.0, 1.0);
+				glVertex3dv(minor_start.entry);
+				glVertex3dv(minor_end.entry);
+			}
+
+		}
+		glEnd();
+
 	}
 
 	// draw wireframe if enabled

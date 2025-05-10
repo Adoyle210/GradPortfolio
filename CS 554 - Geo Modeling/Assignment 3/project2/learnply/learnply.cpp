@@ -47,7 +47,7 @@ int silhouette_mode = 0; // 0=no silhouette, 1=edge silhouette, 2=face silhouett
 
 /* Project 2, Problem 2 */
 int tensor_display_mode = 0;   // 0=no tensor, 1=major, 2=minor, 3=cross
-int smoothing_scheme = 0;	   // 0 = uniform weights, 1 = cord weights, 2 = flow weights, 3 = mean weights
+int smoothing_scheme = 0;	   // 0 = uniform weights, 1 = cord weights, 2 = mean curvature weights, 3 = mean value weights
 double smoothing_step = 0.5;   // smoothing step size
 int smoothing_iterations = 10; // number of smoothing iterations
 

@@ -1433,10 +1433,96 @@ void Polyhedron::compute_vert_curvature_tensor()
 
 void Polyhedron::update_vert_global_tensors()
 {
+	Vertex * v;
+	for(int i = 0; i < nverts; i++)
+	{
+		v = vlist[1];
+
+		Eigen::Matrix3d transform, local_tensor;
+		local_tensor << v->local_tensor(0,0), v->local_tensor(0, 1), 0.0,
+						v->local_tensor(1, 0), v->local_tensor(1, 1), 0.0,
+						0.0, 0.0, 0.0;
+
+		transform << v->local_x_axis.x, v->local_y_axis.x, v->normal.x,
+					 v->local_x_axis.y, v->local_y_axis.y, v->normal.y,
+					 v->local_x_axis.z, v->local_y_axis.z, v->normal.z;
+
+		v->global_tensor = transform * local_tensor * transform.transpose();
+		
+
+	}
 }
 
 void Polyhedron::smooth_vert_curvature_tensors(int weight_scheme, double step_size, int iterations)
 {
+	Vertex* vi, * vj;
+	Edge* e;
+	for(int k = 0; k < iterations; k++)
+	{
+		update_vert_global_tensors();
+
+		for(int i = 0; i < nverts; i++)
+		{
+			vi = vlist[i];
+			Eigen::Matrix3d tensor_change = Eigen::Matrix3d::Zero();
+			std::vector<double> weights(vi->ncorners);
+			double weight_sum = 0.0;
+
+			//loop through neighbors
+			for(int j = 0; j < vi->ncorners; j++)
+			{
+				e = vi->corners[j]->n->e;
+				vj = e->other_vertex(vi);
+
+				switch (weight_scheme)
+				{
+					case 0: //uniform weights 
+						weights[j] = 1.0;
+						break;
+					
+					case 1: //cord weights 
+						weights[j] = 1.0 / e->length;
+						break;
+					
+					case 2: //mean curvature weights 
+						weights[j] = 0.5 * (1.0 / tan(e->corners[0]->angle) + 1.0 / tan(e->corners[1]->angle));
+						break;
+
+					case 3: //mean value weights 
+						weights[j] = 0.5 * (tan(vi->corners[j]->angle / 2.0) + tan(vi->corners[j]->n->o->n->angle));
+						break;
+					
+					default:
+						break;
+				}
+
+				weight_sum += weights[j];
+			}
+
+			for(int j = 0; j < vi->ncorners; j++)
+			{
+				e = vi->corners[j]->n->e;
+				vj = e->other_vertex(vi);
+				
+				double weight = weights[j] / weight_sum;
+				tensor_change += weight * (vj->global_tensor - vi->global_tensor);
+			}
+
+			// update global tensors 
+			tensor_change *= step_size;
+			Eigen::Matrix3d transform, temp;
+			transform << vi->local_x_axis.x, vi->local_y_axis.x, vi->normal.x,
+					 vi->local_x_axis.y, vi->local_y_axis.y, vi->normal.y,
+					 vi->local_x_axis.z, vi->local_y_axis.z, vi->normal.z;
+
+			temp = transform.transpose() * (vi->global_tensor + tensor_change) * transform;
+			vi->local_tensor(0, 0) = temp(0, 0);
+			vi->local_tensor(0, 1) = temp(0, 1);
+			vi->local_tensor(1, 0) = temp(1, 0);
+			vi->local_tensor(1, 1) = temp(1, 1);
+
+		}
+	}
 }
 
 void Polyhedron::compute_vert_principal_curvatures()
@@ -1454,12 +1540,12 @@ void Polyhedron::compute_vert_principal_curvatures()
 		if (eigenvalues(0) > eigenvalues(1))
 		{
 			v->pcurve_major.set(eigenvectors(0,0), eigenvectors(1,0));
-			v->pcurve_minor.set(eigenvectors(0,0), eigenvectors(1,0));
+			v->pcurve_minor.set(eigenvectors(0,1), eigenvectors(1,1));
 		}
 		else
 		{
 			v->pcurve_minor.set(eigenvectors(0,0), eigenvectors(1,0));
-			v->pcurve_major.set(eigenvectors(0,0), eigenvectors(1,0));
+			v->pcurve_major.set(eigenvectors(0,1), eigenvectors(1,1));
 		}
 
 		normalize(v->pcurve_major);

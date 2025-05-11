@@ -1439,9 +1439,9 @@ void Polyhedron::update_vert_global_tensors()
 		v = vlist[1];
 
 		Eigen::Matrix3d transform, local_tensor;
-		local_tensor << v->local_tensor(0,0), v->local_tensor(0, 1), 0.0,
+		local_tensor << v->local_tensor(0, 0), v->local_tensor(0, 1), 0.0,
 						v->local_tensor(1, 0), v->local_tensor(1, 1), 0.0,
-						0.0, 0.0, 0.0;
+						0.0,                   0.0,                   0.0;
 
 		transform << v->local_x_axis.x, v->local_y_axis.x, v->normal.x,
 					 v->local_x_axis.y, v->local_y_axis.y, v->normal.y,
@@ -1539,13 +1539,13 @@ void Polyhedron::compute_vert_principal_curvatures()
 		//save principal curvalures
 		if (eigenvalues(0) > eigenvalues(1))
 		{
-			v->pcurve_major.set(eigenvectors(0,0), eigenvectors(1,0));
-			v->pcurve_minor.set(eigenvectors(0,1), eigenvectors(1,1));
+			v->pcurve_major.set(eigenvectors(0, 0), eigenvectors(1, 0));
+			v->pcurve_minor.set(eigenvectors(0, 1), eigenvectors(1, 1));
 		}
 		else
 		{
-			v->pcurve_minor.set(eigenvectors(0,0), eigenvectors(1,0));
-			v->pcurve_major.set(eigenvectors(0,1), eigenvectors(1,1));
+			v->pcurve_minor.set(eigenvectors(0, 0), eigenvectors(1, 0));
+			v->pcurve_major.set(eigenvectors(0, 1), eigenvectors(1, 1));
 		}
 
 		normalize(v->pcurve_major);
@@ -1555,13 +1555,187 @@ void Polyhedron::compute_vert_principal_curvatures()
 
 void Polyhedron::compute_face_principal_curvatures()
 {
+	//make sure global tensors are up to date 
+	update_vert_global_tensors();
+
+	Triangle* t;
+	Eigen::Matrix3d temp_global;
+	Eigen::Matrix3d transform; 
+	Eigen::Matrix2d temp_local;
+	for(int i = 0; i < ntris; i ++)
+	{
+		t = tlist[i];
+
+		//create triangle coordinate system
+		icVector3 edge_dir(t->verts[1]->x - t->verts[2]->x,
+							t->verts[1]->y - t->verts[2]->y,
+							t->verts[1]->z - t->verts[2]->z);
+
+		normalize(edge_dir);
+		t->local_x_axis = edge_dir;
+		t->local_y_axis = cross(t->normal, edge_dir);
+		normalize(t->local_y_axis);
+
+		//get gloabl tensor average 
+		temp_global.setZero();
+		for(int j = 0; j < 3; j++)
+			temp_global += t->verts[j]->global_tensor;
+		temp_global /= 3.0;
+
+		transform << t->local_x_axis.x, t->local_y_axis.x, t->normal.x,
+					 t->local_x_axis.y, t->local_y_axis.y, t->normal.y,
+					 t->local_x_axis.z, t->local_y_axis.z, t->normal.z;
+		temp_global = transform.transpose() * temp_global * transform;
+		temp_local(0, 0) = temp_global(0, 0);
+		temp_local(0, 1) = temp_global(0, 1);
+		temp_local(1, 0) = temp_global(1, 0);
+		temp_local(1, 1) = temp_global(1, 1);
+
+		// calculate the eigenvectors
+		Eigen::EigenSolver<Eigen::Matrix2d> solver(temp_local);
+		Eigen::Vector2d eigenvalues = solver.eigenvalues().real();
+		Eigen::Matrix2d eigenvectors = solver.eigenvectors().real();
+
+		//save principal curvalures
+		if (eigenvalues(0) > eigenvalues(1))
+		{
+			t->pcurve_major.set(eigenvectors(0, 0), eigenvectors(1, 0));
+			t->pcurve_minor.set(eigenvectors(0, 1), eigenvectors(1, 1));
+		}
+		else
+		{
+			t->pcurve_minor.set(eigenvectors(0, 0), eigenvectors(1, 0));
+			t->pcurve_major.set(eigenvectors(0, 1), eigenvectors(1, 1));
+		}
+
+		normalize(t->pcurve_major);
+		normalize(t->pcurve_minor);
+
+
+	}
 }
+
+bool cross_point(const icVector2& p1, const icVector2& p2, const icVector2& p3,
+const icVector2& p4, icVector2& inter)
+{
+	double det = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x);
+	if (fabs(det) < 1e-12)
+		return false; // lines are nearly parallel
+
+	inter.x = ((p1.x * p2.y - p1.y * p2.x) * (p3.x - p4.x) - (p3.x * p4.y - p3.y * p4.x) * (p1.x - p2.x)) / det;
+	inter.y = ((p1.x * p2.y - p1.y * p2.x) * (p3.y - p4.y) - (p3.x * p4.y - p3.y * p4.x) * (p1.y - p2.y)) / det;
+
+	// check if the intersection is on the line segment between p3 and p4
+	if (inter.x < std::min(p3.x, p4.x) || inter.x > std::max(p3.x, p4.x) ||
+		inter.y < std::min(p3.y, p4.y) || inter.y > std::max(p3.y, p4.y))
+		return false;
+
+	return true;
+}
+
+
 
 void Polyhedron::build_curvature_hatch_lines(int principal_direction, int transition_scheme)
 {
+	//clear out hatch lines 
+	if (principal_direction == 0)
+		minor_hatches.clear();
+	else 
+		major_hatches.clear();
+	
+	//loop through all triangles 
+	Triangle* t;
+	for(int i = 0; i < ntris; i++)
+	{
+		t = tlist[i];
+
+		//get the center point of the triangle
+		icVector3 g_center(t->verts[0]->x + t->verts[1]->x + t->verts[2]->x,
+			t->verts[0]->y + t->verts[1]->y + t->verts[2]->y,
+			t->verts[0]->z + t->verts[1]->z + t->verts[2]->z);
+		g_center /= 3.0;
+
+		icVector2 l_dir = (principal_direction == 0) ? t->pcurve_minor : t->pcurve_major;
+		icVector3 g_dir = l_dir.x * t->local_x_axis + l_dir.y * t->local_y_axis;
+
+		//recursively trace hatch lines
+		hatch_line_step(principal_direction, transition_scheme, 5, nullptr, t, g_center, g_dir);
+	}
+
 }
 
 void Polyhedron::hatch_line_step(int principal_direction, int transition_scheme, int iterations,
-								 Edge *current_edge, Triangle *current_face, icVector3 &current_loc, icVector3 &current_dir)
+								 Edge *e, Triangle *t, icVector3& g_loc, icVector3& g_dir)
 {
+	if (iterations <= 0)
+		return;
+	iterations--;
+
+	//get the triangle coordinates system
+	icVector3 g_origin(t->verts[0]->x, t->verts[0]->y, t->verts[0]->z);
+	icVector2 l_loc(dot(g_loc - g_origin, t->local_x_axis), 
+		dot(g_loc - g_origin, t->local_y_axis));
+
+	//choose tracing direction 
+	icVector2 l_dir = icVector2();
+	if (transition_scheme == 0)
+	{
+		l_dir = (principal_direction == 0) ? t->pcurve_minor : t->pcurve_major;
+	}	
+	else if (transition_scheme == 1)
+	{
+		l_dir = icVector2(dot(g_dir, t->local_x_axis),
+			dot(g_dir, t->local_y_axis));
+	}
+	normalize(l_dir);
+	g_dir = l_dir.x * t->local_x_axis + l_dir.y * t->local_y_axis;
+
+	//calculate crossing points on each edge of the triangle 
+	Edge* next_e;
+	int crossing_found = 0;
+	for(int i = 0; i < 3; i++)
+	{
+		if (crossing_found >= 2)
+			break;
+		next_e = t->edges[i];
+
+		if(next_e == e)
+		{
+			crossing_found++;
+			continue;
+		}
+
+		//get the local coordinates of the edge vertices
+		icVector3 v0(next_e->verts[0]->x, next_e->verts[0]->y, next_e->verts[0]->z);
+		icVector3 v1(next_e->verts[1]->x, next_e->verts[1]->y, next_e->verts[1]->z);
+		icVector2 l_v0(dot(v0 - g_origin, t->local_x_axis),
+					dot(v0 - g_origin, t->local_y_axis));
+		icVector2 l_v1(dot(v1 - g_origin, t->local_x_axis),
+					dot(v1 - g_origin, t->local_y_axis));
+
+		//get the crossing point on the edge
+		icVector2 l_cross;
+		if (cross_point(l_loc, l_loc + l_dir, l_v0, l_v1, l_cross))
+		{
+			crossing_found++;
+
+			//convert to global coords
+			icVector3 g_cross = g_origin + l_cross.x * t->local_x_axis + l_cross.y * t->local_y_axis;
+
+			//add line segment to hatch lines
+			LineSegment segment = LineSegment(g_loc, g_cross);
+			if (principal_direction == 0)
+				minor_hatches.push_back(segment);
+			else
+				major_hatches.push_back(segment);
+
+			//continue next triangle 
+			Triangle* next_t = next_e->tris[0] == t ? next_e->tris[1] : next_e->tris[0];
+			hatch_line_step(principal_direction, transition_scheme, iterations, next_e, next_t, g_cross, g_dir);
+
+		}
+
+	
+	}
+		
 }

@@ -174,6 +174,12 @@ int main(int argc, char *argv[])
 	poly->smooth_vert_curvature_tensors(smoothing_scheme, smoothing_step, smoothing_iterations);
 	poly->compute_vert_principal_curvatures();
 
+	/*Project 2, problem 3*/
+	poly->compute_face_principal_curvatures();
+	poly->build_curvature_hatch_lines(0, hatch_tracing_mode);
+	poly->build_curvature_hatch_lines(1, hatch_tracing_mode);
+
+
 	printf("Initializing GLUT...\n");
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -498,7 +504,7 @@ void keyboard(unsigned char key, int x, int y)
 	case 'x':
 		switch (ACSIZE)
 		{
-		case 1:
+		1 1:
 			ACSIZE = 16;
 			break;
 
@@ -895,6 +901,215 @@ void display_shape(GLenum mode, Polyhedron *this_poly)
 
 void display_pen_ink(Polyhedron *this_poly)
 {
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(1., 1.);
+
+	glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LINE_SMOOTH);
+
+	// set up buffers for different render passes
+	unsigned char* shading_buffer = new unsigned char[win_width * win_height * 1];
+	unsigned char* silhouette_buffer = new unsigned char[win_width * win_height * 1];
+	unsigned char* major_buffer = new unsigned char[win_width * win_height * 1];
+	unsigned char* minor_buffer = new unsigned char[win_width * win_height * 1];
+	unsigned char* pen_ink_buffer = new unsigned char[win_width * win_height * 1];
+
+	Triangle* t;
+	Vertex* v;
+
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//first pass
+	GLfloat mat[4] = {1.0, 1.0, 1.0, 1.0};
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat);
+	glBegin(GL_TRIANGLES);
+	for(int i = 0; i < this_poly->ntris; i++)
+	{
+		t = this_poly->tlist[i];
+		for(int j = 0; j < 3; j++)
+		{
+			v = t->verts[j];
+			glNormal3dv(v->normal.entry);
+			glVertex3d(v->x, v->y, v->z);
+
+		}
+	}
+	glEnd();
+
+	//save into shadiing buffer 
+	glReadPixels(0, 0, win_width, win_height, GL_RED, GL_UNSIGNED_BYTE, shading_buffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//second pass 
+	glDisable(GL_LIGHTING);
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_TRIANGLES);
+	for(int i = 0; i < this_poly->ntris; i++)
+	{
+		t = this_poly->tlist[i];
+		for(int j = 0; j < 3; j++)
+		{
+			v = t->verts[j];
+			glVertex3d(v->x, v->y, v->z);
+
+		}
+	}
+	glEnd();
+
+	// get current model view matrix 
+	GLdouble m[16];
+	glGetDoublev(GL_MODELVIEW_MATRIX, m);
+	icMatrix3x3 view(m[0], m[4], m[8],
+					m[1], m[5], m[9],
+					m[2], m[6], m[10]);
+	icVector3 translation(m[12], m[13], m[14]);
+
+	if (silhouette_mode == 1)
+		poly->compute_silhouette_edges(view, translation);
+	else if (silhouette_mode == 2)
+		poly->compute_silhouette_faces(view, translation);
+	
+	//draw the sillhouette line segments
+	glDisable(GL_LIGHTING);
+	glLineWidth(8.0);
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_LINES);
+	for (const LineSegment& segment : poly->silhouette)
+	{
+		glVertex3dv(segment.start.entry);
+		glVertex3dv(segment.end.entry);
+	}
+	glEnd();
+
+	//save into silhouette buffer 
+	glReadPixels(0, 0, win_width, win_height, GL_RED, GL_UNSIGNED_BYTE, silhouette_buffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	//third pass 
+	glDisable(GL_LIGHTING);
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_TRIANGLES);
+	for(int i = 0; i < this_poly->ntris; i++)
+	{
+		t = this_poly->tlist[i];
+		for(int j = 0; j < 3; j++)
+		{
+			v = t->verts[j];
+			glVertex3d(v->x, v->y, v->z);
+
+		}
+	}
+	glEnd();
+
+	//draw major curvature hatches 
+	glLineWidth(0.5);
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_LINES);
+	for (const LineSegment& segment : poly->major_hatches)
+	{
+		glVertex3dv(segment.start.entry);
+		glVertex3dv(segment.end.entry);
+	}
+	glEnd();
+
+	//save into major buffer 
+	glReadPixels(0, 0, win_width, win_height, GL_RED, GL_UNSIGNED_BYTE, major_buffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//fourth pass 
+	glDisable(GL_LIGHTING);
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_TRIANGLES);
+	for(int i = 0; i < this_poly->ntris; i++)
+	{
+		t = this_poly->tlist[i];
+		for(int j = 0; j < 3; j++)
+		{
+			v = t->verts[j];
+			glVertex3d(v->x, v->y, v->z);
+
+		}
+	}
+	glEnd();
+
+	//draw major curvature hatches 
+	glLineWidth(0.5);
+	glColor3f(0.0, 0.0, 0.0);
+	glBegin(GL_LINES);
+	for (const LineSegment& segment : poly->minor_hatches)
+	{
+		glVertex3dv(segment.start.entry);
+		glVertex3dv(segment.end.entry);
+	}
+	glEnd();
+
+	//save into minor buffer 
+	glReadPixels(0, 0, win_width, win_height, GL_RED, GL_UNSIGNED_BYTE, minor_buffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//compose tge render passes 
+	for (int i = 0; i < win_width * win_height; i++)
+	{
+		if (silhouette_buffer[i] < 255)
+		{
+			pen_ink_buffer[i] = silhouette_buffer[i];
+		}
+		else if (shading_buffer[i] < 200 && shading_buffer[i] > 100)
+		{
+			pen_ink_buffer[i] = major_buffer[i];
+		}
+		else if (shading_buffer[i] <= 100)
+		{			
+			pen_ink_buffer[i] = std::min(major_buffer[i], minor_buffer[i]);
+		}
+		else
+		{
+			pen_ink_buffer[i] = 255;
+		}
+	}
+
+	//display one of the buffers 
+	switch (display_mode)
+	{
+		case 0: // shading pass
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE, shading_buffer);
+			break;
+		}
+		case 1: // silhouette pass
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE, silhouette_buffer);
+			break;
+		}
+		case 2: // major curvature hatches pass
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE, major_buffer);
+			break;
+		}
+		case 3: // minor curvature hatches pass
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE,	minor_buffer);
+			break;
+		}
+		case 4: // render composite
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE,	pen_ink_buffer);
+			break;
+		}
+		default: // default to shading pass
+		{
+			glDrawPixels(win_width, win_height, GL_LUMINANCE, GL_UNSIGNED_BYTE,	shading_buffer);
+			break;
+		}
+	}
+
 }
 
 void display(void)

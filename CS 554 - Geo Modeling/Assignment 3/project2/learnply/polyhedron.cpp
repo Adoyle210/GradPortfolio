@@ -1245,7 +1245,7 @@ void Polyhedron::compute_silhouette_faces(const icMatrix3x3 &view, const icVecto
 	std::vector<icVector3> crossings;
 	for (int i = 0; i < ntris; i++)
 	{
-		tri = tlist[1];
+		tri = tlist[i];
 		crossings.clear();
 
 		//find edges where vertex normals twitch directions 
@@ -1436,7 +1436,7 @@ void Polyhedron::update_vert_global_tensors()
 	Vertex * v;
 	for(int i = 0; i < nverts; i++)
 	{
-		v = vlist[i]; //was 1 
+		v = vlist[i]; 
 
 		Eigen::Matrix3d transform, local_tensor;
 		local_tensor << v->local_tensor(0, 0), v->local_tensor(0, 1), 0.0,

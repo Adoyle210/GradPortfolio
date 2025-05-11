@@ -65,24 +65,10 @@ struct jitter_struct
 	double y;
 } jitter_para;
 jitter_struct ji1[1] = {{0.0, 0.0}};
-jitter_struct ji16[16] = {
-	{0.125, 0.125},
-	{0.375, 0.125},
-	{0.625, 0.125},
-	{0.875, 0.125},
-	{0.125, 0.375},
-	{0.375, 0.375},
-	{0.625, 0.375},
-	{0.875, 0.375},
-	{0.125, 0.625},
-	{0.375, 0.625},
-	{0.625, 0.625},
-	{0.875, 0.625},
-	{0.125, 0.875},
-	{0.375, 0.875},
-	{0.625, 0.875},
-	{0.875, 0.875},
-};
+jitter_struct ji16[16] = {{0.125, 0.125}, {0.375, 0.125}, {0.625, 0.125}, {0.875, 0.125}, 
+						  {0.125, 0.375}, {0.375, 0.375}, {0.625, 0.375}, {0.875, 0.375}, 
+						  {0.125, 0.625}, {0.375, 0.625}, {0.625, 0.625}, {0.875, 0.625}, 
+						  {0.125, 0.875}, {0.375, 0.875}, {0.625, 0.875}, {0.875, 0.875}, };
 
 Polyhedron *poly;
 
@@ -100,73 +86,33 @@ Main program.
 
 int main(int argc, char *argv[])
 {
-	char *progname;
+char *progname;
 	int num = 1;
 	FILE *this_file;
 
-	progname = argv[0];
+  	progname = argv[0];
 
-	const char *ply_paths[] = {
-		"../tempmodels/torus.ply",
-		"tempmodels/torus.ply",
-		"./torus.ply",
-		"torus.ply"};
-
-	printf("Attempting to open PLY file...\n");
-	this_file = nullptr;
-	for (const char *path : ply_paths)
-	{
-		printf("Trying path: %s\n", path);
-		this_file = fopen(path, "r");
-		if (this_file)
-		{
-			printf("Successfully opened PLY file at: %s\n", path);
-			break;
-		}
-	}
-
-	if (!this_file)
-	{
-		printf("Error: Could not open PLY file in any of the searched locations\n");
-		return 1;
-	}
-
-	printf("Creating polyhedron...\n");
-	poly = new Polyhedron(this_file);
+	this_file = fopen("../tempmodels/torus.ply", "r");
+	poly = new Polyhedron (this_file);
 	fclose(this_file);
-	if (!poly || poly->nverts == 0 || poly->ntris == 0)
-	{
-		printf("Error: Failed to create valid polyhedron\n");
-		if (poly)
-			delete poly;
-		return 1;
-	}
-	mat_ident(rotmat);
+	mat_ident( rotmat );	
 
-	printf("Initializing polyhedron...\n");
 	poly->initialize(); // initialize everything
 
-	printf("Creating corners...\n");
+	/* Project 1, problem 2 */
 	poly->create_corners();
 
-	printf("Calculating bounding sphere...\n");
 	poly->calc_bounding_sphere();
-	printf("Calculating face normals...\n");
 	poly->calc_face_normals_and_area();
-	printf("Averaging normals...\n");
 	poly->average_normals();
 
-	printf("Computing Euler characteristic...\n");
+	/* Project 1, problem 3a-d */
 	poly->compute_euler_characteristic();
-	printf("Computing Gaussian curvature...\n");
 	poly->compute_gaussian_curvature_angle_deficit();
 	poly->compute_gaussian_curvature_valence_deficit();
-	printf("Computing handles...\n");
 	poly->compute_handles();
 
-	/*Project 2, problems*/
-
-	printf("Computing vertex properties...\n");
+	/* Project 2, Problem 2*/
 	poly->compute_vert_voronoi_areas();
 	poly->compute_vert_mean_curvature();
 	poly->compute_vert_gaussian_curvature();
@@ -174,29 +120,25 @@ int main(int argc, char *argv[])
 	poly->smooth_vert_curvature_tensors(smoothing_scheme, smoothing_step, smoothing_iterations);
 	poly->compute_vert_principal_curvatures();
 
-	/*Project 2, problem 3*/
+	/* Project 2, Problem 3*/
 	poly->compute_face_principal_curvatures();
 	poly->build_curvature_hatch_lines(0, hatch_tracing_mode);
 	poly->build_curvature_hatch_lines(1, hatch_tracing_mode);
 
-
-	printf("Initializing GLUT...\n");
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowPosition(20, 20);
-	glutInitWindowSize(win_width, win_height);
-	glutCreateWindow("Geometric Modeling");
-	printf("Initializing OpenGL...\n");
-	init();
-	glutKeyboardFunc(keyboard);
-	glutDisplayFunc(display);
-	glutMotionFunc(motion);
-	glutMouseFunc(mouse);
-	printf("Entering main loop...\n");
-	glutMainLoop();
-	poly->finalize(); // finalize everything
+	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowPosition (20, 20);
+	glutInitWindowSize (win_width, win_height); 
+	glutCreateWindow ("Geometric Modeling");
+	init ();
+	glutKeyboardFunc (keyboard);
+	glutDisplayFunc(display); 
+	glutMotionFunc (motion);
+	glutMouseFunc (mouse);
+	glutMainLoop(); 
+	poly->finalize();  // finalize everything
 
-	return 0; /* ANSI C requires main to return int. */
+  return 0;    /* ANSI C requires main to return int. */
 }
 
 void init(void)

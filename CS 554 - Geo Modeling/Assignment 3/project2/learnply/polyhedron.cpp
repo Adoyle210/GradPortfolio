@@ -1436,7 +1436,7 @@ void Polyhedron::update_vert_global_tensors()
 	Vertex * v;
 	for(int i = 0; i < nverts; i++)
 	{
-		v = vlist[1];
+		v = vlist[i]; //was 1 
 
 		Eigen::Matrix3d transform, local_tensor;
 		local_tensor << v->local_tensor(0, 0), v->local_tensor(0, 1), 0.0,

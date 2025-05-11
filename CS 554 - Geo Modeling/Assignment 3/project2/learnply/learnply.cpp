@@ -504,7 +504,7 @@ void keyboard(unsigned char key, int x, int y)
 	case 'x':
 		switch (ACSIZE)
 		{
-		1 1:
+		case 1:
 			ACSIZE = 16;
 			break;
 

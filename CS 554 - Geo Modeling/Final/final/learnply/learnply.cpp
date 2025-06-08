@@ -73,6 +73,161 @@ float edge_darkening = 0.6;  // Controls how much edges are darkened
 float noise_scale = 0.1;     // Scale of the noise effect
 float granulation_scale = 0.05; // Scale of the granulation effect
 
+// Fluid simulation parameters
+const int GRID_SIZE = 256;
+const float DT = 0.1f;
+const float VISCOSITY = 0.1f;
+const float EVAPORATION_RATE = 0.05f;
+
+// Simple vec4 structure for color compositing
+struct vec4 {
+    float r, g, b, a;
+    vec4(float _r, float _g, float _b, float _a) : r(_r), g(_g), b(_b), a(_a) {}
+};
+
+struct FluidCell {
+    float height;        // Water height
+    float pigment[3];    // RGB pigment concentration
+    float velocity[2];   // Velocity field (u,v)
+};
+
+class WatercolorSimulation {
+public:
+    FluidCell* grid;  // Made public for direct access
+    int size;
+
+    WatercolorSimulation(int grid_size) : size(grid_size) {
+        grid = new FluidCell[grid_size * grid_size];
+        temp_grid = new FluidCell[grid_size * grid_size];
+        reset();
+    }
+
+    ~WatercolorSimulation() {
+        delete[] grid;
+        delete[] temp_grid;
+    }
+
+    void simulate() {
+        solve_shallow_water();
+        advect_pigment();
+        apply_edge_darkening();
+    }
+
+    vec4 km_composite(vec4 bg, vec4 fg) {
+        float Sa = fg.a * (1.0f - bg.a);
+        float Sr = fg.r * Sa + bg.r * bg.a;
+        float Sg = fg.g * Sa + bg.g * bg.a;
+        float Sb = fg.b * Sa + bg.b * bg.a;
+        return vec4(Sr, Sg, Sb, Sa + bg.a);
+    }
+
+private:
+    FluidCell* temp_grid;
+
+    void reset() {
+        for (int i = 0; i < size * size; i++) {
+            grid[i].height = 0.0f;
+            grid[i].pigment[0] = grid[i].pigment[1] = grid[i].pigment[2] = 0.0f;
+            grid[i].velocity[0] = grid[i].velocity[1] = 0.0f;
+        }
+    }
+
+    // Shallow water equations solver
+    void solve_shallow_water() {
+        // Copy current state
+        memcpy(temp_grid, grid, size * size * sizeof(FluidCell));
+
+        // Solve height field
+        for (int y = 1; y < size-1; y++) {
+            for (int x = 1; x < size-1; x++) {
+                int idx = y * size + x;
+                float h = grid[idx].height;
+                float u = grid[idx].velocity[0];
+                float v = grid[idx].velocity[1];
+
+                // Update height based on velocity divergence
+                float div = (grid[idx+1].velocity[0] - grid[idx-1].velocity[0] +
+                           grid[idx+size].velocity[1] - grid[idx-size].velocity[1]) * 0.5f;
+                temp_grid[idx].height = h - DT * div;
+
+                // Update velocity with viscosity
+                temp_grid[idx].velocity[0] = u + VISCOSITY * (
+                    grid[idx+1].velocity[0] + grid[idx-1].velocity[0] +
+                    grid[idx+size].velocity[0] + grid[idx-size].velocity[0] - 4*u);
+                temp_grid[idx].velocity[1] = v + VISCOSITY * (
+                    grid[idx+1].velocity[1] + grid[idx-1].velocity[1] +
+                    grid[idx+size].velocity[1] + grid[idx-size].velocity[1] - 4*v);
+            }
+        }
+
+        // Swap grids
+        std::swap(grid, temp_grid);
+    }
+
+    // Advect pigment based on velocity field
+    void advect_pigment() {
+        for (int y = 1; y < size-1; y++) {
+            for (int x = 1; x < size-1; x++) {
+                int idx = y * size + x;
+                float u = grid[idx].velocity[0];
+                float v = grid[idx].velocity[1];
+
+                // Backtrack position
+                float px = x - u * DT;
+                float py = y - v * DT;
+
+                // Bilinear interpolation of pigment
+                int x0 = (int)px;
+                int y0 = (int)py;
+                float fx = px - x0;
+                float fy = py - y0;
+
+                for (int c = 0; c < 3; c++) {
+                    float p00 = grid[y0 * size + x0].pigment[c];
+                    float p10 = grid[y0 * size + std::min(x0+1, size-1)].pigment[c];
+                    float p01 = grid[std::min(y0+1, size-1) * size + x0].pigment[c];
+                    float p11 = grid[std::min(y0+1, size-1) * size + std::min(x0+1, size-1)].pigment[c];
+
+                    temp_grid[idx].pigment[c] = (1-fx)*(1-fy)*p00 + fx*(1-fy)*p10 +
+                                              (1-fx)*fy*p01 + fx*fy*p11;
+                }
+            }
+        }
+        std::swap(grid, temp_grid);
+    }
+
+    // Model edge darkening
+    void apply_edge_darkening() {
+        for (int y = 1; y < size-1; y++) {
+            for (int x = 1; x < size-1; x++) {
+                int idx = y * size + x;
+                float h = grid[idx].height;
+                
+                // Increase pigment concentration at edges
+                if (h < 0.1f) {
+                    for (int c = 0; c < 3; c++) {
+                        grid[idx].pigment[c] *= 1.5f;
+                    }
+                }
+            }
+        }
+    }
+
+    // Add pigment at a specific location
+    void add_pigment(int x, int y, float r, float g, float b, float amount) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            int idx = y * size + x;
+            grid[idx].pigment[0] += r * amount;
+            grid[idx].pigment[1] += g * amount;
+            grid[idx].pigment[2] += b * amount;
+            grid[idx].height += amount;
+        }
+    }
+};
+
+// Global simulation instance
+WatercolorSimulation* watercolor_sim = nullptr;
+
 // Function declarations
 void display_watercolor();
 void print_help();
@@ -141,6 +296,9 @@ int main(int argc, char *argv[])
 	poly->calc_face_normals_and_area();
 	poly->average_normals();
 
+	// Initialize watercolor simulation
+	watercolor_sim = new WatercolorSimulation(GRID_SIZE);
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowPosition (20, 20);
@@ -153,6 +311,9 @@ int main(int argc, char *argv[])
 	glutMouseFunc (mouse);
 	glutMainLoop(); 
 	poly->finalize();  // finalize everything
+
+	// Cleanup watercolor simulation
+	delete watercolor_sim;
 
   return 0;    /* ANSI C requires main to return int. */
 }
@@ -1650,12 +1811,21 @@ void Polyhedron::average_normals()
 
 void display_watercolor()
 {
+    // Initialize simulation if needed
+    if (!watercolor_sim) {
+        watercolor_sim = new WatercolorSimulation(GRID_SIZE);
+    }
+
+    // Simulate fluid flow
+    watercolor_sim->simulate();
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     
-    // Set up view
-    gluLookAt(0, 0, 2, 0, 0, 0, 0, 1, 0);
-    glMultMatrixf((float*)rotmat);
+    // Set up view to match regular display
+    set_view(GL_RENDER, poly);
+    glPushMatrix();
+    set_scene(GL_RENDER, poly);
     
     // Enable necessary OpenGL features
     glEnable(GL_DEPTH_TEST);
@@ -1663,41 +1833,32 @@ void display_watercolor()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_LIGHTING);
     
-    // First pass: Render base colors with paper texture
+    // First pass: Render base colors using fluid simulation
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < poly->ntris; i++) {
         Triangle* t = poly->tlist[i];
         for (int j = 0; j < 3; j++) {
             Vertex* v = t->verts[j];
             
-            // Map curvature to color (using mean curvature)
-            double t = (v->mean_curvature - poly->min_mean_curvature) / 
-                      (poly->max_mean_curvature - poly->min_mean_curvature);
+            // Project vertex to 2D grid coordinates
+            float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
+            float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
             
-            // Watercolor base colors (more muted, traditional watercolor palette)
-            float r = 0.7 + 0.2 * sin(t * M_PI);
-            float g = 0.65 + 0.25 * cos(t * M_PI);
-            float b = 0.75 + 0.15 * sin(t * M_PI * 2);
+            // Get pigment from simulation
+            int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)x));
+            int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)y));
+            int idx = grid_y * GRID_SIZE + grid_x;
             
-            // Add paper texture effect
-            float paper_noise = (rand() % 100) / 100.0f * 0.1f;
-            r = std::min(1.0f, r + paper_noise);
-            g = std::min(1.0f, g + paper_noise);
-            b = std::min(1.0f, b + paper_noise);
+            float r = watercolor_sim->grid[idx].pigment[0];
+            float g = watercolor_sim->grid[idx].pigment[1];
+            float b = watercolor_sim->grid[idx].pigment[2];
             
-            // Add color bleeding effect
-            float bleed = (rand() % 100) / 100.0f * 0.2f;
-            r = std::min(1.0f, r + bleed);
-            g = std::min(1.0f, g + bleed);
-            b = std::min(1.0f, b + bleed);
+            // Apply Kubelka-Munk compositing
+            vec4 color(r, g, b, 0.6f);
+            vec4 paper(0.95f, 0.95f, 0.95f, 1.0f);
+            vec4 final_color = watercolor_sim->km_composite(paper, color);
             
-            // Apply color intensity and transparency
-            r *= color_intensity;
-            g *= color_intensity;
-            b *= color_intensity;
-            
-            // More transparent for watercolor effect
-            glColor4f(r, g, b, 0.6);
+            glColor4f(final_color.r, final_color.g, final_color.b, final_color.a);
             glVertex3f(v->x, v->y, v->z);
         }
     }
@@ -1707,7 +1868,18 @@ void display_watercolor()
     glLineWidth(1.5);
     glBegin(GL_LINES);
     for (const auto& segment : poly->silhouette) {
-        // Vary edge darkness based on curvature
+        // Project edge to 2D grid
+        float x1 = (segment.start.x + 1.0f) * 0.5f * GRID_SIZE;
+        float y1 = (segment.start.y + 1.0f) * 0.5f * GRID_SIZE;
+        float x2 = (segment.end.x + 1.0f) * 0.5f * GRID_SIZE;
+        float y2 = (segment.end.y + 1.0f) * 0.5f * GRID_SIZE;
+        
+        // Get average pigment concentration along edge
+        int grid_x1 = std::min(GRID_SIZE-1, std::max(0, (int)x1));
+        int grid_y1 = std::min(GRID_SIZE-1, std::max(0, (int)y1));
+        int grid_x2 = std::min(GRID_SIZE-1, std::max(0, (int)x2));
+        int grid_y2 = std::min(GRID_SIZE-1, std::max(0, (int)y2));
+        
         float edge_alpha = edge_darkening * (0.5 + 0.5 * sin(segment.start.x * 10));
         glColor4f(0.0, 0.0, 0.0, edge_alpha);
         glVertex3f(segment.start.x, segment.start.y, segment.start.z);
@@ -1715,7 +1887,7 @@ void display_watercolor()
     }
     glEnd();
     
-    // Third pass: Add granulation effect (watercolor pigment granulation)
+    // Third pass: Add granulation effect
     if (granulation_scale > 0.0) {
         glEnable(GL_POINT_SMOOTH);
         glPointSize(1.5);
@@ -1723,10 +1895,17 @@ void display_watercolor()
         for (int i = 0; i < poly->nverts; i++) {
             Vertex* v = poly->vlist[i];
             if (rand() % 100 < granulation_scale * 100) {
-                // Add colored granulation
-                float gran_r = 0.1 + 0.2 * (rand() % 100) / 100.0f;
-                float gran_g = 0.1 + 0.2 * (rand() % 100) / 100.0f;
-                float gran_b = 0.1 + 0.2 * (rand() % 100) / 100.0f;
+                // Project vertex to 2D grid
+                float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
+                float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
+                int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)x));
+                int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)y));
+                int idx = grid_y * GRID_SIZE + grid_x;
+                
+                // Use pigment concentration for granulation color
+                float gran_r = watercolor_sim->grid[idx].pigment[0] * 0.5f;
+                float gran_g = watercolor_sim->grid[idx].pigment[1] * 0.5f;
+                float gran_b = watercolor_sim->grid[idx].pigment[2] * 0.5f;
                 glColor4f(gran_r, gran_g, gran_b, 0.15);
                 glVertex3f(v->x, v->y, v->z);
             }
@@ -1734,6 +1913,7 @@ void display_watercolor()
         glEnd();
     }
     
+    glPopMatrix();
     glutSwapBuffers();
 }
 

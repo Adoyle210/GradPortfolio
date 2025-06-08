@@ -24,6 +24,7 @@ Eugene Zhang, 2005
 #include "learnply_io.h"
 #include "trackball.h"
 #include "tmatrix.h"
+#include "noise.h"
 
 static PlyFile *in_ply;
 
@@ -73,14 +74,20 @@ float edge_darkening = 0.8;  // Controls how much edges are darkened
 float noise_scale = 0.1;     // Scale of the noise effect
 float granulation_scale = 0.2; // Scale of the granulation effect
 
+// Add at the top with other global variables
+bool watercolor_mode = false;  // Toggle for watercolor rendering
+
+// Change const parameters to regular variables
+float DT = 0.15f;              // Time step for fluid movement
+float VISCOSITY = 0.05f;       // Fluid viscosity
+float EVAPORATION_RATE = 0.03f; // Water evaporation rate
+
 //function declarations: 
 void initialize_pigments_from_geometry();
+float noise(float x, float y, float z);
 
 // Fluid simulation parameters
 const int GRID_SIZE = 256;
-const float DT = 0.15f;  // Increased for more fluid movement
-const float VISCOSITY = 0.05f;  // Reduced for more natural flow
-const float EVAPORATION_RATE = 0.03f;  // Reduced for slower drying
 
 // Simple vec4 structure for color compositing
 struct vec4 {
@@ -112,9 +119,16 @@ public:
     }
 
     void simulate() {
+        // 1. Solve shallow water (fluid movement)
         solve_shallow_water();
+        
+        // 2. Advect pigment
         advect_pigment();
+        
+        // 3. Apply edge darkening based on water height gradient
         apply_edge_darkening();
+        
+        // 4. Apply evaporation
         apply_evaporation();
     }
 
@@ -173,6 +187,11 @@ public:
         }
     }
 
+    void set_parameters(float viscosity, float evaporation) {
+        VISCOSITY = viscosity;
+        EVAPORATION_RATE = evaporation;
+    }
+
 private:
     FluidCell* temp_grid;
 
@@ -187,25 +206,34 @@ private:
 
     // Enhanced edge darkening
     void apply_edge_darkening() {
+        // Calculate water height gradients for edge detection
+        std::vector<float> height_gradients(size * size, 0.0f);
+        
+        // Compute gradients
         for (int y = 1; y < size-1; y++) {
             for (int x = 1; x < size-1; x++) {
                 int idx = y * size + x;
-                float h = grid[idx].height;
-                
-                // Calculate gradient magnitude for edge detection
-                float grad_x = grid[idx+1].height - grid[idx-1].height;
-                float grad_y = grid[idx+size].height - grid[idx-size].height;
-                float grad_mag = sqrt(grad_x*grad_x + grad_y*grad_y);
-                
-                // Enhanced edge darkening
-                if (h > 0.01f && h < 0.3f && grad_mag > 0.05f) {
-                    float darken_factor = 1.0f + edge_darkening * (1.0f + grad_mag);
-                    for (int c = 0; c < 3; c++) {
-                        grid[idx].pigment[c] *= darken_factor;
-                        // Add some color variation at edges
-                        if (c == 0) grid[idx].pigment[c] *= 1.1f;  // Enhance reds
-                        if (c == 2) grid[idx].pigment[c] *= 0.9f;  // Reduce blues
-                    }
+                if (grid[idx].wet_mask) {
+                    // Calculate gradient magnitude
+                    float dx = grid[idx+1].height - grid[idx-1].height;
+                    float dy = grid[idx+size].height - grid[idx-size].height;
+                    height_gradients[idx] = sqrt(dx*dx + dy*dy);
+                }
+            }
+        }
+        
+        // Apply edge darkening based on gradients
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                int idx = y * size + x;
+                if (grid[idx].wet_mask) {
+                    float gradient = height_gradients[idx];
+                    float darken_factor = 1.0f + (edge_darkening * gradient);
+                    
+                    // Apply darkening to pigment
+                    grid[idx].pigment[0] *= darken_factor;
+                    grid[idx].pigment[1] *= darken_factor;
+                    grid[idx].pigment[2] *= darken_factor;
                 }
             }
         }
@@ -249,7 +277,7 @@ private:
                 temp_grid[idx].velocity[1] = v + VISCOSITY * (
                     grid[idx+1].velocity[1] + grid[idx-1].velocity[1] +
                     grid[idx+size].velocity[1] + grid[idx-size].velocity[1] - 4*v);
-            }
+             }
         }
 
         // Swap grids
@@ -1360,10 +1388,11 @@ void keyboard(unsigned char key, int x, int y) {
 			display();
 			break;
 
-		case 'w':
+		case 'w':  // Toggle watercolor mode
 			wcolor_mode = !wcolor_mode;
-			display();
-			break;
+			printf("Watercolor mode: %s\n", watercolor_mode ? "ON" : "OFF");
+			glutPostRedisplay();
+			return;
 
 		case 'c':
 			color_intensity += 0.1f;
@@ -1401,17 +1430,50 @@ void keyboard(unsigned char key, int x, int y) {
 			display();
 			break;
 
-		case 'g':
-			granulation_scale += 0.01f;
+		case 'g':  // Increase granulation
+			granulation_scale += 0.1f;
 			printf("Granulation scale: %f\n", granulation_scale);
 			display();
 			break;
 
-		case 'G':
-			granulation_scale -= 0.01f;
+		case 'G':  // Decrease granulation
+			granulation_scale = std::max(0.0f, granulation_scale - 0.1f);
 			printf("Granulation scale: %f\n", granulation_scale);
 			display();
 			break;
+
+    case 'v':  // Increase viscosity
+      VISCOSITY += 0.01f;
+      printf("Viscosity: %f\n", VISCOSITY);
+      display();
+      break;
+
+    case 'V':  // Decrease viscosity
+      VISCOSITY = std::max(0.01f, VISCOSITY - 0.01f);
+      printf("Viscosity: %f\n", VISCOSITY);
+      display();
+      break;
+
+    case 'a':  // Increase evaporation
+      EVAPORATION_RATE += 0.01f;
+      printf("Evaporation rate: %f\n", EVAPORATION_RATE);
+      display();
+      break;
+
+    case 'A':  // Decrease evaporation
+      EVAPORATION_RATE = std::max(0.01f, EVAPORATION_RATE - 0.01f);
+      printf("Evaporation rate: %f\n", EVAPORATION_RATE);
+      display();
+      break;
+
+    case 'r':  // Reset watercolor parameters
+      color_intensity = 1.0f;
+      granulation_scale = 0.5f;
+      VISCOSITY = 0.05f;
+      EVAPORATION_RATE = 0.03f;
+      printf("Reset watercolor parameters\n");
+      display();
+      break;
 	}
 }
 
@@ -1861,26 +1923,16 @@ void display()
     glFinish();
 }
 
-void Polyhedron::average_normals()
-{
-	int i, j;
-
-	for (i=0; i<nverts; i++) {
-		vlist[i]->normal = icVector3(0.0);
-		for (j=0; j<vlist[i]->ntris; j++) 
-			vlist[i]->normal += vlist[i]->tris[j]->normal;
-		normalize(vlist[i]->normal);
-	}
-}
-
 void display_watercolor()
 {
     // Initialize simulation if needed
     if (!watercolor_sim) {
         watercolor_sim = new WatercolorSimulation(GRID_SIZE);
         initialize_pigments_from_geometry();
-        watercolor_sim->fill_empty_grid_cells();  // Add grid filling
     }
+
+    // Update simulation parameters
+    watercolor_sim->set_parameters(VISCOSITY, EVAPORATION_RATE);
 
     // Simulate fluid flow
     watercolor_sim->simulate();
@@ -1899,7 +1951,7 @@ void display_watercolor()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_LIGHTING);
     
-    // First pass: Render base colors using fluid simulation
+    // First pass: Base colors
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < poly->ntris; i++) {
         Triangle* t = poly->tlist[i];
@@ -1920,55 +1972,55 @@ void display_watercolor()
             float g = watercolor_sim->grid[idx].pigment[1];
             float b = watercolor_sim->grid[idx].pigment[2];
             
-            // Debug output occasionally
-            if (i == 0 && j == 0) {
-                printf("Grid pigment at (%d,%d): r=%.3f g=%.3f b=%.3f\n", grid_x, grid_y, r, g, b);
-            }
-            
-            // If no pigment, use a default color to see the geometry
+            // If no pigment, use a default color
             if (r < 0.01f && g < 0.01f && b < 0.01f) {
                 r = 0.7f; g = 0.8f; b = 0.9f;  // Light blue default
             }
             
-            // Apply intensity without Kubelka-Munk for now (to debug)
+            // Apply noise effect
+            float noise_val = octave_noise(x * noise_scale, y * noise_scale, 0.0f, 4, 0.5f);
+            float noise_factor = 1.0f + (noise_val * 0.2f * noise_scale);
+            
+            // Apply granulation effect
+            float gran = octave_noise(x * granulation_scale * 0.25f, 
+                                    y * granulation_scale * 0.25f, 
+                                    0.0f, 4, 0.5f);
+            float gran_factor = 1.0f + (gran * 0.05f * granulation_scale);
+            
+            // Combine noise and granulation
+            float final_factor = noise_factor * gran_factor;
+            final_factor = std::min(1.2f, std::max(0.8f, final_factor));
+            
+            r = std::min(1.0f, r * final_factor);
+            g = std::min(1.0f, g * final_factor);
+            b = std::min(1.0f, b * final_factor);
+            
+            // Apply color intensity
             r *= color_intensity;
             g *= color_intensity;
             b *= color_intensity;
             
-            glColor4f(r, g, b, 0.8f);  // Higher alpha for visibility
+            glColor4f(r, g, b, 0.8f);
             glVertex3f(v->x, v->y, v->z);
         }
     }
     glEnd();
     
-    // Second pass: Add granulation effect
-    if (granulation_scale > 0.0) {
-        glEnable(GL_POINT_SMOOTH);
-        glPointSize(1.5);
-        glBegin(GL_POINTS);
-        for (int i = 0; i < poly->nverts; i++) {
-            Vertex* v = poly->vlist[i];
-            
-            // Project vertex to 2D coordinates
+    // Second pass: Add subtle highlights
+    glEnable(GL_POINT_SMOOTH);
+    glPointSize(1.0);
+    glBegin(GL_POINTS);
+    for (int i = 0; i < poly->nverts; i++) {
+        Vertex* v = poly->vlist[i];
+        if (rand() % 100 < 20) {  // 20% chance for highlight
             float x = (v->x + 1.0f) * 0.5f;
             float y = (v->y + 1.0f) * 0.5f;
-            
-            // Add random granulation
-            if (rand() % 100 < granulation_scale * 100) {
-                int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)(x * GRID_SIZE)));
-                int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)(y * GRID_SIZE)));
-                int grid_idx = grid_y * GRID_SIZE + grid_x;
-                
-                float gran_r = watercolor_sim->grid[grid_idx].pigment[0] * color_intensity;
-                float gran_g = watercolor_sim->grid[grid_idx].pigment[1] * color_intensity;
-                float gran_b = watercolor_sim->grid[grid_idx].pigment[2] * color_intensity;
-                
-                glColor4f(gran_r, gran_g, gran_b, 0.15f);
-                glVertex3f(v->x, v->y, v->z);
-            }
+            float highlight = noise(x * 8.0f, y * 8.0f, 0.0f) * 0.2f;
+            glColor4f(1.0f, 1.0f, 1.0f, highlight);
+            glVertex3f(v->x, v->y, v->z);
         }
-        glEnd();
     }
+    glEnd();
     
     glPopMatrix();
     glutSwapBuffers();
@@ -1976,12 +2028,13 @@ void display_watercolor()
 
 void print_help()
 {
-    printf("\nWatercolor NPR Controls:\n");
-    printf("w - Toggle watercolor mode\n");
-    printf("c/C - Increase/decrease color intensity\n");
-    printf("e/E - Increase/decrease edge darkening\n");
-    printf("n/N - Increase/decrease noise scale\n");
-    printf("g/G - Increase/decrease granulation scale\n");
+    printf("\nWatercolor Controls:\n");
+    printf("i/k: Increase/decrease color intensity\n");
+    printf("g/h: Increase/decrease granulation\n");
+    printf("v/b: Increase/decrease viscosity\n");
+    printf("e/d: Increase/decrease evaporation rate\n");
+    printf("r: Reset watercolor parameters\n");
+    printf("w: Toggle watercolor mode\n");
     printf("\n");
 }
 
@@ -2073,7 +2126,7 @@ void Polyhedron::compute_silhouette_edges() {
 void initialize_pigments_from_geometry() {
     printf("Curvature range: %f to %f\n", poly->min_mean_curvature, poly->max_mean_curvature);
     
-    // First pass: Initialize base colors using normal direction
+    // First pass: Initialize base colors using vertex attributes
     for (int i = 0; i < poly->nverts; i++) {
         Vertex* v = poly->vlist[i];
         
@@ -2081,15 +2134,23 @@ void initialize_pigments_from_geometry() {
         float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
         float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
         
-        // Use normal direction for color variation
-        float nx = (v->normal.entry[0] + 1.0f) * 0.5f;  // Map from [-1,1] to [0,1]
-        float ny = (v->normal.entry[1] + 1.0f) * 0.5f;
-        float nz = (v->normal.entry[2] + 1.0f) * 0.5f;
+        // Map vertex attributes to colors
+        float t = (float)i / (float)poly->nverts;  // Vertex index for base variation
         
-        // Create more natural watercolor palette
-        float r = 0.2 + 0.6 * nx;  // Reds based on X normal
-        float g = 0.1 + 0.4 * ny;  // Greens based on Y normal
-        float b = 0.3 + 0.5 * nz;  // Blues based on Z normal
+        // Use curvature for color intensity
+        float curvature_t = (v->mean_curvature - poly->min_mean_curvature) / 
+                          (poly->max_mean_curvature - poly->min_mean_curvature);
+        
+        // Create watercolor palette with multiple color channels
+        // Reds: Based on vertex index and curvature
+        float r = 0.3 + 0.5 * sin(t * 6.28f) + 0.2 * curvature_t;
+        
+        // Greens: Based on position and curvature
+        float pos_t = (v->x + v->y + v->z) / 3.0f;  // Position-based variation
+        float g = 0.2 + 0.4 * sin(pos_t * 3.14f) + 0.3 * (1.0f - curvature_t);
+        
+        // Blues: Based on vertex index and position
+        float b = 0.4 + 0.4 * cos(t * 4.0f) + 0.2 * sin(pos_t * 2.0f);
         
         // Add some randomness for natural variation
         r += 0.1f * (rand() / (float)RAND_MAX - 0.5f);
@@ -2101,25 +2162,32 @@ void initialize_pigments_from_geometry() {
         g = std::max(0.2f, std::min(1.0f, g));
         b = std::max(0.2f, std::min(1.0f, b));
         
-        // Add pigment with varying amounts based on curvature
-        float amount = 0.5f + 0.3f * (v->mean_curvature - poly->min_mean_curvature) / 
-                      (poly->max_mean_curvature - poly->min_mean_curvature);
+        // Vary pigment amount based on curvature
+        float amount = 0.4f + 0.4f * curvature_t;
         amount = std::max(0.3f, std::min(0.8f, amount));
         
         watercolor_sim->add_pigment((int)x, (int)y, r, g, b, amount);
+        
+        printf("Vertex %d: curvature=%.3f, colors=(%.2f,%.2f,%.2f), amount=%.2f\n", 
+               i, v->mean_curvature, r, g, b, amount);
     }
     
-    // Second pass: Add some random splashes for watercolor effect
+    // Second pass: Add watercolor effects
     for (int i = 0; i < poly->nverts; i++) {
         if (rand() % 100 < 30) {  // 30% chance for each vertex
             Vertex* v = poly->vlist[i];
             float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
             float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
             
-            // Create a splash effect
-            float splash_r = 0.4 + 0.4 * (rand() / (float)RAND_MAX);
-            float splash_g = 0.2 + 0.3 * (rand() / (float)RAND_MAX);
-            float splash_b = 0.3 + 0.4 * (rand() / (float)RAND_MAX);
+            // Create splash effect with colors based on vertex attributes
+            float t = (float)i / (float)poly->nverts;
+            float curvature_t = (v->mean_curvature - poly->min_mean_curvature) / 
+                              (poly->max_mean_curvature - poly->min_mean_curvature);
+            
+            // Splash colors influenced by vertex attributes
+            float splash_r = 0.4 + 0.3 * sin(t * 6.28f) + 0.2 * curvature_t;
+            float splash_g = 0.2 + 0.3 * cos(t * 4.0f) + 0.2 * (1.0f - curvature_t);
+            float splash_b = 0.3 + 0.3 * sin(t * 3.0f) + 0.2 * curvature_t;
             
             // Add splash with random radius
             float radius = 2.0f + 3.0f * (rand() / (float)RAND_MAX);
@@ -2139,6 +2207,112 @@ void initialize_pigments_from_geometry() {
                 }
             }
         }
+    }
+}
+
+// Forward declarations
+float fade(float t);
+float lerp(float t, float a, float b);
+float grad(int hash, float x, float y, float z);
+float perlin_noise(float x, float y, float z);
+float octave_noise(float x, float y, float z, int octaves, float persistence);
+float noise(float x, float y, float z);
+
+// Helper functions for noise
+float fade(float t) { return t * t * t * (t * (t * 6.0f - 15.0f) + 10.0f); }
+float lerp(float t, float a, float b) { return a + t * (b - a); }
+float grad(int hash, float x, float y, float z) {
+    int h = hash & 15;
+    float u = h < 8 ? x : y;
+    float v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+    return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+}
+
+float perlin_noise(float x, float y, float z) {
+    // Permutation table
+    static const int p[512] = {
+        151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+        190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,
+        68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+        102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,
+        3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,
+        119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,
+        251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,
+        138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,
+        // Duplicate the permutation table
+        151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+        190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,
+        68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+        102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,
+        3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,
+        119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,
+        251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,
+        138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
+    };
+
+    // Find unit cube that contains the point
+    int xi = static_cast<int>(floor(x)) & 255;
+    int yi = static_cast<int>(floor(y)) & 255;
+    int zi = static_cast<int>(floor(z)) & 255;
+
+    // Find relative position in cube
+    x -= floor(x);
+    y -= floor(y);
+    z -= floor(z);
+
+    // Compute fade curves
+    float u = fade(x);
+    float v = fade(y);
+    float w = fade(z);
+
+    // Hash coordinates of the 8 cube corners
+    int A = p[xi]+yi;
+    int AA = p[A]+zi;
+    int AB = p[A+1]+zi;
+    int B = p[xi+1]+yi;
+    int BA = p[B]+zi;
+    int BB = p[B+1]+zi;
+
+    // Add blended results from 8 corners of cube
+    return lerp(w, lerp(v, lerp(u, grad(p[AA], x, y, z),
+                                   grad(p[BA], x-1, y, z)),
+                           lerp(u, grad(p[AB], x, y-1, z),
+                                   grad(p[BB], x-1, y-1, z))),
+                   lerp(v, lerp(u, grad(p[AA+1], x, y, z-1),
+                                   grad(p[BA+1], x-1, y, z-1)),
+                           lerp(u, grad(p[AB+1], x, y-1, z-1),
+                                   grad(p[BB+1], x-1, y-1, z-1))));
+}
+
+float octave_noise(float x, float y, float z, int octaves, float persistence) {
+    float total = 0;
+    float frequency = 1;
+    float amplitude = 1;
+    float maxValue = 0;
+    
+    for(int i = 0; i < octaves; i++) {
+        total += perlin_noise(x * frequency, y * frequency, z * frequency) * amplitude;
+        maxValue += amplitude;
+        amplitude *= persistence;
+        frequency *= 2;
+    }
+    
+    return total / maxValue;
+}
+
+float noise(float x, float y, float z) {
+    return perlin_noise(x, y, z);
+}
+
+void Polyhedron::average_normals()
+{
+    int i, j;
+
+    for (i=0; i<nverts; i++) {
+        vlist[i]->normal = icVector3(0.0);
+        for (j=0; j<vlist[i]->ntris; j++) 
+            vlist[i]->normal += vlist[i]->tris[j]->normal;
+        normalize(vlist[i]->normal);
     }
 }
 

@@ -68,16 +68,19 @@ Polyhedron *poly;
 
 // Watercolor NPR Parameters
 int wcolor_mode = 0;    // 0=off, 1=on
-float color_intensity = 0.8; // Controls the intensity of the watercolor effect
-float edge_darkening = 0.6;  // Controls how much edges are darkened
+float color_intensity = 1.2; // Controls the intensity of the watercolor effect
+float edge_darkening = 0.8;  // Controls how much edges are darkened
 float noise_scale = 0.1;     // Scale of the noise effect
-float granulation_scale = 0.05; // Scale of the granulation effect
+float granulation_scale = 0.2; // Scale of the granulation effect
+
+//function declarations: 
+void initialize_pigments_from_geometry();
 
 // Fluid simulation parameters
 const int GRID_SIZE = 256;
-const float DT = 0.1f;
-const float VISCOSITY = 0.1f;
-const float EVAPORATION_RATE = 0.05f;
+const float DT = 0.15f;  // Increased for more fluid movement
+const float VISCOSITY = 0.05f;  // Reduced for more natural flow
+const float EVAPORATION_RATE = 0.03f;  // Reduced for slower drying
 
 // Simple vec4 structure for color compositing
 struct vec4 {
@@ -89,6 +92,7 @@ struct FluidCell {
     float height;        // Water height
     float pigment[3];    // RGB pigment concentration
     float velocity[2];   // Velocity field (u,v)
+    bool wet_mask;       // Wet area mask
 };
 
 class WatercolorSimulation {
@@ -111,6 +115,7 @@ public:
         solve_shallow_water();
         advect_pigment();
         apply_edge_darkening();
+        apply_evaporation();
     }
 
     vec4 km_composite(vec4 bg, vec4 fg) {
@@ -121,6 +126,53 @@ public:
         return vec4(Sr, Sg, Sb, Sa + bg.a);
     }
 
+    // Add pigment at a specific location
+    void add_pigment(int x, int y, float r, float g, float b, float amount) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
+            int idx = y * size + x;
+            grid[idx].pigment[0] += r * amount;
+            grid[idx].pigment[1] += g * amount;
+            grid[idx].pigment[2] += b * amount;
+            grid[idx].height += amount;
+            grid[idx].wet_mask = true;  // Mark as wet when adding pigment
+        }
+    }
+
+    void fill_empty_grid_cells() {
+        // Fill empty cells with interpolated values from neighbors
+        for (int y = 1; y < size-1; y++) {
+            for (int x = 1; x < size-1; x++) {
+                int idx = y * size + x;
+                
+                // If cell is empty, interpolate from neighbors
+                if (grid[idx].pigment[0] == 0.0f && grid[idx].pigment[1] == 0.0f && grid[idx].pigment[2] == 0.0f) {
+                    int count = 0;
+                    float total_r = 0, total_g = 0, total_b = 0;
+                    
+                    // Check 8-connected neighbors
+                    for (int dy = -1; dy <= 1; dy++) {
+                        for (int dx = -1; dx <= 1; dx++) {
+                            if (dx == 0 && dy == 0) continue;
+                            int nidx = (y+dy) * size + (x+dx);
+                            if (grid[nidx].pigment[0] > 0 || grid[nidx].pigment[1] > 0 || grid[nidx].pigment[2] > 0) {
+                                total_r += grid[nidx].pigment[0];
+                                total_g += grid[nidx].pigment[1];
+                                total_b += grid[nidx].pigment[2];
+                                count++;
+                            }
+                        }
+                    }
+                    
+                    if (count > 0) {
+                        grid[idx].pigment[0] = total_r / count * 0.3f;  // Reduced for smooth transition
+                        grid[idx].pigment[1] = total_g / count * 0.3f;
+                        grid[idx].pigment[2] = total_b / count * 0.3f;
+                    }
+                }
+            }
+        }
+    }
+
 private:
     FluidCell* temp_grid;
 
@@ -129,6 +181,46 @@ private:
             grid[i].height = 0.0f;
             grid[i].pigment[0] = grid[i].pigment[1] = grid[i].pigment[2] = 0.0f;
             grid[i].velocity[0] = grid[i].velocity[1] = 0.0f;
+            grid[i].wet_mask = false;
+        }
+    }
+
+    // Enhanced edge darkening
+    void apply_edge_darkening() {
+        for (int y = 1; y < size-1; y++) {
+            for (int x = 1; x < size-1; x++) {
+                int idx = y * size + x;
+                float h = grid[idx].height;
+                
+                // Calculate gradient magnitude for edge detection
+                float grad_x = grid[idx+1].height - grid[idx-1].height;
+                float grad_y = grid[idx+size].height - grid[idx-size].height;
+                float grad_mag = sqrt(grad_x*grad_x + grad_y*grad_y);
+                
+                // Enhanced edge darkening
+                if (h > 0.01f && h < 0.3f && grad_mag > 0.05f) {
+                    float darken_factor = 1.0f + edge_darkening * (1.0f + grad_mag);
+                    for (int c = 0; c < 3; c++) {
+                        grid[idx].pigment[c] *= darken_factor;
+                        // Add some color variation at edges
+                        if (c == 0) grid[idx].pigment[c] *= 1.1f;  // Enhance reds
+                        if (c == 2) grid[idx].pigment[c] *= 0.9f;  // Reduce blues
+                    }
+                }
+            }
+        }
+    }
+
+    // Add evaporation
+    void apply_evaporation() {
+        for (int i = 0; i < size * size; i++) {
+            grid[i].height *= (1.0f - EVAPORATION_RATE * DT);
+            grid[i].height = std::max(0.0f, grid[i].height);
+            
+            // Clear wet mask when fully dry
+            if (grid[i].height < 0.001f) {
+                grid[i].wet_mask = false;
+            }
         }
     }
 
@@ -194,34 +286,6 @@ private:
             }
         }
         std::swap(grid, temp_grid);
-    }
-
-    // Model edge darkening
-    void apply_edge_darkening() {
-        for (int y = 1; y < size-1; y++) {
-            for (int x = 1; x < size-1; x++) {
-                int idx = y * size + x;
-                float h = grid[idx].height;
-                
-                // Increase pigment concentration at edges
-                if (h < 0.1f) {
-                    for (int c = 0; c < 3; c++) {
-                        grid[idx].pigment[c] *= 1.5f;
-                    }
-                }
-            }
-        }
-    }
-
-    // Add pigment at a specific location
-    void add_pigment(int x, int y, float r, float g, float b, float amount) {
-        if (x >= 0 && x < size && y >= 0 && y < size) {
-            int idx = y * size + x;
-            grid[idx].pigment[0] += r * amount;
-            grid[idx].pigment[1] += g * amount;
-            grid[idx].pigment[2] += b * amount;
-            grid[idx].height += amount;
-        }
     }
 };
 
@@ -314,7 +378,7 @@ int main(int argc, char *argv[])
 
 	// Cleanup watercolor simulation
 	delete watercolor_sim;
-
+	
   return 0;    /* ANSI C requires main to return int. */
 }
 
@@ -1814,6 +1878,8 @@ void display_watercolor()
     // Initialize simulation if needed
     if (!watercolor_sim) {
         watercolor_sim = new WatercolorSimulation(GRID_SIZE);
+        initialize_pigments_from_geometry();
+        watercolor_sim->fill_empty_grid_cells();  // Add grid filling
     }
 
     // Simulate fluid flow
@@ -1841,72 +1907,63 @@ void display_watercolor()
             Vertex* v = t->verts[j];
             
             // Project vertex to 2D grid coordinates
-            float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
-            float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
+            float x = (v->x + 1.0f) * 0.5f;
+            float y = (v->y + 1.0f) * 0.5f;
             
             // Get pigment from simulation
-            int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)x));
-            int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)y));
+            int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)(x * GRID_SIZE)));
+            int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)(y * GRID_SIZE)));
             int idx = grid_y * GRID_SIZE + grid_x;
             
+            // Get raw pigment values
             float r = watercolor_sim->grid[idx].pigment[0];
             float g = watercolor_sim->grid[idx].pigment[1];
             float b = watercolor_sim->grid[idx].pigment[2];
             
-            // Apply Kubelka-Munk compositing
-            vec4 color(r, g, b, 0.6f);
-            vec4 paper(0.95f, 0.95f, 0.95f, 1.0f);
-            vec4 final_color = watercolor_sim->km_composite(paper, color);
+            // Debug output occasionally
+            if (i == 0 && j == 0) {
+                printf("Grid pigment at (%d,%d): r=%.3f g=%.3f b=%.3f\n", grid_x, grid_y, r, g, b);
+            }
             
-            glColor4f(final_color.r, final_color.g, final_color.b, final_color.a);
+            // If no pigment, use a default color to see the geometry
+            if (r < 0.01f && g < 0.01f && b < 0.01f) {
+                r = 0.7f; g = 0.8f; b = 0.9f;  // Light blue default
+            }
+            
+            // Apply intensity without Kubelka-Munk for now (to debug)
+            r *= color_intensity;
+            g *= color_intensity;
+            b *= color_intensity;
+            
+            glColor4f(r, g, b, 0.8f);  // Higher alpha for visibility
             glVertex3f(v->x, v->y, v->z);
         }
     }
     glEnd();
     
-    // Second pass: Render silhouette edges with variable thickness
-    glLineWidth(1.5);
-    glBegin(GL_LINES);
-    for (const auto& segment : poly->silhouette) {
-        // Project edge to 2D grid
-        float x1 = (segment.start.x + 1.0f) * 0.5f * GRID_SIZE;
-        float y1 = (segment.start.y + 1.0f) * 0.5f * GRID_SIZE;
-        float x2 = (segment.end.x + 1.0f) * 0.5f * GRID_SIZE;
-        float y2 = (segment.end.y + 1.0f) * 0.5f * GRID_SIZE;
-        
-        // Get average pigment concentration along edge
-        int grid_x1 = std::min(GRID_SIZE-1, std::max(0, (int)x1));
-        int grid_y1 = std::min(GRID_SIZE-1, std::max(0, (int)y1));
-        int grid_x2 = std::min(GRID_SIZE-1, std::max(0, (int)x2));
-        int grid_y2 = std::min(GRID_SIZE-1, std::max(0, (int)y2));
-        
-        float edge_alpha = edge_darkening * (0.5 + 0.5 * sin(segment.start.x * 10));
-        glColor4f(0.0, 0.0, 0.0, edge_alpha);
-        glVertex3f(segment.start.x, segment.start.y, segment.start.z);
-        glVertex3f(segment.end.x, segment.end.y, segment.end.z);
-    }
-    glEnd();
-    
-    // Third pass: Add granulation effect
+    // Second pass: Add granulation effect
     if (granulation_scale > 0.0) {
         glEnable(GL_POINT_SMOOTH);
         glPointSize(1.5);
         glBegin(GL_POINTS);
         for (int i = 0; i < poly->nverts; i++) {
             Vertex* v = poly->vlist[i];
+            
+            // Project vertex to 2D coordinates
+            float x = (v->x + 1.0f) * 0.5f;
+            float y = (v->y + 1.0f) * 0.5f;
+            
+            // Add random granulation
             if (rand() % 100 < granulation_scale * 100) {
-                // Project vertex to 2D grid
-                float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
-                float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
-                int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)x));
-                int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)y));
-                int idx = grid_y * GRID_SIZE + grid_x;
+                int grid_x = std::min(GRID_SIZE-1, std::max(0, (int)(x * GRID_SIZE)));
+                int grid_y = std::min(GRID_SIZE-1, std::max(0, (int)(y * GRID_SIZE)));
+                int grid_idx = grid_y * GRID_SIZE + grid_x;
                 
-                // Use pigment concentration for granulation color
-                float gran_r = watercolor_sim->grid[idx].pigment[0] * 0.5f;
-                float gran_g = watercolor_sim->grid[idx].pigment[1] * 0.5f;
-                float gran_b = watercolor_sim->grid[idx].pigment[2] * 0.5f;
-                glColor4f(gran_r, gran_g, gran_b, 0.15);
+                float gran_r = watercolor_sim->grid[grid_idx].pigment[0] * color_intensity;
+                float gran_g = watercolor_sim->grid[grid_idx].pigment[1] * color_intensity;
+                float gran_b = watercolor_sim->grid[grid_idx].pigment[2] * color_intensity;
+                
+                glColor4f(gran_r, gran_g, gran_b, 0.15f);
                 glVertex3f(v->x, v->y, v->z);
             }
         }
@@ -2007,6 +2064,79 @@ void Polyhedron::compute_silhouette_edges() {
                 segment.start.set(e->verts[0]->x, e->verts[0]->y, e->verts[0]->z);
                 segment.end.set(e->verts[1]->x, e->verts[1]->y, e->verts[1]->z);
                 silhouette.push_back(segment);
+            }
+        }
+    }
+}
+
+// Pigment initialization based on 3D geometry properties
+void initialize_pigments_from_geometry() {
+    printf("Curvature range: %f to %f\n", poly->min_mean_curvature, poly->max_mean_curvature);
+    
+    // First pass: Initialize base colors using normal direction
+    for (int i = 0; i < poly->nverts; i++) {
+        Vertex* v = poly->vlist[i];
+        
+        // Project vertex to grid
+        float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
+        float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
+        
+        // Use normal direction for color variation
+        float nx = (v->normal.entry[0] + 1.0f) * 0.5f;  // Map from [-1,1] to [0,1]
+        float ny = (v->normal.entry[1] + 1.0f) * 0.5f;
+        float nz = (v->normal.entry[2] + 1.0f) * 0.5f;
+        
+        // Create more natural watercolor palette
+        float r = 0.2 + 0.6 * nx;  // Reds based on X normal
+        float g = 0.1 + 0.4 * ny;  // Greens based on Y normal
+        float b = 0.3 + 0.5 * nz;  // Blues based on Z normal
+        
+        // Add some randomness for natural variation
+        r += 0.1f * (rand() / (float)RAND_MAX - 0.5f);
+        g += 0.1f * (rand() / (float)RAND_MAX - 0.5f);
+        b += 0.1f * (rand() / (float)RAND_MAX - 0.5f);
+        
+        // Ensure minimum color intensity
+        r = std::max(0.2f, std::min(1.0f, r));
+        g = std::max(0.2f, std::min(1.0f, g));
+        b = std::max(0.2f, std::min(1.0f, b));
+        
+        // Add pigment with varying amounts based on curvature
+        float amount = 0.5f + 0.3f * (v->mean_curvature - poly->min_mean_curvature) / 
+                      (poly->max_mean_curvature - poly->min_mean_curvature);
+        amount = std::max(0.3f, std::min(0.8f, amount));
+        
+        watercolor_sim->add_pigment((int)x, (int)y, r, g, b, amount);
+    }
+    
+    // Second pass: Add some random splashes for watercolor effect
+    for (int i = 0; i < poly->nverts; i++) {
+        if (rand() % 100 < 30) {  // 30% chance for each vertex
+            Vertex* v = poly->vlist[i];
+            float x = (v->x + 1.0f) * 0.5f * GRID_SIZE;
+            float y = (v->y + 1.0f) * 0.5f * GRID_SIZE;
+            
+            // Create a splash effect
+            float splash_r = 0.4 + 0.4 * (rand() / (float)RAND_MAX);
+            float splash_g = 0.2 + 0.3 * (rand() / (float)RAND_MAX);
+            float splash_b = 0.3 + 0.4 * (rand() / (float)RAND_MAX);
+            
+            // Add splash with random radius
+            float radius = 2.0f + 3.0f * (rand() / (float)RAND_MAX);
+            for (float dx = -radius; dx <= radius; dx++) {
+                for (float dy = -radius; dy <= radius; dy++) {
+                    if (dx*dx + dy*dy <= radius*radius) {
+                        int splash_x = (int)(x + dx);
+                        int splash_y = (int)(y + dy);
+                        if (splash_x >= 0 && splash_x < GRID_SIZE && 
+                            splash_y >= 0 && splash_y < GRID_SIZE) {
+                            float falloff = 1.0f - (dx*dx + dy*dy) / (radius*radius);
+                            watercolor_sim->add_pigment(splash_x, splash_y, 
+                                                      splash_r, splash_g, splash_b, 
+                                                      0.3f * falloff);
+                        }
+                    }
+                }
             }
         }
     }

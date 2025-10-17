@@ -1,5 +1,7 @@
 This GLSL fragment shader creates an animated celestial scene with fractal patterns and geometric shapes. Here's a technical breakdown of its core components and operations:
 
+![alt text](https://github.com/Adoyle210/GradPortfolio/blob/main/CS%20557%20-%20Computer%20Graphics%20Shaders/Final/fractal3.png)
+
 ## Coordinate System Setup
 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y) * u_zoom;
 I converted screen coordinates to normalized [-0.5,0.5] space and applied zoom control via u_zoom uniform. Use keys x and z to zoom in and out of the pattern. 

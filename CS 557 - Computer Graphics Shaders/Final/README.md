@@ -60,4 +60,5 @@ Fractal interaction through coordinate space transformations
 A crucial point was understanding how SDF combinations require careful distance field blending to maintain visual integrity. While initial shape merging produced unexpected results, this led to the discovery of more interesting visual phenomena through parameter experimentation. The process underscored how procedural systems can generate unanticipated complexity from simple mathematical operations. 
 
 ## Video
-https://media.oregonstate.edu/media/t/1_09v3ksfz 
+
+https://youtu.be/whBVdz9iIxc

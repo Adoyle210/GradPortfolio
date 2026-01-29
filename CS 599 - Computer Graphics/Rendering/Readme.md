@@ -8,6 +8,11 @@ In this Blender Cycles scene, ray tracing allows for realistic effects such as:
 - **Sharp metallic reflections** capturing colored lights with precision.  
 - **Soft multi-source shadows** that interact across surfaces.
 
+![second render attempt](renderImage2.png)
+
+**Figure 2:** second render attempt.
+
+
 ***
 
 ## Geometry Choices
@@ -33,7 +38,7 @@ In this Blender Cycles scene, ray tracing allows for realistic effects such as:
 
 ## Shadows and Caustics
 
-![first render attempt](Rendering/RenderedImg.png)
+![first render attempt](RenderedImg.png)
 
 **Figure 1:** First render attempt.
 

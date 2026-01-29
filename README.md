@@ -15,3 +15,5 @@ CS 581: Programming language I
 CS 599: Mobile Software Development 
 
 CS 599: Virtual & Augmented reality 
+
+CS 599: Computer Graphics

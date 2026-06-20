@@ -1,10 +1,34 @@
-# learnply
+# Curvature and Hatch Lines
 
-## Building
+PLY mesh analysis project focused on curvature computation and stylized rendering.
+
+## Summary
+This assignment loads a PLY mesh and computes geometric properties such as Gaussian curvature, mean curvature, curvature tensors, and principal curvatures, then uses those results to render curvature-based hatch lines.
+
+## Tech Stack
+- C++
+- OpenGL / GLUT
+- PLY mesh data
+- Curvature analysis routines
+
+## Features
+- Mesh loading and triangle reconstruction
+- Gaussian and mean curvature computation
+- Curvature tensor smoothing and principal curvature extraction
+- Curvature-driven hatch line generation
+- Silhouette and tensor visualization modes
+
+## Controls
+- Number keys switch display modes
+- `s` cycles silhouette modes
+- `t` cycles tensor display modes
+- `k` toggles rendering mode
+- `w` toggles wireframe
+
+## Build
 
 ### Setup
-
-The project uses CMake to generate a build system. Install a version of CMake of at least version 3.10 or higher and add it to your system `PATH`. CMake requires a build directory, from which it will work out of. Create one called `build` and change the working directory to be in it. You only need to do this step once.
+Install CMake 3.10 or newer and add it to your system `PATH`. Create a `build` directory and work from inside it.
 
 #### Windows
 ```bat
@@ -13,38 +37,30 @@ cd build
 ```
 
 #### Mac/Linux
-
 ```sh
 mkdir build
 cd build
 ```
 
-### Build System Generation
-
-Any time you add or remove files, you must do this step again. Make sure you are working from within the `build` directory.
+### Generate Build Files
+Run this again any time you add or remove files.
 
 #### Windows
-
 ```bat
 cmake -A Win32 ..
 ```
 
-**Note:** You must include the `-A Win32` switch in the CMake command, as the executable must be a 32-bit executable.
-
 #### Mac/Linux
-
 ```sh
 cmake ..
 ```
 
-### Building
-
-To build, use the build system CMake has generated. For Windows, the default is the latest Visual Studio installation and for Linux/Mac, the default is Unix Makefiles.
-
+### Build and Run
 #### Windows (Visual Studio)
-
-When building and running on Visual Studio, be sure to select the **learnply** project as the **startup project** through the context menu by right clicking on it in the solution explorer.
+- Set the `learnply` project as the startup project before running.
 
 #### Mac/Linux
-
-From the build directory, use `make` to build the program and `./learnply` to run the program.
+```sh
+make
+./learnply
+```
